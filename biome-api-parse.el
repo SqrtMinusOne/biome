@@ -22,7 +22,10 @@
 
 ;;; Commentary:
 
-;;  TODO
+;;  Parsing logic for the Open Meteo API.  This is meant to be used
+;;  just for the maintainence purposes.
+;;
+;; `biome-api-parse--generate' is main the entrypoint.
 
 ;;; Code:
 (require 'request)
@@ -30,7 +33,6 @@
 (require 'cl-lib)
 (require 'seq)
 
-;; Parsing
 (defvar biome-api-parse--data nil
   "Data parsed from the API docs.")
 
@@ -97,11 +99,17 @@
   '(("Daily Weather Variables" . "daily")
     ("Hourly Weather Variables" . "hourly")
     ("15-Minutely Weather Variables" . "minutely_15")
-    ("3-Hourly Weather Variables" . "hourly"))
+    ("3-Hourly Weather Variables" . "hourly")
+    ("Weather models" . "models")
+    ("Flood Models" . "models")
+    ("Reanalysis models" . "models")
+    ("Ensemble Models" . "models")
+    ("Climate models" . "models")
+    ("Flood models" . "models"))
   "Mapping from section names to API query param names.")
 
 (defconst biome-api-parse--exclude-ids
-  '("select_city" "current_weather" "localhost")
+  '("select_city" "current_weather" "localhost" "_hourly")
   "Exclude these IDs from parsing.")
 
 (defconst biome-api-parse--float-ids
@@ -146,14 +154,20 @@
 SECTION is a DOM element.  Return a list of fields as defined by
 `biome-api-parse--page'."
   (let ((elements (dom-search section (lambda (el) (not (stringp el)))))
-        fields field-names)
+        fields field-names field-id-mapping)
     (cl-loop for elem in elements
+             for dom-id = (seq-some
+                           (lambda (v) (unless (string-empty-p v) v))
+                           (list (dom-attr elem 'id)
+                                 (dom-attr elem 'name)))
              for id = (seq-some
                        (lambda (v) (unless (string-empty-p v) v))
                        (list (let ((val (dom-attr elem 'value)))
-                               (unless (member val '("true" "false"))))
-                             (dom-attr elem 'id)
-                             (dom-attr elem 'name)))
+                               (unless (member val '("true" "false")) val))
+                             dom-id))
+             if (and (member (dom-tag elem) '(input select))
+                     (not (equal id dom-id)))
+             do (push (cons dom-id id) field-id-mapping)
              if (member id biome-api-parse--exclude-ids)
              do (null nil)              ; how to do nothing? :D
              else if (member id biome-api-parse--float-ids)
@@ -173,7 +187,8 @@ SECTION is a DOM element.  Return a list of fields as defined by
                                        (dom-by-tag elem 'option)))))
                  fields)
              else if (eq (dom-tag elem) 'label)
-             do (push (cons (dom-attr elem 'for)
+             do (push (cons (or (cdr (assoc (dom-attr elem 'for) field-id-mapping))
+                                (dom-attr elem 'for))
                             (biome-api-parse--fix-string (dom-text elem)))
                       field-names))
     (cl-loop for (id . name) in field-names
@@ -289,7 +304,6 @@ NAME is the page name as given in `biome-api-parse--urls'."
                                     ,@data)))
   ;; Extract the model section from the hourly accordion and add it to
   ;; the root section.
-  (setq my/test3 sections)
   (when-let ((models-data (biome-api-parse--postprocess-extract-section
                            sections "models" t)))
     (setq sections (append (car models-data)
@@ -302,10 +316,28 @@ NAME is the page name as given in `biome-api-parse--urls'."
              do (push (copy-tree (alist-get :param var))
                       (alist-get :fields (cdr settings-data)))))
   ;; Add section-specific URL params
-  (cl-loop for section in sections
-           for name = (alist-get :name section)
-           do (when-let ((val (cdr (assoc name biome-api-parse--section-mapping))))
-                (setf (alist-get :param section) val)))
+  ;; XXX I do not know why this doesn't work without returning
+  ;; sections from the loop
+  (setq sections
+        (cl-loop for section in sections
+                 for name = (alist-get :name section)
+                 do (when-let ((val (cdr (assoc name biome-api-parse--section-mapping))))
+                      (setf (alist-get :param section) val))
+                 collect section))
+  (setq sections (seq-filter #'identity sections))
+  ;; Sort sections
+  (setq sections
+        (seq-sort-by
+         (lambda (e)
+           (let ((name (downcase (alist-get :name e))))
+             (cond
+              ((string-match-p "coordinates" name) 1)
+              ((string-match-p "variables" name) 2)
+              ((string-match-p "settings" name) 3)
+              ((string-match-p "models" name) 4)
+              (t 2.5))))
+         #'<
+         sections))
   sections)
 
 (defun biome-api-parse--page (html-string name)
@@ -365,24 +397,55 @@ DATUM is an element of `biome-api-parse--urls'."
   (browse-url (alist-get :url datum))
   (let* ((html (read-string "Enter HTML string: "))
          (parsed (biome-api-parse--page html (alist-get :name datum))))
-    (setq my/test html)
     (setf (alist-get (alist-get :name datum)
                      biome-api-parse--data nil nil #'equal)
           (append (copy-tree datum)
                   (list (cons :sections parsed))))))
 
-(defun biome-api-parse--generate-params ()
+(defun biome-api-parse--timezones ()
+  "Return a list of timezones from the tzdata package."
+  (thread-last
+    "find $TZDIR -type f | cut -c $(($(echo -n \"$TZDIR\" | wc -c) + 2))- | grep -Eo '[A-Z].*'"
+    shell-command-to-string
+    split-string
+    (seq-filter (lambda (x) (not (string-empty-p x))))
+    seq-uniq
+    (seq-sort #'string-lessp)))
+
+(defun biome-api-parse--generate ()
+  "Generate `biome-api-data' and `biome-api-timezones' constants.
+
+This function does two things:
+- Parses the HTML pages from `biome-api-parse--urls'
+- Generates the list of timezones from the tzdata package
+
+Unfortunately, the HTML pages have accordions that are dynamically
+loaded, so we need to manually load them in the browser, expand the
+accordions and copy the HTML source.
+
+The function prints the generated constants to a new buffer.  Save
+them to biome-api-data.el."
   (interactive)
   (setq biome-api-parse--data nil)
-  (cl-loop for datum in biome-api-parse--urls
-           do (biome-api-parse--datum datum)))
-
-;; (setq my/test2 (biome-api-parse--datum (nth 2 biome-api-parse--urls)))
-
-;; (setq my/test2
-;;       (biome-api-parse--page my/test (alist-get :name (nth 2 biome-api-parse--urls))))
-
-;; (biome-api-parse--postprocess-extract-section my/test3 "models" t)
+  (let ((timezones (biome-api-parse--timezones)))
+    (cl-loop for datum in biome-api-parse--urls
+             do (biome-api-parse--datum datum))
+    (setq biome-api-parse--data (nreverse biome-api-parse--data))
+    (let ((buffer (generate-new-buffer "*biome-generated*")))
+      (with-current-buffer buffer
+        (emacs-lisp-mode)
+        (insert (pp-to-string
+                 `(defconst biome-api-data
+                    ',biome-api-parse--data
+                    "open-meteo API docs data.
+Check `biome-api-parse--page' for the format."))
+                "\n\n"
+                (pp-to-string
+                 `(defconst biome-api-timezones
+                    ',timezones
+                    "List of timezones from the tzdata package.")))
+        (goto-char (point-min))
+        (switch-to-buffer buffer)))))
 
 (provide 'biome-api-parse)
 ;;; biome-api-parse.el ends here
