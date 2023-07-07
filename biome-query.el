@@ -26,6 +26,7 @@
 
 ;;; Code:
 (require 'biome-api-data)
+(require 'compat)
 (require 'transient)
 
 (defconst biome-query-groups '("daily" "hourly" "minutely_15" "hourly")
@@ -35,6 +36,9 @@ A group is a mutually exclusive choice.  E.g. in the \"Weather
 Forecast\" report you can choose between \"daily\" and \"hourly\".  In
 principle, the API can return results for both groups, but they would
 have to be displayed separately.")
+
+(defconst biome-query--ignore-items '("m" "cm")
+  "Items to ignore when generating unique keys.")
 
 (defvar biome-query-current nil
   "Current report.
@@ -80,27 +84,81 @@ It is an alist with the following keys:
   "Generate unique key candidates for NAME."
   (let ((name-low (replace-regexp-in-string (rx (not alnum))  " " (downcase name)))
         (generated-keys (make-hash-table :test 'equal)))
-    (let* ((items (split-string name-low))
+    (let* ((items (seq-filter
+                   (lambda (i)
+                     (not (member i biome-query--ignore-items)))
+                   (split-string name-low)))
            (sequences (mapcar (lambda (item)
                                 (if (string-match-p (rx num) item)
                                     (number-sequence 0 (length item) (length item))
                                   (number-sequence 0 (length item) 1)))
                               items)))
-      (dolist (item-take (reduce #'biome-query--cartesian-product (nreverse sequences)))
+      (dolist (item-take (thread-last
+                           (reverse sequences)
+                           (reduce #'biome-query--cartesian-product)
+                           (mapcar (lambda (it) (if (listp it) (nreverse it) (list it))))
+                           (seq-sort-by
+                            (lambda (it)
+                              (cl-loop for take in it
+                                       for seq in sequences
+                                       if (= 2 (length seq)) sum 1
+                                       else sum take))
+                            #'<)))
         (let ((val (cl-loop for i from 0
                             for item in items
-                            for take = (nth (- (1- (length items)) i) item-take)
+                            for take = (nth i item-take)
                             concat (seq-take item take))))
           (unless (or (gethash val generated-keys)
-                      (string-empty-p val))
+                      (string-empty-p val)
+                      (string-match-p (rx bos (+ num) eos) val))
             (puthash val t generated-keys)
             (iter-yield val)))))))
 
-(defun biome-query--unique-keys (name keys)
-  "Get a unique key for NAME.
+;; (setq my/test (biome-query--unique-key-cands "Tempe 200"))
+;; (iter-next my/test)
 
-NAME is a field name.  KEYS is a hash-map of used key names."
-  (seq-some ))
+(defun biome-query--unique-keys (names)
+  "Get unique keys for NAMES.
+
+NAMES is a list of strings."
+  (let ((keys-by-name (make-hash-table :test 'equal))
+        (names-by-key (make-hash-table :test 'equal))
+        (iters (make-hash-table :test 'equal)))
+    (cl-loop for name in names
+             do (puthash name (biome-query--unique-key-cands name) iters))
+    (while-let ((names-to-update
+                 (append
+                  ;; Unset keys
+                  (cl-loop for name in names
+                           if (null (gethash name keys-by-name))
+                           collect name)
+                  ;; Duplicate keys
+                  (cl-loop for key being the hash-key of names-by-key
+                           using (hash-values names)
+                           if (< 1 (length names))
+                           collect (car (seq-sort-by #'length #'> names)))
+                  ;; Duplicate subkeys
+                  (cl-loop for key being the hash-key of names-by-key
+                           append (cl-loop
+                                   for i from 1 to (1- (length key))
+                                   for subkey = (seq-take key i)
+                                   for dupe-names = (gethash subkey names-by-key)
+                                   when dupe-names append dupe-names)))))
+      (cl-loop
+       for name in names-to-update
+       for old-key = (gethash name keys-by-name)
+       for key = (iter-next (gethash name iters))
+       if old-key do (puthash old-key (remove name (gethash old-key names-by-key)) names-by-key)
+       do (puthash key (cons name (gethash key names-by-key)) names-by-key)
+       do (puthash name key keys-by-name)))
+    keys-by-name))
+
+(setq my/test (mapcar (lambda (l) (alist-get :name l))
+                      (car (alist-get :fields (nth 1 (alist-get :sections (cdar biome-api-data)))))))
+(setq my/test2
+      (cl-loop for key being the hash-key of (biome-query--unique-keys my/test)
+               using (hash-values name)
+               collect (cons key name)))
 
 (defun biome-query--section-children (section)
   (let ((sections (alist-get :sections section))
