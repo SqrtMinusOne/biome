@@ -133,11 +133,11 @@
   "Replace these variable defintions with the given ones.")
 
 (defconst biome-api-parse--add-settings
-  `((:param . ("elevation" . ((:name . "Elevation")
-                              (:type . float))))
-    (:pages . ("Weather Forecast" "DWD ICON" "NOAA GFS & HRRR"
-               "MeteoFrance" "ECMWF" "JMA" "MET Norway" "GEM" "Historical Weather"
-               "Ensemble Models"))))
+  `(((:param . ("elevation" . ((:name . "Elevation")
+                               (:type . float))))
+     (:pages . ("Weather Forecast" "DWD ICON" "NOAA GFS & HRRR"
+                "MeteoFrance" "ECMWF" "JMA" "MET Norway" "GEM" "Historical Weather"
+                "Ensemble Models")))))
 
 (defun biome-api-parse--fix-string (string)
   "Remove extra spaces and newlines from STRING."
@@ -215,16 +215,15 @@ Return a list of sections as defined by `biome-api-parse--page'."
                  (lambda (el)
                    (and (eq (dom-tag el) 'button)
                         (string-match-p "nav-link" (dom-attr el 'class))))))))
-    (list
-     (cl-loop for (id . name) in pill-names
-              collect `((:name . ,name)
-                        (:fields
-                         . ,(biome-api-parse--page-variables
-                             ;; XXX dom-by-id doesn't work here
-                             (car (dom-search
-                                   section
-                                   (lambda (el)
-                                     (string= (dom-attr el 'id) id)))))))))))
+    (cl-loop for (id . name) in pill-names
+             collect `((:name . ,name)
+                       (:fields
+                        . ,(biome-api-parse--page-variables
+                            ;; XXX dom-by-id doesn't work here
+                            (car (dom-search
+                                  section
+                                  (lambda (el)
+                                    (string= (dom-attr el 'id) id))))))))))
 
 (defun biome-api-parse--page-accordion (section)
   "Parse bootstrap accordion from SECTION.
@@ -251,9 +250,9 @@ Return a list of sections as defined by `biome-api-parse--page'."
 
 The return value is as defined by `biome-api-parse--page'."
   (or (when-let ((accordion (biome-api-parse--page-accordion section)))
-        (list (cons :children accordion)))
+        `((:children . ,accordion)))
       (when-let ((variables (biome-api-parse--page-variables section)))
-        (list (cons :fields variables)))))
+        `((:fields . ,variables)))))
 
 (defun biome-api-parse--postprocess-extract-section (sections section-name &optional remove)
   "Extract section with SECTION-NAME from SECTIONS.
@@ -278,10 +277,10 @@ is removed from the sections list."
             (mapcar (lambda (item)
                       (when (assoc :children item)
                         (let ((extracted (biome-api-parse--postprocess-extract-section
-                                          (cadr (assoc :children item))
+                                          (cdr (assoc :children item))
                                           section-name remove)))
                           (when remove
-                            (setf (cadr (assoc :children item)) (car extracted)) )
+                            (setf (cdr (assoc :children item)) (car extracted)) )
                           (when (cdr extracted)
                             (setq models (cdr extracted)))))
                       item)
@@ -377,15 +376,17 @@ fields attributes as cdr:
                                 (biome-api-parse--fix-string
                                  (dom-text (car h2s))))))
                    if (string= section-name "Usage License") return (nreverse res)
+                   ;; if (string= section-name "Hourly Weather Variables") return (nreverse res)
                    ;; Merge different sections with the same name
                    unless (assoc section-name res)
                    do (push `(,section-name . nil) res)
                    do (let ((parsed-section (biome-api-parse--section section)))
-                        (cl-loop for (kind . data) in parsed-section
-                                 unless (assoc kind (cdr (assoc section-name res)))
-                                 do (push `(,kind . nil) (cdr (assoc section-name res)))
-                                 do (setf (cdr (assoc kind (cdr (assoc section-name res))))
-                                          (cons data (cdr (assoc kind (cdr (assoc section-name res))))))))
+                        (cl-loop
+                         for (kind . data) in parsed-section
+                         unless (assoc kind (cdr (assoc section-name res)))
+                         do (push `(,kind . nil) (cdr (assoc section-name res)))
+                         do (setf (cdr (assoc kind (cdr (assoc section-name res))))
+                                  (append data (cdr (assoc kind (cdr (assoc section-name res))))))))
                    finally return (nreverse res))))
     (biome-api-parse--postprocess sections name)))
 
