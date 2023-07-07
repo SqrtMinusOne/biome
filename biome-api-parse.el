@@ -28,7 +28,6 @@
 ;; `biome-api-parse--generate' is main the entrypoint.
 
 ;;; Code:
-(require 'request)
 (require 'browse-url)
 (require 'cl-lib)
 (require 'seq)
