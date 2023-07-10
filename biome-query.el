@@ -26,6 +26,7 @@
 
 ;;; Code:
 (require 'biome-api-data)
+(require 'font-lock)
 (require 'compat)
 (require 'transient)
 
@@ -51,11 +52,16 @@ have to be displayed separately.")
 It is an alist with the following keys:
 - `:name' - name of the root section.
 - `:kind' - name of the group (see `biome-query-groups').
-- `:parameters' - alist with parameters, where the key is either nil
-  (for global parameters) or the value of `:param' key of the
-  corresponding section.
+- `:params' - alist with parameters, where the key is either nil (for
+  global parameters) or the value of `:param' key of the corresponding
+  section.
   In the former case, the value is an alist with values; in the latter
   case, the value is a list of variable names available in the group.")
+
+(defvar biome-query--layout-cache (make-hash-table :test 'equal)
+  "Cache for dynamic transient layout.")
+
+(setq biome-query--layout-cache (make-hash-table :test 'equal))
 
 (defclass biome-query--transient-report (transient-suffix)
   ((transient :initform t))
@@ -71,6 +77,89 @@ It is an alist with the following keys:
 
 (transient-define-infix biome-query--transient-report-infix ()
   :class 'biome-query--transient-report
+  :key "~~1")
+
+(defclass biome-query--transient-path (transient-suffix)
+  ((transient :initform t))
+  "A transient class to display the current path.")
+
+(cl-defmethod transient-init-value ((_ biome-query--transient-path))
+  "A dummy method for `biome-query--transient-report'."
+  nil)
+
+(cl-defmethod transient-format ((_ biome-query--transient-path))
+  "Format the current path."
+  (let* ((scope (oref (or transient--prefix
+                          transient-current-prefix)
+                      scope))
+         (parents (alist-get :parents scope))
+         (section (alist-get :section scope)))
+    (concat
+     (cl-loop for parent in (reverse parents)
+              concat (propertize
+                      (alist-get :name parent)
+                      'face 'font-lock-variable-name-face)
+              concat " > ")
+     (propertize
+      (alist-get :name section)
+      'face 'transient-heading))))
+
+(transient-define-infix biome-query--transient-path-infix ()
+  :class 'biome-query--transient-path
+  :key "~~1")
+
+(defclass biome-query--transient-switch-variable (transient-argument)
+  ((name :initarg :name)
+   (param :initarg :param :initform nil))
+  "A transient class to display a switch.")
+
+(cl-defmethod transient-init-value ((obj biome-query--transient-switch-variable))
+  (oset obj value
+        (not
+         (null
+          (member
+           (oref obj name)
+           (if-let ((param (oref obj param)))
+               (cdr
+                (assoc
+                 param
+                 (alist-get :params biome-query-current)))
+             (alist-get :params biome-query-current)))))))
+
+(defmacro biome-query--update-list (item list-place add)
+  `(setf ,list-place
+         (if ,add
+             (cons ,item ,list-place)
+           (delete ,item ,list-place))))
+
+(cl-defmethod transient-infix-read ((obj biome-query--transient-switch-variable))
+  "Toggle the switch on or off."
+  (setq my/test obj)
+  (let ((new-value (not (oref obj value)))
+        (param (oref obj param))
+        (name (oref obj name)))
+    (if param
+        (biome-query--update-list
+         name (alist-get param (alist-get :params biome-query-current) nil nil #'equal)
+         new-value)
+      (biome-query--update-list
+       name (alist-get :params biome-query-current  nil nil #'equal)
+       new-value))
+    new-value))
+
+(cl-defmethod transient-format ((obj biome-query--transient-switch-variable))
+  "Return a string generated using OBJ's `format'.
+%k is formatted using `transient-format-key'.
+%d is formatted using `transient-format-description'.
+%v is formatted using `transient-format-value'."
+  (concat
+   (string-pad (transient-format-key obj) 6)
+   (transient-format-description obj)
+   (when (oref obj value)
+     (propertize " (+)" 'face 'transient-argument))))
+
+(transient-define-infix biome-query--transient-switch-variable-infix ()
+  :class 'biome-query--transient-switch-variable
   :key "~~1")
 
 (defun biome-query--cartesian-product (a b)
@@ -159,28 +248,51 @@ NAMES is a list of strings."
        do (puthash name key keys-by-name)))
     keys-by-name))
 
-(defun biome-query--section-fields-children (fields keys)
+(defun biome-query--section-fields-children (fields keys parents cache-key)
   "Get transient laoyut for FIELDS.
 
 FIELDS is a list of fields as defined in `biome-api-parse--page'.
-KEYS is the result of `biome-query--unique-keys'."
+KEYS is the result of `biome-query--unique-keys'.  PARENTS is a list
+of parent sections."
   (when fields
-    `(["Fields"
-       :class transient-columns
-       ,@(thread-last
-           fields
-           (seq-map-indexed
-            (lambda (field idx) (cons field (/ idx biome-query-max-fields-in-row))))
-           (seq-group-by #'cdr)
-           (mapcar (lambda (group)
-                     (apply #'vector
-                            (mapcar
-                             (lambda (el)
-                               (let* ((field (car el))
-                                      (name (alist-get :name (cdr field))))
-                                 ;; TODO
-                                 (list (gethash name keys) name #'transient-quit-one)))
-                             (cdr group))))))])))
+    (let ((param (seq-some (lambda (s) (alist-get :param s)) parents))
+          (infix-name (concat "biome-query--transient-" cache-key "-")))
+      (cl-loop
+       for field in fields
+       for field-api-key = (car field)
+       for name = (alist-get :name (cdr field))
+       for key = (gethash name keys)
+       for type = (alist-get :type (cdr field))
+       for infix-symbol = (intern (concat infix-name field-api-key))
+       do (eval (pcase type
+                  ('checkbox
+                   `(transient-define-infix ,infix-symbol ()
+                      :class 'biome-query--transient-switch-variable
+                      :key ,key
+                      :description ,name
+                      :argument ,name
+                      :name ,name
+                      :param ,param))
+                  (_
+                   `(transient-define-infix ,infix-symbol ()
+                      :key ,key
+                      :name ,name)))))
+      `(["Fields"
+         :class transient-columns
+         ,@(thread-last
+             fields
+             (seq-map-indexed
+              (lambda (field idx) (cons field (/ idx biome-query-max-fields-in-row))))
+             (seq-group-by #'cdr)
+             (mapcar
+              (lambda (group)
+                (apply
+                 #'vector
+                 (mapcar
+                  (lambda (el)
+                    (let* ((field-api-key (caar el)))
+                      (list (intern (concat infix-name field-api-key)))))
+                  (cdr group))))))]))))
 
 (defun biome-query--section-sections-children (sections keys parents)
   "Get transient layout for SECTIONS.
@@ -201,21 +313,43 @@ list of parent sections."
               :transient transient--do-replace))
           sections)])))
 
+(defmacro biome-query--with-layout-cache (cache-key &rest body)
+  "Cache layout for CACHE-KEY.
+
+BODY is the body of the macro."
+  (declare (indent 1))
+  `(let ((layout (gethash ,cache-key biome-query--layout-cache)))
+     (if layout
+         layout
+       (let* ((cache-key ,cache-key)
+              (layout (progn ,@body)))
+         (puthash ,cache-key layout biome-query--layout-cache)
+         layout))))
+
 (defun biome-query--section-layout (section parents)
   "Get transient layout for SECTION.
 
 SECTION is a form as defined by `biome-api-parse--page'.  PARENTS
 is a list of parent sections."
-  (let* ((sections (or (alist-get :children section)
-                       (alist-get :sections section)))
-         (fields (alist-get :fields section))
-         (keys (biome-query--unique-keys
-                (append
-                 (mapcar (lambda (s) (alist-get :name s)) sections)
-                 (mapcar (lambda (s) (alist-get :name (cdr s))) fields)))))
-    (append
-     (biome-query--section-fields-children fields keys)
-     (biome-query--section-sections-children sections keys (cons section parents)))))
+  (biome-query--with-layout-cache
+      (string-join
+       (mapcar
+        (lambda (s) (string-replace " " "-" s))
+        (cons
+         (alist-get :name section)
+         (mapcar (lambda (s) (alist-get :name s)) parents)))
+       "-")
+    (let* ((sections (or (alist-get :children section)
+                         (alist-get :sections section)))
+           (fields (alist-get :fields section))
+           (keys (biome-query--unique-keys
+                  (append
+                   (mapcar (lambda (s) (alist-get :name s)) sections)
+                   (mapcar (lambda (s) (alist-get :name (cdr s))) fields))))
+           (parents (cons section parents)))
+      (append
+       (biome-query--section-fields-children fields keys parents cache-key)
+       (biome-query--section-sections-children sections keys parents)))))
 
 (defun biome-query--transient-prepare-layout (name suffixes)
   "Prepare dynamic transient layout for NAME.
@@ -234,13 +368,11 @@ SECTION is a form as defined in `biome-api-parse--page'."
   (interactive (list nil))
   (unwind-protect
       (progn
-        (setq my/test section)
         (biome-query--prepare-layout
          'biome-query--section
          (append
-          '([:description
-             (lambda () (alist-get :name (car (oref transient--prefix scope))))
-             (biome-query--transient-report-infix)])
+          '([(biome-query--transient-path-infix)])
+          '([(biome-query--transient-report-infix)])
           (biome-query--section-layout section parents)
           '(["Actions"
              :class transient-row
@@ -249,7 +381,7 @@ SECTION is a form as defined in `biome-api-parse--page'."
         (transient-setup 'biome-query--section nil nil :scope
                          `((:section . ,section)
                            (:parents . ,parents))))
-    (put 'biome-query-section  'transient--layout nil)))
+    (put 'biome-query-section 'transient--layout nil)))
 
 (transient-define-prefix biome-query ()
   ["Open Meteo Data"
@@ -268,7 +400,7 @@ SECTION is a form as defined in `biome-api-parse--page'."
                              (setq biome-query-current
                                    '((:name . ,name)
                                      (:kind . nil)
-                                     (:parameters . nil))))
+                                     (:params . nil))))
                            (biome-query--section ',params))
                          :transient transient--do-replace))))]
   ["Actions"
