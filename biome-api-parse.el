@@ -195,7 +195,7 @@ SECTION is a DOM element.  Return a list of fields as defined by
                   (setf (cdr field) (cons `(:name . ,name) (cdr field)))))
     (cl-loop for (id . replace-field) in biome-api-parse--replace-variables
              do (when-let ((field (assoc id fields)))
-                  (setf (cdr field) (copy-tree (cdr replace-field)))))
+                  (setf (cdr field) (copy-tree replace-field))))
     (nreverse fields)))
 
 (defun biome-api-parse--page-pills (section)

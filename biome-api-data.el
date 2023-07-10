@@ -670,18 +670,23 @@
           ("iso8601" . "ISO 8601 (e.g. 2022-12-31)")
           ("unixtime" . "Unix timestamp")))
         ("past_days"
+         (:name . "Past days")
          (:type . number)
          (:min . 0)
          (:max . 92))
         ("forecast_days"
+         (:name . "Forecast days")
          (:type . number)
          (:min . 0)
          (:max . 16))
         ("start_date"
+         (:name . "Start date")
          (:type . date))
         ("end_date"
+         (:name . "End date")
          (:type . date))
         ("timezone"
+         (:name . "Timezone")
          (:type . timezone))))
       ((:param . "models")
        (:name . "Weather models")
@@ -2416,18 +2421,23 @@
           ("iso8601" . "ISO 8601 (e.g. 2022-12-31)")
           ("unixtime" . "Unix timestamp")))
         ("past_days"
+         (:name . "Past days")
          (:type . number)
          (:min . 0)
          (:max . 92))
         ("forecast_days"
+         (:name . "Forecast days")
          (:type . number)
          (:min . 0)
          (:max . 16))
         ("start_date"
+         (:name . "Start date")
          (:type . date))
         ("end_date"
+         (:name . "End date")
          (:type . date))
         ("timezone"
+         (:name . "Timezone")
          (:type . timezone))))))
     ("MeteoFrance"
      (:name . "MeteoFrance")
@@ -3309,14 +3319,18 @@
           ("iso8601" . "ISO 8601 (e.g. 2022-12-31)")
           ("unixtime" . "Unix timestamp")))
         ("timezone"
+         (:name . "Timezone")
          (:type . timezone))
         ("past_days"
+         (:name . "Past days")
          (:type . number)
          (:min . 0)
          (:max . 92))
         ("start_date"
+         (:name . "Start date")
          (:type . date))
         ("end_date"
+         (:name . "End date")
          (:type . date))))
       ((:param . "models")
        (:name . "Weather models")
@@ -4167,14 +4181,18 @@
           ("iso8601" . "ISO 8601 (e.g. 2022-12-31)")
           ("unixtime" . "Unix timestamp")))
         ("timezone"
+         (:name . "Timezone")
          (:type . timezone))
         ("past_days"
+         (:name . "Past days")
          (:type . number)
          (:min . 0)
          (:max . 92))
         ("start_date"
+         (:name . "Start date")
          (:type . date))
         ("end_date"
+         (:name . "End date")
          (:type . date))))))
     ("MET Norway"
      (:name . "MET Norway")
@@ -5224,14 +5242,18 @@
           ("iso8601" . "ISO 8601 (e.g. 2022-12-31)")
           ("unixtime" . "Unix timestamp")))
         ("timezone"
+         (:name . "Timezone")
          (:type . timezone))
         ("past_days"
+         (:name . "Past days")
          (:type . number)
          (:min . 0)
          (:max . 92))
         ("start_date"
+         (:name . "Start date")
          (:type . date))
         ("end_date"
+         (:name . "End date")
          (:type . date))))))
     ("Historical Weather"
      (:name . "Historical Weather")
@@ -5423,8 +5445,10 @@
       ((:name . "Specify Time Interval")
        (:fields
         ("start_date"
+         (:name . "Start date")
          (:type . date))
         ("end_date"
+         (:name . "End date")
          (:type . date))))
       ((:name . "Settings")
        (:fields
@@ -5929,6 +5953,7 @@
       ((:name . "Settings")
        (:fields
         ("timezone"
+         (:name . "Timezone")
          (:type . timezone))
         ("length_unit"
          (:name . "Length Unit")
@@ -5943,12 +5968,15 @@
           ("iso8601" . "ISO 8601 (e.g. 2022-12-31)")
           ("unixtime" . "Unix timestamp")))
         ("past_days"
+         (:name . "Past days")
          (:type . number)
          (:min . 0)
          (:max . 92))
         ("start_date"
+         (:name . "Start date")
          (:type . date))
         ("end_date"
+         (:name . "End date")
          (:type . date))))))
     ("Air Quality"
      (:name . "Air Quality")
