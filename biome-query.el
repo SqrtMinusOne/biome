@@ -29,6 +29,11 @@
 (require 'compat)
 (require 'transient)
 
+(defcustom biome-query-max-fields-in-row 20
+  "Maximum number of fields in a row."
+  :type 'integer
+  :group 'biome)
+
 (defconst biome-query-groups '("daily" "hourly" "minutely_15" "hourly")
   "Name of groups.
 
@@ -99,6 +104,7 @@ It is an alist with the following keys:
                            (mapcar (lambda (it) (if (listp it) (nreverse it) (list it))))
                            (seq-sort-by
                             (lambda (it)
+                              ;; TODO better weight function
                               (cl-loop for take in it
                                        for seq in sequences
                                        if (= 2 (length seq)) sum 1
@@ -153,35 +159,97 @@ NAMES is a list of strings."
        do (puthash name key keys-by-name)))
     keys-by-name))
 
-(setq my/test (mapcar (lambda (l) (alist-get :name l))
-                      (car (alist-get :fields (nth 1 (alist-get :sections (cdar biome-api-data)))))))
-(setq my/test2
-      (cl-loop for key being the hash-key of (biome-query--unique-keys my/test)
-               using (hash-values name)
-               collect (cons key name)))
+(defun biome-query--section-fields-children (fields keys)
+  "Get transient laoyut for FIELDS.
 
-(defun biome-query--section-children (section)
-  (let ((sections (alist-get :sections section))
-        (fields (alist-get :fields section))
-        (keys (make-hash-table :test 'equal))
-        res)
-    (cl-loop for section in sections
-             do (puthash (alist-get :name section) section keys))
-    ))
+FIELDS is a list of fields as defined in `biome-api-parse--page'.
+KEYS is the result of `biome-query--unique-keys'."
+  (when fields
+    `(["Fields"
+       :class transient-columns
+       ,@(thread-last
+           fields
+           (seq-map-indexed
+            (lambda (field idx) (cons field (/ idx biome-query-max-fields-in-row))))
+           (seq-group-by #'cdr)
+           (mapcar (lambda (group)
+                     (apply #'vector
+                            (mapcar
+                             (lambda (el)
+                               (let* ((field (car el))
+                                      (name (alist-get :name (cdr field))))
+                                 ;; TODO
+                                 (list (gethash name keys) name #'transient-quit-one)))
+                             (cdr group))))))])))
 
-(transient-define-prefix biome-query--root-section (section)
-  "Render transient for root SECTION.
+(defun biome-query--section-sections-children (sections keys parents)
+  "Get transient layout for SECTIONS.
+
+SECTIONS is a list of sections as defined in `biome-api-parse--page'.
+KEYS is the result of `biome-query--unique-keys'.  PARENTS is a
+list of parent sections."
+  (when sections
+    `(["Sections"
+       :class transient-row
+       ,@(mapcar
+          (lambda (section)
+            `(,(gethash (alist-get :name section) keys)
+              ,(alist-get :name section)
+              (lambda ()
+                (interactive)
+                (biome-query--section ',section ',parents))
+              :transient transient--do-replace))
+          sections)])))
+
+(defun biome-query--section-layout (section parents)
+  "Get transient layout for SECTION.
+
+SECTION is a form as defined by `biome-api-parse--page'.  PARENTS
+is a list of parent sections."
+  (let* ((sections (or (alist-get :children section)
+                       (alist-get :sections section)))
+         (fields (alist-get :fields section))
+         (keys (biome-query--unique-keys
+                (append
+                 (mapcar (lambda (s) (alist-get :name s)) sections)
+                 (mapcar (lambda (s) (alist-get :name (cdr s))) fields)))))
+    (append
+     (biome-query--section-fields-children fields keys)
+     (biome-query--section-sections-children sections keys (cons section parents)))))
+
+(defun biome-query--transient-prepare-layout (name suffixes)
+  "Prepare dynamic transient layout for NAME.
+
+SUFFIXES is a list of suffix definitions."
+  (thread-last
+    suffixes
+    (cl-mapcan (lambda (s) (transient--parse-child 'tsc-dynamic-layout s)))
+    (mapcar #'eval)
+    (put name 'transient--layout)))
+
+(transient-define-prefix biome-query--section (section &optional parents)
+  "Render transient for SECTION.
 
 SECTION is a form as defined in `biome-api-parse--page'."
-  [:description
-   (lambda () (alist-get :name (oref transient--prefix scope)))
-   (biome-query--transient-report-infix)]
-  ["Actions"
-   :class transient-row
-   ("q" "Up" transient-quit-one)
-   ("Q" "Quit" transient-quit-all)]
   (interactive (list nil))
-  (transient-setup 'biome-query--section nil nil :scope section))
+  (unwind-protect
+      (progn
+        (setq my/test section)
+        (biome-query--prepare-layout
+         'biome-query--section
+         (append
+          '([:description
+             (lambda () (alist-get :name (car (oref transient--prefix scope))))
+             (biome-query--transient-report-infix)])
+          (biome-query--section-layout section parents)
+          '(["Actions"
+             :class transient-row
+             ("q" "Up" transient-quit-one)
+             ("Q" "Quit" transient-quit-all)])))
+        (transient-setup 'biome-query--section nil nil :scope
+                         `((:section . ,section)
+                           (:parents . ,parents))))
+    (put 'biome-query-section  'transient--layout nil)))
 
 (transient-define-prefix biome-query ()
   ["Open Meteo Data"
@@ -201,7 +269,7 @@ SECTION is a form as defined in `biome-api-parse--page'."
                                    '((:name . ,name)
                                      (:kind . nil)
                                      (:parameters . nil))))
-                           (biome-query--root-section ',params))
+                           (biome-query--section ',params))
                          :transient transient--do-replace))))]
   ["Actions"
    ("q" "Quit" transient-quit-one)])

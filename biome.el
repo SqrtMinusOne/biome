@@ -28,6 +28,9 @@
 ;;  TODO
 
 ;;; Code:
+(defgroup biome nil
+  "Bountiful Interface to Open Meteo for Emacs."
+  :group 'applications)
 
 (provide 'biome)
 ;;; biome.el ends here
