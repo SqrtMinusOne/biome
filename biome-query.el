@@ -36,6 +36,11 @@
   :type 'integer
   :group 'biome)
 
+(defcustom biome-query-completing-read-threshold 4
+  "Invoke `completing-read' when there are more than this many choices."
+  :type 'integer
+  :group 'biome)
+
 (defconst biome-query-groups '("daily" "hourly" "minutely_15" "hourly")
   "Name of groups.
 
@@ -115,12 +120,12 @@ It is an alist with the following keys:
   :key "~~1")
 
 (defclass biome-query--transient-switch-variable (transient-argument)
-  ((name :initarg :name)
+  ((api-key :initarg :api-key)
    (param :initarg :param))
   "A transient class to display a switch.
 
 The switch works the following way: if `:param' is non-nil, then the
-value corresponds to NAME being in the list of values in
+value corresponds to API_KEY being in the list of values in
 `biome-query-current' for `:param'.  Cases when `:param' is nil
 shouldn't exist.")
 
@@ -132,7 +137,7 @@ OBJ is an instance of `biome-query--transient-switch-variable'."
         (not
          (null
           (member
-           (oref obj name)
+           (oref obj api-key)
            (if-let ((param (oref obj param)))
                (cdr
                 (assoc
@@ -154,13 +159,13 @@ OBJ is an instance of `biome-query--transient-switch-variable'."
   (setq my/test obj)
   (let ((new-value (not (oref obj value)))
         (param (oref obj param))
-        (name (oref obj name)))
+        (api-key (oref obj api-key)))
     (if param
         (biome-query--update-list
-         name (alist-get param (alist-get :params biome-query-current) nil nil #'equal)
+         api-key (alist-get param (alist-get :params biome-query-current) nil nil #'equal)
          new-value)
       (biome-query--update-list
-       name (alist-get :params biome-query-current  nil nil #'equal)
+       api-key (alist-get :params biome-query-current  nil nil #'equal)
        new-value))
     new-value))
 
@@ -175,8 +180,26 @@ OBJ is an instance of `biome-query--transient-switch-variable'."
    (when (oref obj value)
      (propertize " (+)" 'face 'transient-argument))))
 
+(defclass biome-query--transient-variable (transient-variable)
+  ((api-key :initarg :api-key))
+  "A transient class to display a variable.")
 
-(defclass biome-query--transient-date-variable (transient-variable)
+(cl-defmethod transient-infix-set ((obj biome-query--transient-variable) value)
+  "Set the value of OBJ to VALUE.
+
+OBJ is an instance of `biome-query--transient-date-variable'."
+  (if value
+      (setf
+       (alist-get (oref obj api-key) (alist-get :params biome-query-current)
+                  nil nil #'equal)
+       value)
+    (setf
+     (alist-get :params biome-query-current)
+     (delq (assoc (oref obj api-key) (alist-get :params biome-query-current))
+           (alist-get :params biome-query-current))))
+  (oset obj value value))
+
+(defclass biome-query--transient-date-variable (biome-query--transient-variable)
   ((name :initarg :name)
    (key :initarg :key)
    (reader :initform #'biome-query--transient-date-reader))
@@ -213,20 +236,54 @@ OBJ is an instance of `biome-query--transient-switch-variable'."
          'face 'transient-value)
       (propertize "unset" 'face 'transient-inactive-value))))
 
-(cl-defmethod transient-infix-set ((obj biome-query--transient-date-variable) value)
-  "Set the value of OBJ to VALUE.
+(defclass biome-query--transient-select-variable (biome-query--transient-variable)
+  ((name :initarg :name)
+   (key :initarg :key)
+   (options :initarg :options)))
 
-OBJ is an instance of `biome-query--transient-date-variable'."
-  (if value
-      (setf
-       (alist-get (oref obj key) (alist-get :params biome-query-current)
-                  nil nil #'equal)
-       value)
-    (setf
-     (alist-get :params biome-query-current)
-     (delq (assoc (oref obj key) (alist-get :params biome-query-current))
-           (alist-get :params biome-query-current))))
-  (oset obj value value))
+(cl-defmethod transient-init-value ((obj biome-query--transient-select-variable))
+  "Initialize the value.
+
+OBJ is an instance of `biome-query--transient-select-variable'."
+  (oset obj value
+        (alist-get (oref obj key)
+                   (alist-get :params biome-query-current)
+                   nil nil #'equal)))
+
+(cl-defmethod transient-format-value ((obj biome-query--transient-select-variable))
+  "Format the value of OBJ."
+  (let ((value (transient-infix-value obj)))
+    (concat
+     (propertize "[" 'face 'transient-inactive-value)
+     (mapconcat
+      (lambda (choice)
+        (propertize (cdr choice) 'face
+                    (if (eq (car choice) value)
+                        'transient-value
+                      'transient-inactive-value)))
+      (oref obj options)
+      (propertize "|" 'face 'transient-inactive-value))
+     (propertize "]" 'face 'transient-inactive-value))))
+
+(cl-defmethod transient-infix-read ((obj biome-query--transient-select-variable))
+  (let* ((choices (mapcar
+                   (lambda (c) (cons (cdr c) (car c)))
+                   (append (oref obj options) (list (cons nil "unset")))))
+         (current-idx (or (cl-position (transient-infix-value obj) choices
+                                       :test (lambda (a b) (equal a (cdr b))))
+                          -1))
+         (next-idx (% (1+ current-idx) (length choices)))
+         (value
+          (if (> (length choices) biome-query-completing-read-threshold)
+              (let* ((choice (completing-read
+                              (oref obj description)
+                              choices nil t))
+                     (new-value (cdr (assoc choice choices))))
+                (when (and (null new-value) (not (equal choice "unset")))
+                  (user-error "Invalid choice: %s" choice))
+                new-value)
+            (cdr (nth next-idx choices)))))
+    value))
 
 ;; Layout generation
 
@@ -374,16 +431,24 @@ the position of the current section in the `biome-api-data' tree."
                    `(transient-define-infix ,infix-symbol ()
                       :class 'biome-query--transient-switch-variable
                       :key ,key
+                      :api-key ,field-api-key
+                      :param ,param
                       :description ,name
-                      :argument ,name
-                      :name ,name
-                      :param ,param))
+                      :argument ,name))
                   ('date
                    `(transient-define-infix ,infix-symbol ()
                       :class 'biome-query--transient-date-variable
                       :key ,key
+                      :api-key ,field-api-key
                       :description ,name
                       :prompt ,name))
+                  ('select
+                   `(transient-define-infix ,infix-symbol ()
+                      :class 'biome-query--transient-select-variable
+                      :key ,key
+                      :api-key ,field-api-key
+                      :description ,name
+                      :options ',(alist-get :options (cdr field))))
                   (_
                    `(transient-define-infix ,infix-symbol ()
                       :key ,key
