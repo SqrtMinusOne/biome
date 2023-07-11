@@ -65,6 +65,7 @@ It is an alist with the following keys:
 (defvar biome-query--layout-cache (make-hash-table :test 'equal)
   "Cache for dynamic transient layout.")
 
+;; TODO delete this
 (setq biome-query--layout-cache (make-hash-table :test 'equal))
 
 ;; Transient display classes
@@ -241,30 +242,63 @@ OBJ is an instance of `biome-query--transient-date-variable'."
       b))
    a))
 
-(iter-defun biome-query--unique-key-cands (name)
-  "Generate unique key candidates for NAME."
+(defun biome-query--unique-key-weight (it seq-lengths)
+  ;; TODO better weight function
+  (cl-loop for take in it
+           for length in seq-lengths
+           if (= 2 length) sum 1
+           else sum take))
+
+(iter-defun biome-query--unique-key-cands (name &optional max-words max-weight)
+  "Generate unique key candidates for NAME.
+
+The algorithm is as follows: NAME is split into words, each word
+produces a list of all its prefixes. E.g. \"hello\" produces \"\",
+\"h\", \"he\", \"hel\", etc.  Numbers are takes as a whole,
+e.g. \"100\" produces just \"\" and \"100\".
+
+One key canditate is a concatenation of prefixes of the first
+MAX-WORDS words, in the same order in which words appeared in NAME.
+
+All possible key candidates are weighted by
+`biome-query--unique-key-weight'.  The iteration yields these
+candidates in the ascending order by these weights, up to MAX-WEIGHT.
+
+This algorithm has exponential computational complexity because
+it sorts the cartesian product of all prefixes of each word, and it
+gets pretty slow at more than 3 words.  Hence the words are truncated
+at 3."
   (let ((name-low (replace-regexp-in-string (rx (not alnum))  " " (downcase name)))
-        (generated-keys (make-hash-table :test 'equal)))
-    (let* ((items (seq-filter
-                   (lambda (i)
-                     (not (member i biome-query--ignore-items)))
-                   (split-string name-low)))
-           (sequences (mapcar (lambda (item)
-                                (if (string-match-p (rx num) item)
-                                    (number-sequence 0 (length item) (length item))
-                                  (number-sequence 0 (length item) 1)))
-                              items)))
+        (generated-keys (make-hash-table :test 'equal))
+        (max-weight (or max-weight 6))
+        (max-words (or max-words 3)))
+    (let* ((items (cl-loop for item in (split-string name-low)
+                           if (and (not (member item biome-query--ignore-items))
+                                   (< (length res) max-words))
+                           collect item into res
+                           finally return res))
+           (sequences (cl-loop for item in items
+                               for is-num = (string-match-p (rx num) item)
+                               if is-num
+                               collect (number-sequence 0 (length item) (length item))
+                               else if (not is-num)
+                               collect (number-sequence 0 (length item) 1)))
+           (seq-lengths (mapcar #'length sequences)))
       (dolist (item-take (thread-last
                            (reverse sequences)
                            (reduce #'biome-query--cartesian-product)
                            (mapcar (lambda (it) (if (listp it) (nreverse it) (list it))))
+                           ;; TODO delete comment
+                           ;; ((lambda (kek) (message "Sorting %s" (length kek)) kek))
+                           ;; XXX this seems to be just a bit faster than `seq-sort-by'.
+                           (mapcar (lambda (it)
+                                     (cons (biome-query--unique-key-weight it seq-lengths) it)))
+                           (seq-filter (lambda (it) (< (car it) max-weight)))
+                           ((lambda (sequences) (sort sequences (lambda (a b) (< (car a) (car b))))))
+                           (mapcar #'cdr)
                            (seq-sort-by
                             (lambda (it)
-                              ;; TODO better weight function
-                              (cl-loop for take in it
-                                       for seq in sequences
-                                       if (= 2 (length seq)) sum 1
-                                       else sum take))
+                              (biome-query--unique-key-weight it seq-lengths))
                             #'<)))
         (let ((val (cl-loop for i from 0
                             for item in items
@@ -462,7 +496,7 @@ SECTION is a form as defined in `biome-api-parse--page'."
   (interactive (list nil))
   (unwind-protect
       (progn
-        (biome-query--prepare-layout
+        (biome-query--transient-prepare-layout
          'biome-query--section
          (append
           '([(biome-query--transient-path-infix)])
