@@ -437,8 +437,7 @@ them to biome-api-data.el."
         (insert (pp-to-string
                  `(defconst biome-api-data
                     ',biome-api-parse--data
-                    "open-meteo API docs data.
-Check `biome-api-parse--page' for the format."))
+                    "open-meteo API docs data.\\nCheck `biome-api-parse--page' for the format."))
                 "\n\n"
                 (pp-to-string
                  `(defconst biome-api-timezones
