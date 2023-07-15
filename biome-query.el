@@ -41,6 +41,14 @@
   :type 'integer
   :group 'biome)
 
+(defcustom biome-query-coords '(("Helsinki, Finland" 60.16952 24.93545)
+                                ("Berlin, Germany" 52.52437 13.41053))
+  "List of locations with their coordinates.
+
+The format is: (name latitude longitude)."
+  :type '(repeat (list string number number))
+  :group 'biome)
+
 (defconst biome-query-groups '("daily" "hourly" "minutely_15" "hourly")
   "Name of groups.
 
@@ -336,7 +344,18 @@ OBJ is an instance of `biome-query--transient-date-variable'."
 
 (cl-defmethod transient-format-value ((obj biome-query--transient-number-variable))
   "Format the value of OBJ."
-  (let ((value (if (slot-boundp obj 'value) (slot-value obj 'value) nil)))
+  (let* ((api-key (oref obj api-key))
+         ;; XXX because lat and lon can be updated outside of the
+         ;; transient value...  I don't want to use it for every
+         ;; variable because that would result in a spam of
+         ;; `alist-get', which is slower than `oref'.
+         (value (pcase api-key
+                  ((or "latitude" "longitude")
+                   (alist-get
+                    api-key
+                    (alist-get :params biome-query-current)
+                    nil nil #'equal))
+                  (_ (if (slot-boundp obj 'value) (slot-value obj 'value) nil)))))
     (if value
         (propertize
          (number-to-string value)
@@ -350,6 +369,54 @@ OBJ is an instance of `biome-query--transient-date-variable'."
   "Read the value of OBJ."
   (completing-read (concat (oref obj description) " ") biome-api-timezones
                    nil t (oref obj value)))
+
+(defclass biome-query--transient-coords (biome-query--transient-variable) ()
+  "A transient class for a coordinate switcher.")
+
+(cl-defmethod transient-init-value ((obj biome-query--transient-coords))
+  "Initialize the value of OBJ."
+  (oset obj value
+        (when-let ((lat (alist-get "latitude" (alist-get :params biome-query-current)
+                                   nil nil #'equal))
+                   (lon (alist-get "longitude" (alist-get :params biome-query-current)
+                                   nil nil #'equal)))
+          (seq-find
+           (lambda (c) (and (= lat (nth 1 c)) (= lon (nth 2 c))))
+           biome-query-coords))))
+
+(cl-defmethod transient-infix-read ((obj biome-query--transient-coords))
+  "Read the value of OBJ."
+  (assoc (completing-read "Select a location" biome-query-coords nil t)
+         biome-query-coords))
+
+(cl-defmethod transient-infix-set ((obj biome-query--transient-coords) value)
+  "Set the value of OBJ to VALUE."
+  (let ((lat (nth 1 value))
+        (lon (nth 2 value)))
+    (oset obj value value)
+    (setf (alist-get "latitude" (alist-get :params biome-query-current)
+                     nil nil #'equal)
+          lat
+          (alist-get "longitude" (alist-get :params biome-query-current)
+                     nil nil #'equal)
+          lon)))
+
+(cl-defmethod transient-format-value ((obj biome-query--transient-coords))
+  "Format the value of OBJ."
+  (if-let ((val (oref obj value))
+           (lat (alist-get "latitude" (alist-get :params biome-query-current)
+                           nil nil #'equal))
+           (lon (alist-get "longitude" (alist-get :params biome-query-current)
+                           nil nil #'equal)))
+      (if (and (= lat (nth 1 val)) (= lon (nth 2 val)))
+          (propertize (car val) 'face 'transient-value)
+        (propertize "changed" 'face 'transient-inactive-value))
+    (propertize "unset" 'face 'transient-inactive-value)))
+
+(transient-define-infix biome-query--transient-coords-infix ()
+  :class 'biome-query--transient-coords
+  :key "c"
+  :description "Choose location")
 
 (defclass biome-query--transient-group-switch (biome-query--transient-select-variable)
   ((options :initform nil))
@@ -384,8 +451,7 @@ OBJ is an instance of `biome-query--transient-date-variable'."
           (seq-filter
            (lambda (elem) (not (equal (car-safe elem) old-value)))
            (alist-get :params biome-query-current)))
-    (setf (oref obj value) value)
-    (transient-update)))
+    (setf (oref obj value) value)))
 
 (transient-define-infix biome-query--transient-group-switch-infix ()
   :class 'biome-query--transient-group-switch
@@ -594,10 +660,14 @@ the position of the current section in the `biome-api-data' tree."
     (let ((param (seq-some (lambda (s) (alist-get :param s)) parents))
           (infix-name (concat "biome-query--transient-" cache-key "-")))
       (biome--query-section-fields-define-infixes fields keys param infix-name)
+
       `(["Fields"
          :class transient-columns
          ,@(thread-last
-             fields
+             (append
+              fields
+              (when (equal (alist-get :name (car parents)) "Select Coordinates or City")
+                '(coords)))
              (seq-map-indexed
               (lambda (field idx) (cons field (/ idx biome-query-max-fields-in-row))))
              (seq-group-by #'cdr)
@@ -607,9 +677,13 @@ the position of the current section in the `biome-api-data' tree."
                  #'vector
                  (mapcar
                   (lambda (el)
-                    (let* ((field-api-key (caar el)))
-                      (list (intern (concat infix-name field-api-key)))))
+                    (pcase (car el)
+                      ('coords
+                       '(biome-query--transient-coords-infix))
+                      (_ (let* ((field-api-key (caar el)))
+                           (list (intern (concat infix-name field-api-key)))))))
                   (cdr group))))))]))))
+
 
 (defun biome-query--section-sections-children (sections keys parents)
   "Get transient layout for SECTIONS.
@@ -626,7 +700,12 @@ list of parent sections."
               ,(alist-get :name section)
               (lambda ()
                 (interactive)
-                (biome-query--section ',section ',parents))
+                (let* ((section ',section)
+                       (param (alist-get :param section)))
+                  (if (or (null param)
+                          (equal param (alist-get :group biome-query-current)))
+                      (biome-query--section section ',parents)
+                    (message "Need to activate group: %s" param))))
               :transient transient--do-replace))
           sections)])))
 
