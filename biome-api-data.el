@@ -1449,14 +1449,18 @@
           ("iso8601" . "ISO 8601 (e.g. 2022-12-31)")
           ("unixtime" . "Unix timestamp")))
         ("timezone"
+         (:name . "Timezone")
          (:type . timezone))
         ("past_days"
+         (:name . "Past days")
          (:type . number)
          (:min . 0)
          (:max . 92))
         ("start_date"
+         (:name . "Start date")
          (:type . date))
         ("end_date"
+         (:name . "End date")
          (:type . date))))))
     ("NOAA GFS & HRRR"
      (:name . "NOAA GFS & HRRR")
@@ -3216,9 +3220,9 @@
          (:name . "Temperature (50 m)")
          (:type . checkbox))
         ("temperature_100m"
-         (:type . checkbox))
-        ("temperature_100m"
          (:name . "Temperature (100 m)")
+         (:type . checkbox))
+        ("temperature_150m"
          (:name . "Temperature (150 m)")
          (:type . checkbox))
         ("temperature_200m"
@@ -3735,12 +3739,15 @@
           ("iso8601" . "ISO 8601 (e.g. 2022-12-31)")
           ("unixtime" . "Unix timestamp")))
         ("past_days"
+         (:name . "Past days")
          (:type . number)
          (:min . 0)
          (:max . 92))
         ("start_date"
+         (:name . "Start date")
          (:type . date))
         ("end_date"
+         (:name . "End date")
          (:type . date))))))
     ("JMA"
      (:name . "JMA")
@@ -4329,14 +4336,18 @@
           ("iso8601" . "ISO 8601 (e.g. 2022-12-31)")
           ("unixtime" . "Unix timestamp")))
         ("timezone"
+         (:name . "Timezone")
          (:type . timezone))
         ("past_days"
+         (:name . "Past days")
          (:type . number)
          (:min . 0)
          (:max . 92))
         ("start_date"
+         (:name . "Start date")
          (:type . date))
         ("end_date"
+         (:name . "End date")
          (:type . date))))))
     ("GEM"
      (:name . "GEM")
@@ -5482,6 +5493,7 @@
           ("iso8601" . "ISO 8601 (e.g. 2022-12-31)")
           ("unixtime" . "Unix timestamp")))
         ("timezone"
+         (:name . "Timezone")
          (:type . timezone))))
       ((:param . "models")
        (:name . "Reanalysis models")
@@ -5687,18 +5699,23 @@
           ("iso8601" . "ISO 8601 (e.g. 2022-12-31)")
           ("unixtime" . "Unix timestamp")))
         ("past_days"
+         (:name . "Past days")
          (:type . number)
          (:min . 0)
          (:max . 92))
         ("forecast_days"
+         (:name . "Forecast days")
          (:type . number)
          (:min . 0)
          (:max . 16))
         ("start_date"
+         (:name . "Start date")
          (:type . date))
         ("end_date"
+         (:name . "End date")
          (:type . date))
         ("timezone"
+         (:name . "Timezone")
          (:type . timezone))))
       ((:param . "models")
        (:name . "Ensemble Models")
@@ -5808,8 +5825,10 @@
       ((:name . "Specify Time Interval")
        (:fields
         ("start_date"
+         (:name . "Start date")
          (:type . date))
         ("end_date"
+         (:name . "End date")
          (:type . date))))
       ((:name . "Settings")
        (:fields
@@ -5880,7 +5899,8 @@
         ("longitude"
          (:name . "Longitude")
          (:type . float))))
-      ((:name . "Hourly Marine Variables")
+      ((:param . "hourly")
+       (:name . "Hourly Marine Variables")
        (:fields
         ("wave_height"
          (:name . "Wave Height")
@@ -5915,7 +5935,8 @@
         ("swell_wave_peak_period"
          (:name . "Swell Wave Peak Period")
          (:type . checkbox))))
-      ((:name . "Daily Marine Variables")
+      ((:param . "daily")
+       (:name . "Daily Marine Variables")
        (:fields
         ("wave_height_max"
          (:name . "Wave Height Max")
@@ -5992,7 +6013,8 @@
         ("longitude"
          (:name . "Longitude")
          (:type . float))))
-      ((:name . "Hourly Air Quality Variables")
+      ((:param . "hourly")
+       (:name . "Hourly Air Quality Variables")
        (:children
         ((:name . "European Air Quality Index")
          (:fields
@@ -6099,6 +6121,7 @@
           ("cams_global" . "Global (40 km)")
           ("cams_europe" . "European (11 km)")))
         ("timezone"
+         (:name . "Timezone")
          (:type . timezone))
         ("timeformat"
          (:name . "Timeformat")
@@ -6107,12 +6130,15 @@
           ("iso8601" . "ISO 8601 (e.g. 2022-12-31)")
           ("unixtime" . "Unix timestamp")))
         ("past_days"
+         (:name . "Past days")
          (:type . number)
          (:min . 0)
          (:max . 92))
         ("start_date"
+         (:name . "Start date")
          (:type . date))
         ("end_date"
+         (:name . "End date")
          (:type . date))))))
     ("Flood"
      (:name . "Flood")
@@ -6159,14 +6185,18 @@
       ((:name . "Settings")
        (:fields
         ("start_date"
+         (:name . "Start date")
          (:type . date))
         ("end_date"
+         (:name . "End date")
          (:type . date))
         ("past_days"
+         (:name . "Past days")
          (:type . number)
          (:min . 0)
          (:max . 92))
         ("forecast_days"
+         (:name . "Forecast days")
          (:type . number)
          (:min . 0)
          (:max . 16))
@@ -6197,7 +6227,7 @@
         ("consolidated_v4"
          (:name . "GloFAS v4 Consolidated")
          (:type . checkbox)))))))
-  "open-meteo API docs data.\nCheck `biome-api-parse--page' for the format.")
+  "Open-meteo API docs data.")
 
 
 (defconst biome-api-timezones

@@ -99,6 +99,9 @@
     ("Hourly Weather Variables" . "hourly")
     ("15-Minutely Weather Variables" . "minutely_15")
     ("3-Hourly Weather Variables" . "hourly")
+    ("Hourly Marine Variables" . "hourly")
+    ("Daily Marine Variables" . "daily")
+    ("Hourly Air Quality Variables" . "hourly")
     ("Weather models" . "models")
     ("Flood Models" . "models")
     ("Reanalysis models" . "models")
@@ -430,14 +433,14 @@ them to biome-api-data.el."
   (let ((timezones (biome-api-parse--timezones)))
     (cl-loop for datum in biome-api-parse--urls
              do (biome-api-parse--datum datum))
-    (setq biome-api-parse--data (nreverse biome-api-parse--data))
     (let ((buffer (generate-new-buffer "*biome-generated*")))
       (with-current-buffer buffer
         (emacs-lisp-mode)
         (insert (pp-to-string
                  `(defconst biome-api-data
-                    ',biome-api-parse--data
-                    "open-meteo API docs data.\\nCheck `biome-api-parse--page' for the format."))
+                    ',(reverse biome-api-parse--data)
+                    ;; ',biome-api-data
+                    "Open-meteo API docs data."))
                 "\n\n"
                 (pp-to-string
                  `(defconst biome-api-timezones
