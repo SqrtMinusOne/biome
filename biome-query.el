@@ -41,6 +41,18 @@
   :type 'integer
   :group 'biome)
 
+(defcustom biome-query-date-format "%A, %x"
+  "Format string for date entries.
+
+By default \"WEEKDAY, DATE\", where DATE is what Emacs thinks is an
+appropriate way to format days in your language.
+If the value is a function, the function will be evaluated and the return
+value will be inserted."
+  :type '(choice
+          (string :tag "String")
+          (function :tag "Function"))
+  :group 'biome)
+
 (defcustom biome-query-coords '(("Helsinki, Finland" 60.16952 24.93545)
                                 ("Berlin, Germany" 52.52437 13.41053))
   "List of locations with their coordinates.
@@ -84,6 +96,9 @@ case, the value is a list of variable names available in the group.")
 (defvar biome-query--layout-cache (make-hash-table :test 'equal)
   "Cache for dynamic transient layout.")
 
+(defvar biome-query--var-names-cache nil
+  "Cache for variable names.")
+
 ;; TODO delete this
 (setq biome-query--layout-cache (make-hash-table :test 'equal))
 
@@ -96,9 +111,85 @@ case, the value is a list of variable names available in the group.")
   "A dummy method for `biome-query--transient-report'."
   nil)
 
+(defun biome-query--update-names-cache (sections cache)
+  (cl-loop for section in sections
+           do (when-let (fields (alist-get :fields section))
+                (cl-loop for (api-key . params) in fields
+                         do (puthash api-key (alist-get :name params) cache)))
+           do (when-let (children (or (alist-get :sections section)
+                                      (alist-get :children section)))
+                (biome-query--update-names-cache children cache))))
+
+(defun biome-query--get-var-names-cache ()
+  (let* ((name (alist-get :name biome-query-current))
+         (cache (alist-get name biome-query--var-names-cache
+                           nil nil #'equal)))
+    (if (and (hash-table-p cache) (> (hash-table-count cache) 0)) cache
+      (setq cache (make-hash-table :test #'equal))
+      (biome-query--update-names-cache
+       (alist-get :sections biome-query--current-section)
+       cache)
+      (setf (alist-get name biome-query--var-names-cache
+                       nil nil #'equal)
+            cache))))
+
 (cl-defmethod transient-format ((_ biome-query--transient-report))
   "Format the current report."
-  (prin1-to-string biome-query-current))
+  (let ((group (alist-get :group biome-query-current))
+        (var-names (biome-query--get-var-names-cache))
+        lat lon group-vars vars)
+    (dolist (item (alist-get :params biome-query-current))
+      (cond
+       ((stringp item)
+        (push (gethash item var-names) vars))
+       ((equal (car item) group)
+        (setq group-vars (mapcar (lambda (x) (gethash x var-names))
+                                 (cdr item))))
+       ((equal (car item) "latitude")
+        (setq lat (cdr item)))
+       ((equal (car item) "longitude")
+        (setq lon (cdr item)))
+       ((member (car item) '("end_date" "start_date"))
+        (push
+         (format "%s: %s" (propertize (gethash (car item) var-names)
+                                      'face 'font-lock-variable-name-face)
+                 (propertize
+                  (format-time-string biome-query-date-format (cdr item))
+                  'face 'transient-value-face))
+         vars))
+       (t (push
+           (format "%s: %s"
+                   (propertize
+                    (gethash (car item) var-names)
+                    'face 'font-lock-variable-name-face)
+                   (propertize
+                    (prin1-to-string (cdr item))
+                    'face 'transient-value-face))
+           vars))))
+    (setq group-vars (nreverse group-vars)
+          vars (nreverse vars))
+    (concat "Location: "
+            (if lat (propertize (number-to-string lat) 'face 'transient-value)
+              (propertize "unset" 'face 'error))
+            " "
+            (if lon (propertize (number-to-string lon) 'face 'transient-value)
+              (propertize "unset" 'face 'error))
+            (when-let ((_ (and lat lon))
+                       (loc (seq-find
+                             (lambda (x) (equal (cdr x) (list lat lon)))
+                             biome-query-coords)))
+              (format " (%s)" (propertize (car loc) 'face 'transient-value)")"))
+            "\n"
+            (when group
+              (format "Group: %s\n"
+                      (propertize group 'face 'transient-value)))
+            (when group-vars
+              (format "Group variables: %s\n"
+                      (mapconcat (lambda (x) (propertize x 'face 'font-lock-variable-name-face))
+                                 group-vars "; ")))
+            (when vars
+              (format "Variables: %s\n"
+                      (mapconcat #'identity vars "; "))))))
 
 (transient-define-infix biome-query--transient-report-infix ()
   :class 'biome-query--transient-report
@@ -188,6 +279,7 @@ OBJ is an instance of `biome-query--transient-switch-variable'."
 %d is formatted using `transient-format-description'.
 %v is formatted using `transient-format-value'."
   (concat
+   " "
    (string-pad (transient-format-key obj) 6)
    (transient-format-description obj)
    (when (oref obj value)
@@ -230,19 +322,14 @@ OBJ is an instance of `biome-query--transient-select-variable'."
          'face 'transient-value)
       (propertize "unset" 'face 'transient-inactive-value))))
 
-(defclass biome-query--transient-date-variable (biome-query--transient-variable)
-  ((reader :initform #'biome-query--transient-date-reader))
+(defclass biome-query--transient-date-variable (biome-query--transient-variable) ()
   "A transient class to display a date variable.")
 
-(defun biome-query--transient-date-reader (prompt _initial-input _history)
-  "Read the date with `org-read-date'.
-
-PROMPT is a string to prompt with.
-
-Returns a UNIX timestamp."
-  (time-convert
-   (org-read-date nil t nil prompt)
-   'integer))
+(cl-defmethod transient-infix-read ((obj biome-query--transient-date-variable))
+  (unless (oref obj value)
+    (time-convert
+     (org-read-date nil t nil (concat (oref obj description) " "))
+     'integer)))
 
 (cl-defmethod transient-format-value ((obj biome-query--transient-date-variable))
   "Format the value of OBJ.
@@ -253,7 +340,7 @@ OBJ is an instance of `biome-query--transient-date-variable'."
         (propertize
          (format-time-string
           ;; TODO fix
-          org-journal-date-format
+          biome-query-date-format
           (seconds-to-time
            value))
          'face 'transient-value)
@@ -307,7 +394,7 @@ OBJ is an instance of `biome-query--transient-date-variable'."
    (integer :initarg :integer :initform nil))
   "A transient class to display a number variable.")
 
-(cl-defmethod transient-infix-read ((obj biome-query--transient-variable))
+(cl-defmethod transient-infix-read ((obj biome-query--transient-number-variable))
   "Read the value of OBJ."
   (let ((prompt
          (concat
