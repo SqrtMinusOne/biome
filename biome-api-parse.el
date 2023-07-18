@@ -1,4 +1,4 @@
-;;; biome-api-parse.el --- API for Open Meteo  -*- lexical-binding: t -*-
+;;; biome-api-parse.el --- Parsing API data for Open Meteo  -*- lexical-binding: t -*-
 
 ;; Copyright (C) 2023 Korytov Pavel
 
