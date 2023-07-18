@@ -137,7 +137,7 @@ case, the value is a list of variable names available in the group.")
   "Format the current report."
   (let ((group (alist-get :group biome-query-current))
         (var-names (biome-query--get-var-names-cache))
-        lat lon group-vars vars)
+        lat lon group-vars line-vars vars)
     (dolist (item (alist-get :params biome-query-current))
       (cond
        ((stringp item)
@@ -151,22 +151,32 @@ case, the value is a list of variable names available in the group.")
         (setq lon (cdr item)))
        ((member (car item) '("end_date" "start_date"))
         (push
-         (format "%s: %s" (propertize (gethash (car item) var-names)
-                                      'face 'font-lock-variable-name-face)
+         (format "%s: %s" (propertize
+                           (gethash (car item) var-names (capitalize (car item)))
+                           'face 'font-lock-variable-name-face)
                  (propertize
                   (format-time-string biome-query-date-format (cdr item))
                   'face 'transient-value-face))
          vars))
+       ((listp (cdr item))
+        (push
+         (format "%s: %s"
+                 (gethash (car item) var-names (capitalize (car item)))
+                 (propertize
+                  (mapconcat #'identity (cdr item) "; ")
+                  'face 'font-lock-variable-name-face))
+         line-vars))
        (t (push
            (format "%s: %s"
                    (propertize
-                    (gethash (car item) var-names)
+                    (gethash (car item) var-names (capitalize (car item)))
                     'face 'font-lock-variable-name-face)
                    (propertize
                     (prin1-to-string (cdr item))
                     'face 'transient-value-face))
            vars))))
     (setq group-vars (nreverse group-vars)
+          line-vars (nreverse line-vars)
           vars (nreverse vars))
     (concat "Location: "
             (if lat (propertize (number-to-string lat) 'face 'transient-value)
@@ -189,7 +199,9 @@ case, the value is a list of variable names available in the group.")
                                  group-vars "; ")))
             (when vars
               (format "Variables: %s\n"
-                      (mapconcat #'identity vars "; "))))))
+                      (mapconcat #'identity vars "; ")))
+            (when line-vars
+              (concat (mapconcat #'identity line-vars "\n") "\n")))))
 
 (transient-define-infix biome-query--transient-report-infix ()
   :class 'biome-query--transient-report
