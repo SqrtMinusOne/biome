@@ -133,6 +133,11 @@ case, the value is a list of variable names available in the group.")
                        nil nil #'equal)
             cache))))
 
+(defun biome-query--get-header (key var-names)
+  (gethash key var-names
+           (capitalize (replace-regexp-in-string
+                        (regexp-quote "_") " " key))))
+
 (cl-defmethod transient-format ((_ biome-query--transient-report))
   "Format the current report."
   (let ((group (alist-get :group biome-query-current))
@@ -141,10 +146,12 @@ case, the value is a list of variable names available in the group.")
     (dolist (item (alist-get :params biome-query-current))
       (cond
        ((stringp item)
-        (push (gethash item var-names) vars))
+        (push (biome-query--get-header item var-names) vars))
        ((equal (car item) group)
-        (setq group-vars (mapcar (lambda (x) (gethash x var-names))
-                                 (cdr item))))
+        (setq group-vars
+              (mapcar (lambda (x)
+                        (biome-query--get-header x var-names))
+                      (cdr item))))
        ((equal (car item) "latitude")
         (setq lat (cdr item)))
        ((equal (car item) "longitude")
@@ -152,7 +159,7 @@ case, the value is a list of variable names available in the group.")
        ((member (car item) '("end_date" "start_date"))
         (push
          (format "%s: %s" (propertize
-                           (gethash (car item) var-names (capitalize (car item)))
+                           (biome-query--get-header (car item) var-names)
                            'face 'font-lock-variable-name-face)
                  (propertize
                   (format-time-string biome-query-date-format (cdr item))
@@ -161,7 +168,7 @@ case, the value is a list of variable names available in the group.")
        ((listp (cdr item))
         (push
          (format "%s: %s"
-                 (gethash (car item) var-names (capitalize (car item)))
+                 (biome-query--get-header (car item) var-names)
                  (propertize
                   (mapconcat #'identity (cdr item) "; ")
                   'face 'font-lock-variable-name-face))
@@ -169,7 +176,7 @@ case, the value is a list of variable names available in the group.")
        (t (push
            (format "%s: %s"
                    (propertize
-                    (gethash (car item) var-names (capitalize (car item)))
+                    (biome-query--get-header (car item) var-names)
                     'face 'font-lock-variable-name-face)
                    (propertize
                     (prin1-to-string (cdr item))

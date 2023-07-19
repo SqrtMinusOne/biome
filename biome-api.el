@@ -77,19 +77,19 @@ QUERY is a form as defined by `biome-query-current'."
   (interactive)
   (quit-window t))
 
-(defvar open-meteo-error-mode-map
+(defvar biome-api-error-mode-map
   (let ((keymap (make-sparse-keymap)))
     (define-key keymap (kbd "q") #'biome-error-quit)
     (when (fboundp 'evil-define-key*)
       (evil-define-key* 'normal keymap
         "q" #'biome-error-quit))
     keymap)
-  "Keymap for `open-meteo-error-mode'.")
+  "Keymap for `biome-api-error-mode'.")
 
-(define-derived-mode open-meteo-error-mode text-mode "Lyrics view"
+(define-derived-mode biome-api-error-mode text-mode "Lyrics view"
   "Major mode for viewing open meteo errors.
 
-\\{open-meteo-error-mode-map}"
+\\{biome-api-error-mode-map}"
   (read-only-mode 1))
 
 (defun biome-api--show-error (error-thrown response)
@@ -107,7 +107,7 @@ QUERY is a form as defined by `biome-query-current'."
                   "\n")
         (insert "Can't parse reason. Raw response: ")
         (insert (prin1-to-string response)))
-      (open-meteo-error-mode))
+      (biome-api-error-mode))
     (switch-to-buffer buffer)))
 
 (defun biome-api-get (query callback)
