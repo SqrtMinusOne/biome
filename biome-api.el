@@ -68,7 +68,7 @@ QUERY is a form as defined by `biome-query-current'."
               (cons
                (car item)
                (cond
-                ((listp (cdr item)) (mapconcat #'identity (cdr item) ","))
+                ((listp (cdr item)) (mapconcat #'identity (reverse (cdr item)) ","))
                 (t (cdr item)))))))
           (alist-get :params query)))
 
@@ -114,7 +114,7 @@ QUERY is a form as defined by `biome-query-current'."
   "Get data from Open Meteo API.
 
 QUERY is a form as defined by `biome-query-current'.  CALLBACK is
-called with the data as its only argument."
+called with QUERY and the data returned by the API as arguments."
   (let ((url (alist-get (alist-get :name query)
                         biome-api-urls nil nil #'equal)))
     (request url
@@ -123,7 +123,7 @@ called with the data as its only argument."
       :parser #'json-read
       :success (cl-function
                 (lambda (&key data &allow-other-keys)
-                  (funcall callback data)))
+                  (funcall callback (copy-tree query) data)))
       :error
       (cl-function (lambda (&key error-thrown response &allow-other-keys)
                      (biome-api--show-error error-thrown response))))))

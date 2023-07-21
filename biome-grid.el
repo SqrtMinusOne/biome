@@ -26,29 +26,77 @@
 
 ;;; Code:
 (require 'cl-lib)
-(require 'biome-query)
+(require 'ct)
+(require 'seq)
 (require 'tabulated-list)
+(require 'biome-query)
 
 (defcustom biome-grid-display-units t
   "Display units in the grid."
   :type 'boolean
   :group 'biome)
 
+(defcustom biome-grid-format-units
+  '(("°C" . (gradient
+             (-40 . "#ae64a0")
+             (-30 . "#9488d2")
+             (-15 . "#90cfd2")
+             (-5 . "#66adbb")
+             (5 . "#508c40")
+             (15 . "#aba10e")
+             (25 . "#f39506")
+             (35 . "#bf4112")
+             (40 . "#8a2b0a"))))
+  "Format units in the grid."
+  :group 'biome)
+
+(defvar biome-grid-mode-map
+  (let ((keymap (make-sparse-keymap)))
+    (define-key keymap (kbd "q") #'quit-window)
+    (when (fboundp 'evil-define-key*)
+      (evil-define-key* 'normal keymap
+        "q" #'quit-window))
+    keymap)
+  "Keymap for `biome-api-error-mode'.")
+
 (define-derived-mode biome-grid-mode tabulated-list-mode "Biome Grid"
-  "Major mode for displaying biome results."
-  (setq-local truncate-lines t))
+  "Major mode for displaying biome results.")
 
-(defun biome-grid--format-entries (entries unit)
-  (mapcar
-   (lambda (entry)
-     (if (stringp entry)
-         entry
-       (prin1-to-string entry)))
-   entries))
+(defun biome-grid--blend-colors (c1 c2 val)
+  "Blend colors C1 and C2 by VAL.
 
-(defun biome-grid--get-width (entries col-name)
-  (cl-loop for entry in (cons col-name entries)
-           maximize (length entry)))
+C1 and C2 are hex RGS strings, VAL is a number between 0 and 1."
+  (let ((color1 (ct-get-rgb c1))
+        (color2 (ct-get-rgb c2)))
+    (apply #'ct-make-rgb
+           (cl-loop for v1 in color1
+                    for v2 in color2
+                    collect (+ (* (- 1 val) v1) (* val v2))))))
+
+(defun biome-grid--format-gradient (value def col-width)
+  (let* ((background-color
+          (cl-loop for (border1 . color1) in def
+                   for (border2 . color2) in (cdr def)
+                   if (< value border1) return color1
+                   if (and (>= value border1) (<= value border2))
+                   return (biome-grid--blend-colors
+                           color1 color2 (/ (- value border1) (- border2 border1)))
+                   finally return color2))
+         (foreground-color (if (ct-light-p background-color 65) "#000000" "#ffffff")))
+    (propertize
+     (format (format "%%%ds" col-width) value)
+     'face `(:background ,background-color :foreground ,foreground-color))))
+
+(defun biome-grid--format-entries (entries unit col-width)
+  (let ((format-def (alist-get unit biome-grid-format-units nil nil #'equal)))
+    (mapcar
+     (lambda (entry)
+       (cond
+        ((stringp entry) entry)
+        ((eq (car-safe format-def) 'gradient)
+         (biome-grid--format-gradient entry (cdr format-def) col-width))
+        (t (prin1-to-string entry))))
+     entries)))
 
 (defun biome-grid--set-list (query results)
   (let* ((group (intern (alist-get :group query)))
@@ -56,13 +104,16 @@
          (var-names (biome-query--get-var-names-cache))
          all-entries columns)
     (cl-loop for (key . values) in (alist-get group results)
-             for unit = (alist-get key (alist-get group-units results))
+             for unit = (replace-regexp-in-string
+                         (regexp-quote "%") "%%"
+                         (alist-get key (alist-get group-units results)))
              for var-name = (biome-query--get-header (symbol-name key) var-names)
              for col-name = (if biome-grid-display-units
                                 (format "%s (%s)" var-name unit)
                               var-name)
-             for entries = (biome-grid--format-entries values unit)
-             for col-width = (biome-grid--get-width entries col-name)
+             for col-width = (cl-loop for entry in (cons col-name entries)
+                                      maximize (+ 0 (length entry)))
+             for entries = (biome-grid--format-entries values unit col-width)
              do (push (list col-name col-width nil) columns)
              do (push entries all-entries))
     (setq-local
@@ -82,11 +133,13 @@
 
 (defun biome-grid (query results)
   "Display RESULTS in a grid."
+  (setq my/test results)
   (let ((buf (generate-new-buffer "*biome-grid*")))
     (with-current-buffer buf
       (biome-grid--set-list query results)
-      (biome-grid-mode))
-    (display-buffer buf #'display-buffer-same-window)))
+      (biome-grid-mode)
+      (toggle-truncate-lines 1))
+    (switch-to-buffer buf)))
 
 (provide 'biome-grid)
 ;;; biome-grid.el ends here

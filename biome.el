@@ -5,7 +5,7 @@
 ;; Author: Korytov Pavel <thexcloud@gmail.com>
 ;; Maintainer: Korytov Pavel <thexcloud@gmail.com>
 ;; Version: 0.1.0
-;; Package-Requires: ((emacs "27.1"))
+;; Package-Requires: ((emacs "27.1") (transient "0.3.7") (ct "0.2") (request "0.3.3") (compat "29.1.4.1"))
 ;; Homepage: https://github.com/SqrtMinusOne/biome
 
 ;; This file is NOT part of GNU Emacs.
@@ -28,9 +28,29 @@
 ;;  TODO
 
 ;;; Code:
+(require 'biome-api)
+(require 'biome-query)
+(require 'biome-grid)
+
 (defgroup biome nil
   "Bountiful Interface to Open Meteo for Emacs."
   :group 'applications)
+
+(defcustom biome-frontend #'biome-grid
+  "The frontend to use for displaying the data.
+
+This has to be a function that receives two arguments: query (as
+defined by `biome-query-current' and the response of the open-meteo
+API."
+  :type 'function
+  :group 'biome)
+
+(defun biome ()
+  "Bountiful Interface to Open Meteo for Emacs."
+  (interactive)
+  (biome-query
+   (lambda (query)
+     (biome-api-get query biome-frontend))))
 
 (provide 'biome)
 ;;; biome.el ends here

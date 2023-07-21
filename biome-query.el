@@ -54,7 +54,8 @@ value will be inserted."
   :group 'biome)
 
 (defcustom biome-query-coords '(("Helsinki, Finland" 60.16952 24.93545)
-                                ("Berlin, Germany" 52.52437 13.41053))
+                                ("Berlin, Germany" 52.52437 13.41053)
+                                ("Dubai, UAE" 25.0657 55.17128))
   "List of locations with their coordinates.
 
 The format is: (name latitude longitude)."
@@ -98,6 +99,9 @@ case, the value is a list of variable names available in the group.")
 
 (defvar biome-query--var-names-cache nil
   "Cache for variable names.")
+
+(defvar biome-query--callback nil
+  "Call this with the selected query.")
 
 ;; TODO delete this
 (setq biome-query--layout-cache (make-hash-table :test 'equal))
@@ -880,6 +884,13 @@ SUFFIXES is a list of suffix definitions."
            (:group . ,(caar (biome-query--section-groups biome-query--current-section)))
            (:params . nil)))))
 
+(defun biome-query--on-return ()
+  "Process the query made by `biome-query'."
+  (interactive)
+  (unless biome-query--callback
+    (user-error "Biome-query--callback is not set"))
+  (funcall biome-query--callback biome-query-current))
+
 (transient-define-prefix biome-query--section (section &optional parents)
   "Render transient for SECTION.
 
@@ -897,6 +908,7 @@ SECTION is a form as defined in `biome-api-parse--page'."
           (biome-query--section-layout section parents)
           `(["Actions"
              :class transient-row
+             ("RET" "Run" biome-query--on-return)
              ("q" "Up" transient-quit-one)
              ("Q" "Quit" transient-quit-all)
              ,(unless parents
@@ -906,7 +918,7 @@ SECTION is a form as defined in `biome-api-parse--page'."
                            (:parents . ,parents))))
     (put 'biome-query-section 'transient--layout nil)))
 
-(transient-define-prefix biome-query ()
+(transient-define-prefix biome-query (callback)
   ["Open Meteo Data"
    :setup-children
    (lambda (_)
@@ -925,7 +937,12 @@ SECTION is a form as defined in `biome-api-parse--page'."
                            (biome-query--section ',params))
                          :transient transient--do-replace))))]
   ["Actions"
-   ("q" "Quit" transient-quit-one)])
+   ("q" "Quit" transient-quit-one)]
+  (interactive (list nil))
+  (unless callback
+    (error "Callback is not set.  Run M-x `biome' instead"))
+  (setq biome-query--callback callback)
+  (transient-setup 'biome-query))
 
 (provide 'biome-query)
 ;;; biome-query.el ends here
