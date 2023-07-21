@@ -46,21 +46,73 @@
              (15 . "#aba10e")
              (25 . "#f39506")
              (35 . "#bf4112")
-             (40 . "#8a2b0a"))))
+             (40 . "#8a2b0a")))
+    ("°F" . (gradient
+             (-40 . "#ae64a0")
+             (-22 . "#9488d2")
+             (5 . "#90cfd2")
+             (23 . "#66adbb")
+             (41 . "#508c40")
+             (59 . "#aba10e")
+             (77 . "#f39506")
+             (95 . "#bf4112")
+             (104 . "#8a2b0a")))
+    ("hPa" . (gradient
+              (980 . "#006794")
+              (1005 . "#469998")
+              (1015 . "#b1b09d")
+              (1025 . "#a36f40")
+              (1030 . "#a0522c")))
+    ("mm" . (gradient
+             (0 . "#3b7ba0")
+             (1.5 . "#3a98a2")
+             (5 . "#35a17f")
+             (8.5 "#47a43e")
+             (15 . "#a0a23b")
+             (25 . "#a53856")
+             (30 . "#a43a9a")))
+    ("wmo code" . wmo-code))
   "Format units in the grid."
   :group 'biome)
 
-(defvar biome-grid-mode-map
-  (let ((keymap (make-sparse-keymap)))
-    (define-key keymap (kbd "q") #'quit-window)
-    (when (fboundp 'evil-define-key*)
-      (evil-define-key* 'normal keymap
-        "q" #'quit-window))
-    keymap)
-  "Keymap for `biome-api-error-mode'.")
+(defcustom biome-grid-wmo-codes
+  '((0 "☀️" "Clear sky")
+    (1 "🌤️" "Mainly clear")
+    (2 "🌥️" "Partly cloudy")
+    (3 "☁️" "Overcast")
+    (45 "🌫️" "Fog")
+    (48 "🌫️" "Depositing rime fog")
+    (51 "💧" "Drizzle (light)")
+    (53 "💧" "Drizzle (moderate)")
+    (55 "💧" "Drizzle (dense)")
+    (56 "🧊" "Freezing drizzle (light)")
+    (57 "🧊" "Freezing drizzle (moderate)")
+    (61 "🌧️" "Rain (light)")
+    (63 "🌧️" "Rain (moderate)")
+    (65 "🌧️" "Rain (heavy)")
+    (66 "🧊" "Freezing rain (light)")
+    (67 "🧊" "Freezing rain (heavy)")
+    (71 "🌨️" "Snow (light)")
+    (73 "🌨️" "Snow (moderate)")
+    (75 "🌨️" "Snow (heavy)")
+    (77 "🌨️" "Snow grains")
+    (80 "🌧️" "Rain showers (light)")
+    (81 "🌧️" "Rain showers (moderate)")
+    (82 "🌧️" "Rain showers (violent)")
+    (85 "🌧️" "Show showers (light)")
+    (86 "🌧️" "Show showers (heavy)")
+    (95 "⛈️" "Thunderstorm")
+    (96 "⛈️" "Thunderstorm with hail (light)")
+    (99 "⛈️" "Thunderstorm with hail (heavy)"))
+  "Descriptions for WMO weather codes.
 
-(define-derived-mode biome-grid-mode tabulated-list-mode "Biome Grid"
-  "Major mode for displaying biome results.")
+The defaults values are takes from open-meteo docs."
+  :group 'biome)
+
+(defcustom biome-grid-wmo-show-emoji t
+  "Show emoji for WMO weather codes."
+  :type 'boolean
+  :group 'biome)
 
 (defun biome-grid--blend-colors (c1 c2 val)
   "Blend colors C1 and C2 by VAL.
@@ -87,16 +139,39 @@ C1 and C2 are hex RGS strings, VAL is a number between 0 and 1."
      (format (format "%%%ds" col-width) value)
      'face `(:background ,background-color :foreground ,foreground-color))))
 
+(defun biome-grid--format-wmo-code (value)
+  "Format WMO code.
+
+VALUE is a WMO number."
+  (let ((format (alist-get value biome-grid-wmo-codes)))
+    (if format
+        (if biome-grid-wmo-show-emoji
+            (format "%s %s" (nth 0 format) (nth 1 format))
+          (format "%s" (nth 1 format)))
+      (format "%s" value))))
+
 (defun biome-grid--format-entries (entries unit col-width)
   (let ((format-def (alist-get unit biome-grid-format-units nil nil #'equal)))
     (mapcar
      (lambda (entry)
        (cond
+        ((or (null entry) (equal entry "")) "")
+        ((eq format-def 'wmo-code)
+         (biome-grid--format-wmo-code entry))
         ((stringp entry) entry)
         ((eq (car-safe format-def) 'gradient)
          (biome-grid--format-gradient entry (cdr format-def) col-width))
         (t (prin1-to-string entry))))
      entries)))
+
+(defun biome-grid--get-col-witdh (col-name entries unit)
+  (let ((width (cl-loop for entry in (cons col-name entries)
+                        maximize (+ 1 (length entry)))))
+    ;; XXX this is necessary to compensate for emojis of different
+    ;; actual width.  Forunately this doesn't break the formmating of
+    ;; the grid (hail `tabulated-list', what a pleasant surprise)
+    (cond ((and (equal unit "wmo code") biome-grid-wmo-show-emoji) (+ width 2))
+          (t width))))
 
 (defun biome-grid--set-list (query results)
   (let* ((group (intern (alist-get :group query)))
@@ -108,11 +183,10 @@ C1 and C2 are hex RGS strings, VAL is a number between 0 and 1."
                          (regexp-quote "%") "%%"
                          (alist-get key (alist-get group-units results)))
              for var-name = (biome-query--get-header (symbol-name key) var-names)
-             for col-name = (if biome-grid-display-units
+             for col-name = (if (and biome-grid-display-units (not (string-empty-p unit)))
                                 (format "%s (%s)" var-name unit)
                               var-name)
-             for col-width = (cl-loop for entry in (cons col-name entries)
-                                      maximize (+ 0 (length entry)))
+             for col-width = (biome-grid--get-col-witdh col-name values unit)
              for entries = (biome-grid--format-entries values unit col-width)
              do (push (list col-name col-width nil) columns)
              do (push entries all-entries))
@@ -130,6 +204,29 @@ C1 and C2 are hex RGS strings, VAL is a number between 0 and 1."
                    acc)
                  all-entries
                  :initial-value (make-vector (length (car all-entries)) nil))))))
+
+(defun biome-grid-bury-or-kill-this-buffer ()
+  "Undisplay the current buffer.
+
+Bury the current buffer, unless there is only one window showing
+it, in which case it is killed."
+  (interactive)
+  (if (> (length (get-buffer-window-list nil nil t)) 1)
+      (bury-buffer)
+    (kill-buffer)))
+
+(defvar biome-grid-mode-map
+  (let ((keymap (make-sparse-keymap)))
+    (define-key keymap (kbd "q") #'biome-grid-bury-or-kill-this-buffer)
+    (when (fboundp 'evil-define-key*)
+      (evil-define-key* 'normal keymap
+        "q" #'biome-grid-bury-or-kill-this-buffer))
+    keymap)
+  "Keymap for `biome-api-error-mode'.")
+
+(define-derived-mode biome-grid-mode tabulated-list-mode "Biome Grid"
+  "Major mode for displaying biome results.")
+
 
 (defun biome-grid (query results)
   "Display RESULTS in a grid."

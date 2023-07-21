@@ -565,7 +565,7 @@ OBJ is an instance of `biome-query--transient-date-variable'."
 
 (transient-define-infix biome-query--transient-group-switch-infix ()
   :class 'biome-query--transient-group-switch
-  :key "S"
+  :key "<tab>"
   :description "Switch group")
 
 ;; Layout generation
