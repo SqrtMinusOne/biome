@@ -30,11 +30,14 @@
 ;; These aren't meant to be used directly by the user.
 
 ;;; Code:
-(require 'biome-api-data)
-(require 'font-lock)
-(require 'org)
 (require 'compat)
+(require 'cl-lib)
+(require 'font-lock)
+(require 'generator)
+(require 'org)
 (require 'transient)
+
+(require 'biome-api-data)
 
 (defcustom biome-query-max-fields-in-row 20
   "Maximum number of fields in a row."
@@ -164,7 +167,7 @@ KEY is the api key of the variable.  VAR-NAMES is the output of
            (capitalize (replace-regexp-in-string
                         (regexp-quote "_") " " key))))
 
-(cl-defmethod transient-format ((_ biome-query--transient-report))
+(cl-defmethod transient-format ((_obj biome-query--transient-report))
   "Format the `biome-query-current'."
   (let ((group (alist-get :group biome-query-current))
         (var-names (biome-query--get-var-names-cache))
@@ -221,7 +224,7 @@ KEY is the api key of the variable.  VAR-NAMES is the output of
                        (loc (seq-find
                              (lambda (x) (equal (cdr x) (list lat lon)))
                              biome-query-coords)))
-              (format " (%s)" (propertize (car loc) 'face 'transient-value)")"))
+              (format " (%s)" (propertize (car loc) 'face 'transient-value)))
             "\n"
             (when group
               (format "Group: %s\n"
@@ -284,16 +287,16 @@ shouldn't exist.")
 
 OBJ is an instance of `biome-query--transient-switch-variable'."
   (oset obj value
-        (not
-         (null
-          (member
-           (oref obj api-key)
-           (if-let ((param (oref obj param)))
-               (cdr
-                (assoc
-                 param
-                 (alist-get :params biome-query-current)))
-             (alist-get :params biome-query-current)))))))
+        (and
+         (member
+          (oref obj api-key)
+          (if-let ((param (oref obj param)))
+              (cdr
+               (assoc
+                param
+                (alist-get :params biome-query-current)))
+            (alist-get :params biome-query-current)))
+         t)))
 
 (defmacro biome-query--update-list (item list-place add)
   "Add or remove ITEM from LIST-PLACE depending on ADD."
@@ -530,7 +533,7 @@ The source of possible coordinates is `biome-query-coords'.")
            (lambda (c) (and (= lat (nth 1 c)) (= lon (nth 2 c))))
            biome-query-coords))))
 
-(cl-defmethod transient-infix-read ((obj biome-query--transient-coords))
+(cl-defmethod transient-infix-read ((_ biome-query--transient-coords))
   "Read the value of OBJ."
   (assoc (completing-read "Select a location" biome-query-coords nil t)
          biome-query-coords))
@@ -655,9 +658,9 @@ it sorts the cartesian product of all prefixes of each word, and it
 gets pretty slow at more than 3 words.  Hence the words are truncated
 at 3."
   (let ((name-low (replace-regexp-in-string (rx (not alnum))  " " (downcase name)))
-        (generated-keys (make-hash-table :test 'equal))
-        (max-weight (or max-weight 6))
-        (max-words (or max-words 3)))
+        (generated-keys (make-hash-table :test 'equal)))
+    (unless max-weight (setq max-weight 6))
+    (unless max-words (setq max-words 3))
     (cl-loop for (key . value) in biome-query--split-items
              do (setq name-low
                       (replace-regexp-in-string (regexp-quote key) value name-low)))

@@ -375,7 +375,6 @@ fields attributes as cdr:
                  (insert html-string)
                  (libxml-parse-html-region (point-min) (point-max))))
          (form (car (dom-by-tag html 'form)))
-         (endpoint (dom-attr form 'action))
          (sections
           (cl-loop with section-name = nil
                    with res = nil

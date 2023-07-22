@@ -62,7 +62,7 @@ QUERY is a form as defined by `biome-query-current'."
              ((stringp item) (cons item "true"))
              ((member (car item) '("end_date" "start_date"))
               (cons (car item)
-                    (format-time-string "%Y-%m-%d" (cdr item))))
+                    (format-time-string "%F" (cdr item))))
              ((listp item)
               (cons
                (car item)
@@ -96,16 +96,16 @@ QUERY is a form as defined by `biome-query-current'."
   (let ((buffer (generate-new-buffer "*biome-api-error*")))
     (with-current-buffer buffer
       (insert
-       (concat "Open Meteo has returned an error.\n"
-               (propertize "Error: " 'face 'font-lock-warning-face)
-               (prin1-to-string error-thrown)
-               "\n"))
+       "Open Meteo has returned an error.\n"
+       (propertize "Error: " 'face 'font-lock-warning-face)
+       (prin1-to-string error-thrown)
+       "\n")
       (condition-case nil
-          (insert (concat (propertize "Reason: " 'face 'font-lock-warning-face)
-                          (alist-get 'reason (request-response-data response)))
+          (insert (propertize "Reason: " 'face 'font-lock-warning-face)
+                  (alist-get 'reason (request-response-data response))
                   "\n")
-        (insert "Can't parse reason. Raw response: ")
-        (insert (prin1-to-string response)))
+        (insert "Can't parse reason. Raw response: \n"
+                (prin1-to-string response)))
       (biome-api-error-mode))
     (switch-to-buffer buffer)))
 
