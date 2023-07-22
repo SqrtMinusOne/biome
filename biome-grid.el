@@ -29,6 +29,7 @@
 (require 'ct)
 (require 'seq)
 (require 'tabulated-list)
+(require 'transient)
 (require 'biome-query)
 
 (defcustom biome-grid-display-units t
@@ -114,6 +115,17 @@ The defaults values are takes from open-meteo docs."
   :type 'boolean
   :group 'biome)
 
+(defvar-local biome-grid--columns-display nil
+  "Which columns to display in the grid.
+
+This is set by the first run of `biome-grid--set-list'.")
+
+(defvar-local biome-grid--current-query nil
+  "Current query for the grid.")
+
+(defvar-local biome-grid--current-results nil
+  "Current results for the grid.")
+
 (defun biome-grid--blend-colors (c1 c2 val)
   "Blend colors C1 and C2 by VAL.
 
@@ -150,7 +162,7 @@ VALUE is a WMO number."
           (format "%s" (nth 1 format)))
       (format "%s" value))))
 
-(defun biome-grid--format-entries (entries unit col-width)
+(defun biome-grid--prepare-entries (entries unit)
   (let ((format-def (alist-get unit biome-grid-format-units nil nil #'equal)))
     (mapcar
      (lambda (entry)
@@ -158,39 +170,61 @@ VALUE is a WMO number."
         ((or (null entry) (equal entry "")) "")
         ((eq format-def 'wmo-code)
          (biome-grid--format-wmo-code entry))
-        ((stringp entry) entry)
+        (t entry)))
+     entries)))
+
+(defun biome-grid--format-entries (entries unit col-width)
+  (let ((format-def (alist-get unit biome-grid-format-units nil nil #'equal)))
+    (mapcar
+     (lambda (entry)
+       (cond
         ((eq (car-safe format-def) 'gradient)
          (biome-grid--format-gradient entry (cdr format-def) col-width))
+        ((numberp entry) (format (format "%%%ds" col-width) entry))
+        ((stringp entry) entry)
         (t (prin1-to-string entry))))
      entries)))
 
 (defun biome-grid--get-col-witdh (col-name entries unit)
-  (let ((width (cl-loop for entry in (cons col-name entries)
-                        maximize (+ 1 (length entry)))))
+  (let ((col-name-width (length col-name))
+        (entry-width
+         (or (cl-loop for entry in entries
+                      maximize (length (if (numberp entry)
+                                           (number-to-string entry) entry)))
+             0)))
     ;; XXX this is necessary to compensate for emojis of different
     ;; actual width.  Forunately this doesn't break the formmating of
     ;; the grid (hail `tabulated-list', what a pleasant surprise)
-    (cond ((and (equal unit "wmo code") biome-grid-wmo-show-emoji) (+ width 2))
-          (t width))))
+    (cond ((and (equal unit "wmo code") biome-grid-wmo-show-emoji) (max col-name-width (+ 1 entry-width)))
+          (t (max col-name-width (+ 1 entry-width))))))
 
 (defun biome-grid--set-list (query results)
   (let* ((group (intern (alist-get :group query)))
          (group-units (intern (format "%s_units" (alist-get :group query))))
          (var-names (biome-query--get-var-names-cache))
-         all-entries columns)
-    (cl-loop for (key . values) in (alist-get group results)
+         (data (seq-filter
+                (lambda (group)
+                  (or (null biome-grid--columns-display)
+                      (nth 1 (alist-get (car group) biome-grid--columns-display))))
+                (alist-get group results)))
+         all-entries columns columns-display)
+    (cl-loop for (key . values) in data
              for unit = (replace-regexp-in-string
                          (regexp-quote "%") "%%"
                          (alist-get key (alist-get group-units results)))
              for var-name = (biome-query--get-header (symbol-name key) var-names)
-             for col-name = (if (and biome-grid-display-units (not (string-empty-p unit)))
-                                (format "%s (%s)" var-name unit)
-                              var-name)
-             for col-width = (biome-grid--get-col-witdh col-name values unit)
-             for entries = (biome-grid--format-entries values unit col-width)
+             for col-name = (if (and biome-grid-display-units
+                                     (not (string-empty-p unit)))
+                                (format "%s (%s)" var-name unit) var-name)
+             for prepared-values = (biome-grid--prepare-entries values unit)
+             for col-width = (biome-grid--get-col-witdh col-name prepared-values unit)
+             for entries = (biome-grid--format-entries prepared-values unit col-width)
              do (push (list col-name col-width nil) columns)
-             do (push entries all-entries))
+             do (push entries all-entries)
+             do (push (list key col-name t) columns-display))
     (setq-local
+     biome-grid--current-query (copy-tree query)
+     biome-grid--current-results results
      tabulated-list-format (vconcat (nreverse columns))
      tabulated-list-entries
      (seq-map-indexed
@@ -203,7 +237,9 @@ VALUE is a WMO number."
                                      (cons entry (aref acc i))))
                    acc)
                  all-entries
-                 :initial-value (make-vector (length (car all-entries)) nil))))))
+                 :initial-value (make-vector (length (car all-entries)) nil))))
+    (unless biome-grid--columns-display
+      (setq biome-grid--columns-display (nreverse columns-display)))))
 
 (defun biome-grid-bury-or-kill-this-buffer ()
   "Undisplay the current buffer.
@@ -215,26 +251,64 @@ it, in which case it is killed."
       (bury-buffer)
     (kill-buffer)))
 
+(defun biome-grid--update-columns (columns)
+  (interactive (list (transient-args transient-current-command)))
+  (setq biome-grid--columns-display
+        (cl-loop for (key name _display) in biome-grid--columns-display
+                 collect (list key name (member (format "--%s" key) columns))))
+  (biome-grid--set-list biome-grid--current-query biome-grid--current-results)
+  (tabulated-list-print t)
+  (tabulated-list-init-header))
+
+(transient-define-prefix biome-grid-columns ()
+  "Toggle columns in biome-grid buffer."
+  ["Toggle columns"
+   :setup-children
+   (lambda (_)
+     (let ((keys (biome-query--unique-keys
+                  (mapcar #'cadr biome-grid--columns-display) '("q"))))
+       (cl-loop for (api-key name display) in biome-grid--columns-display
+                for key = (gethash name keys)
+                collect
+                (transient-parse-suffix
+                 transient-prefix
+                 `(,key ,name ,(format "--%s" api-key)
+                        :init-value
+                        (lambda (obj)
+                          (oset obj value ,(if display (format "--%s" api-key) nil))))))))]
+  ["Actions"
+   :class transient-row
+   ("RET" "Apply" biome-grid--update-columns :transient t)
+   ("q" "Quit" transient-quit-one)])
+
 (defvar biome-grid-mode-map
   (let ((keymap (make-sparse-keymap)))
+    (set-keymap-parent keymap tabulated-list-mode-map)
     (define-key keymap (kbd "q") #'biome-grid-bury-or-kill-this-buffer)
+    (define-key keymap (kbd "c") #'biome-grid-columns)
     (when (fboundp 'evil-define-key*)
       (evil-define-key* 'normal keymap
-        "q" #'biome-grid-bury-or-kill-this-buffer))
+        "q" #'biome-grid-bury-or-kill-this-buffer
+        "c" #'biome-grid-columns
+        "{" #'tabulated-list-narrow-current-column
+        "}" #'tabulated-list-widen-current-column))
     keymap)
-  "Keymap for `biome-api-error-mode'.")
+  "Keymap for `biome-grid-mode'.")
 
 (define-derived-mode biome-grid-mode tabulated-list-mode "Biome Grid"
   "Major mode for displaying biome results.")
 
-
 (defun biome-grid (query results)
-  "Display RESULTS in a grid."
-  (setq my/test results)
+  "Display RESULTS in a grid.
+
+QUERY is a form as defined by `biome-query-current'.  RESULTS is a
+response of Open Meteo (returned by `biome-api-get'."
   (let ((buf (generate-new-buffer "*biome-grid*")))
     (with-current-buffer buf
-      (biome-grid--set-list query results)
       (biome-grid-mode)
+      (biome-grid--set-list query results)
+      (tabulated-list-print t)
+      (tabulated-list-init-header)
       (toggle-truncate-lines 1))
     (switch-to-buffer buf)))
 
