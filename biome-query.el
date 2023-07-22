@@ -892,6 +892,16 @@ SUFFIXES is a list of suffix definitions."
     (user-error "Biome-query--callback is not set"))
   (funcall biome-query--callback biome-query-current))
 
+(defun biome-query--generate-preset ()
+  (interactive)
+  (let ((buf (generate-new-buffer "*biome-preset*")))
+    (with-current-buffer buf
+      (emacs-lisp-mode)
+      (insert ";; Add this to your config\n")
+      (insert (pp-to-string `(biome-def-preset ,(gensym "biome-query-preset-")
+                               ,biome-query-current))))
+    (switch-to-buffer buf)))
+
 (transient-define-prefix biome-query--section (section &optional parents)
   "Render transient for SECTION.
 
@@ -912,12 +922,25 @@ SECTION is a form as defined in `biome-api-parse--page'."
              ("RET" "Run" biome-query--on-return)
              ("q" "Up" transient-quit-one)
              ("Q" "Quit" transient-quit-all)
-             ,(unless parents
-                '("R" "Reset" biome-query--reset-report :transient t))])))
+             ,@(unless parents
+                 '(("P" "Generate preset defition" biome-query--generate-preset)
+                   ("R" "Reset" biome-query--reset-report :transient t)))])))
         (transient-setup 'biome-query--section nil nil :scope
                          `((:section . ,section)
                            (:parents . ,parents))))
     (put 'biome-query-section 'transient--layout nil)))
+
+(defun biome-query--section-open (name)
+  (let ((params (alist-get name biome-api-data nil nil #'equal)))
+    (unless params
+      (error "No such section: %s" name))
+    (setq biome-query--current-section params)
+    (when (and biome-query-current
+               (not (equal name (alist-get :name biome-query-current))))
+      (setq biome-query-current nil))
+    (unless biome-query-current
+      (biome-query--reset-report))
+    (biome-query--section params)))
 
 (transient-define-prefix biome-query (callback)
   ["Open Meteo Data"
@@ -929,15 +952,11 @@ SECTION is a form as defined in `biome-api-parse--page'."
                        `(,(alist-get :key params)
                          ,name
                          (lambda () (interactive)
-                           (setq biome-query--current-section ',params)
-                           (when (and biome-query-current
-                                      (not (equal ,name (alist-get :name biome-query-current))))
-                             (setq biome-query-current nil))
-                           (unless biome-query-current
-                             (biome-query--reset-report))
-                           (biome-query--section ',params))
+                           (biome-query--section-open ,name))
                          :transient transient--do-replace))))]
   ["Actions"
+   :class transient-row
+   ("r" "Resume" biome-resume :transient transient--do-replace)
    ("q" "Quit" transient-quit-one)]
   (interactive (list nil))
   (unless callback

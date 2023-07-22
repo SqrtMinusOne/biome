@@ -52,5 +52,31 @@ API."
    (lambda (query)
      (biome-api-get query biome-frontend))))
 
+(defun biome-resume ()
+  "Resume the last query."
+  (interactive)
+  (unless biome-query-current
+    (user-error "Nothing to resume"))
+  ;; `biome-query--callback' should have been already set by the
+  ;; previous invocation of `biome'
+  (biome-query--section-open (alist-get :name biome-query-current)))
+
+(defmacro biome-def-preset (name params)
+  "Declare a query preset.
+
+NAME is the name of the target function.  PARAMS is a form as defined
+by `biome-query-current'.
+
+This macro creates an interactive function that runs `biome'with
+PARAMS as query."
+  (declare (indent 1))
+  `(defun ,name ()
+     (interactive)
+     (setq biome-query--callback
+           (lambda (query)
+             (biome-api-get query biome-frontend)))
+     (setq biome-query-current ',params)
+     (biome-query--section-open (alist-get :name ',params))))
+
 (provide 'biome)
 ;;; biome.el ends here
