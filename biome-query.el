@@ -72,7 +72,8 @@ have to be displayed separately.")
 
 (defconst biome-query--split-items '(("timezone" . "time zone")
                                      ("timeformat" . "time format")
-                                     ("weathercode" . "weather code"))
+                                     ("weathercode" . "weather code")
+                                     ("iso8601" . "iso 8"))
   "Items to split into separate words for generating keys.")
 
 (defconst biome-query--ignore-items '("m" "cm")
@@ -350,9 +351,10 @@ OBJ is an instance of `biome-query--transient-select-variable'."
 
 (cl-defmethod transient-infix-read ((obj biome-query--transient-date-variable))
   (unless (oref obj value)
-    (time-convert
-     (org-read-date nil t nil (concat (oref obj description) " "))
-     'integer)))
+    (let ((org-read-date-force-compatible-dates nil))
+      (time-convert
+       (org-read-date nil t nil (concat (oref obj description) " "))
+       'integer))))
 
 (cl-defmethod transient-format-value ((obj biome-query--transient-date-variable))
   "Format the value of OBJ.
@@ -542,7 +544,6 @@ OBJ is an instance of `biome-query--transient-date-variable'."
 
 (cl-defmethod transient-infix-read ((obj biome-query--transient-group-switch))
   "Read the value of OBJ."
-  (setq my/test (list (oref obj options) (oref obj value)))
   (let* ((options (mapcar
                    (lambda (c) (cons (cdr c) (car c)))
                    (oref obj options)))
