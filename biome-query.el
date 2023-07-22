@@ -220,7 +220,9 @@ KEY is the api key of the variable.  VAR-NAMES is the output of
             " "
             (if lon (propertize (number-to-string lon) 'face 'transient-value)
               (propertize "unset" 'face 'error))
-            (when-let ((_nothing (and lat lon))
+            ;; XXX byte-compiler thinks the variable `nothing' is
+            ;; used, so I can't call it "_"
+            (when-let ((nothing (and lat lon))
                        (loc (seq-find
                              (lambda (x) (equal (cdr x) (list lat lon)))
                              biome-query-coords)))
@@ -714,12 +716,13 @@ exclude from the result."
                  (append
                   ;; Unset forbidden keys
                   (cl-loop for name in names
-                           for key = (gethash name keys-by-name)
-                           if (or (null key) (and
-                                              exclude key
-                                              (seq-some
-                                               (lambda (ex) (string-prefix-p ex key))
-                                               exclude)))
+                           for key-1 = (gethash name key-1s-by-name)
+                           if (or (null key-1)
+                                  (and
+                                   exclude key-1
+                                   (seq-some
+                                    (lambda (ex) (string-prefix-p ex key-1))
+                                    exclude)))
                            collect name)
                   ;; Duplicate keys
                   (cl-loop for key being the hash-key of names-by-key
@@ -736,9 +739,10 @@ exclude from the result."
       (cl-loop
        for name in names-to-update
        for old-key = (gethash name keys-by-name)
-       if old-key do (puthash old-key (remove name (gethash old-key names-by-key)) names-by-key)
-       do (puthash key (cons name (gethash key names-by-key)) names-by-key)
-       do (puthash name (iter-next (gethash name iters)) keys-by-name)))
+       for key-1 = (iter-next (gethash name iters))
+       if old-key-1 do (puthash old-key-1 (remove name (gethash old-key-1 names-by-key-1)) names-by-key-1)
+       do (puthash key-1 (cons name (gethash key-1 names-by-key-1)) names-by-key-1)
+       do (puthash name key-1 key-1s-by-name)))
     keys-by-name))
 
 (defun biome--query-section-fields-define-infixes (fields keys param infix-name)

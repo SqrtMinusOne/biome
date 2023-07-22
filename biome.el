@@ -58,7 +58,8 @@ API."
 (defun biome ()
   "Bountiful Interface to Open Meteo for Emacs."
   (interactive)
-  (biome-query
+  (funcall-interactively
+   #'biome-query
    (lambda (query)
      (biome-api-get query biome-frontend))))
 
