@@ -42,51 +42,51 @@
 
 FORMAT is an expression as defined by `biome-grid-format'."
   (nreverse
-   (reduce (lambda (acc def)
-             (push def acc)
-             (let ((unit (nth 0 def))
-                   (format-def (nth 2 def)))
-               (when (and unit (eq (car-safe format-def) 'gradient))
-                 (pcase unit
-                   ("°C" (push `("°F" ,(nth 1 def)
-                                 (gradient
-                                  . ,(mapcar (lambda (c)
-                                               (cons (+ (* 1.8 (car c)) 32) (cdr c)))
-                                             (cdr format-def))))
-                               acc))
-                   ("m/s"
-                    (push `("km/h" ,(nth 1 def)
-                            (gradient
-                             . ,(mapcar (lambda (c)
-                                          (cons (* 3.6 (car c)) (cdr c)))
-                                        (cdr format-def))))
-                          acc)
-                    (push `("mph" ,(nth 1 def)
-                            (gradient
-                             . ,(mapcar (lambda (c)
-                                          (cons (* 2.237 (car c)) (cdr c)))
-                                        (cdr format-def))))
-                          acc)
-                    (push `("knots" ,(nth 1 def)
-                            (gradient
-                             . ,(mapcar (lambda (c)
-                                          (cons (* 1.944 (car c)) (cdr c)))
-                                        (cdr format-def))))
-                          acc))
-                   ("mm" (push `("inch" ,(nth 1 def)
-                                 (gradient
-                                  . ,(mapcar (lambda (c)
-                                               (cons (/ (car c) 25.4) (cdr c)))
-                                             (cdr format-def))))
-                               acc))
-                   ("cm" (push `("inch" ,(nth 1 def)
-                                 (gradient
-                                  . ,(mapcar (lambda (c)
-                                               (cons (/ (car c) 2.54) (cdr c)))
-                                             (cdr format-def))))
-                               acc)))))
-             acc)
-           format :initial-value nil)))
+   (cl-reduce (lambda (acc def)
+                (push def acc)
+                (let ((unit (nth 0 def))
+                      (format-def (nth 2 def)))
+                  (when (and unit (eq (car-safe format-def) 'gradient))
+                    (pcase unit
+                      ("°C" (push `("°F" ,(nth 1 def)
+                                    (gradient
+                                     . ,(mapcar (lambda (c)
+                                                  (cons (+ (* 1.8 (car c)) 32) (cdr c)))
+                                                (cdr format-def))))
+                                  acc))
+                      ("m/s"
+                       (push `("km/h" ,(nth 1 def)
+                               (gradient
+                                . ,(mapcar (lambda (c)
+                                             (cons (* 3.6 (car c)) (cdr c)))
+                                           (cdr format-def))))
+                             acc)
+                       (push `("mph" ,(nth 1 def)
+                               (gradient
+                                . ,(mapcar (lambda (c)
+                                             (cons (* 2.237 (car c)) (cdr c)))
+                                           (cdr format-def))))
+                             acc)
+                       (push `("knots" ,(nth 1 def)
+                               (gradient
+                                . ,(mapcar (lambda (c)
+                                             (cons (* 1.944 (car c)) (cdr c)))
+                                           (cdr format-def))))
+                             acc))
+                      ("mm" (push `("inch" ,(nth 1 def)
+                                    (gradient
+                                     . ,(mapcar (lambda (c)
+                                                  (cons (/ (car c) 25.4) (cdr c)))
+                                                (cdr format-def))))
+                                  acc))
+                      ("cm" (push `("inch" ,(nth 1 def)
+                                    (gradient
+                                     . ,(mapcar (lambda (c)
+                                                  (cons (/ (car c) 2.54) (cdr c)))
+                                                (cdr format-def))))
+                                  acc)))))
+                acc)
+              format :initial-value nil)))
 
 (defcustom biome-grid-format
   (biome-grid--format-units
@@ -590,7 +590,7 @@ transient switches)."
                 for key = (gethash name keys)
                 collect
                 (transient-parse-suffix
-                 transient-prefix
+                 'transient-prefix
                  `(,key ,name ,(format "--%s" api-key)
                         :init-value
                         (lambda (obj)

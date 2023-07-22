@@ -104,8 +104,9 @@ QUERY is a form as defined by `biome-query-current'."
           (insert (propertize "Reason: " 'face 'font-lock-warning-face)
                   (alist-get 'reason (request-response-data response))
                   "\n")
-        (insert "Can't parse reason. Raw response: \n"
-                (prin1-to-string response)))
+        (error
+         (insert "Can't parse reason. Raw response: \n"
+                 (prin1-to-string response))))
       (biome-api-error-mode))
     (switch-to-buffer buffer)))
 

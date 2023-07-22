@@ -220,7 +220,7 @@ KEY is the api key of the variable.  VAR-NAMES is the output of
             " "
             (if lon (propertize (number-to-string lon) 'face 'transient-value)
               (propertize "unset" 'face 'error))
-            (when-let ((_ (and lat lon))
+            (when-let ((_nothing (and lat lon))
                        (loc (seq-find
                              (lambda (x) (equal (cdr x) (list lat lon)))
                              biome-query-coords)))
@@ -678,7 +678,7 @@ at 3."
            (seq-lengths (mapcar #'length sequences)))
       (dolist (item-take (thread-last
                            (reverse sequences)
-                           (reduce #'biome-query--cartesian-product)
+                           (cl-reduce #'biome-query--cartesian-product)
                            (mapcar (lambda (it) (if (listp it) (nreverse it) (list it))))
                            ;; XXX this seems to be just a bit faster than `seq-sort-by'.
                            (mapcar (lambda (it)
@@ -736,10 +736,9 @@ exclude from the result."
       (cl-loop
        for name in names-to-update
        for old-key = (gethash name keys-by-name)
-       for key = (iter-next (gethash name iters))
        if old-key do (puthash old-key (remove name (gethash old-key names-by-key)) names-by-key)
        do (puthash key (cons name (gethash key names-by-key)) names-by-key)
-       do (puthash name key keys-by-name)))
+       do (puthash name (iter-next (gethash name iters)) keys-by-name)))
     keys-by-name))
 
 (defun biome--query-section-fields-define-infixes (fields keys param infix-name)
@@ -990,7 +989,7 @@ SECTION is a form as defined in `biome-api-parse--page'."
       (setq biome-query-current nil))
     (unless biome-query-current
       (biome-query--reset-report))
-    (biome-query--section params)))
+    (funcall-interactively #'biome-query--section params)))
 
 (transient-define-prefix biome-query (callback)
   ["Open Meteo Data"
