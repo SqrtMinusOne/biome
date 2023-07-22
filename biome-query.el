@@ -716,7 +716,7 @@ exclude from the result."
                  (append
                   ;; Unset forbidden keys
                   (cl-loop for name in names
-                           for key-1 = (gethash name key-1s-by-name)
+                           for key-1 = (gethash name keys-by-name)
                            if (or (null key-1)
                                   (and
                                    exclude key-1
@@ -739,8 +739,8 @@ exclude from the result."
        for name in names-to-update
        for old-key = (gethash name keys-by-name)
        for key-1 = (iter-next (gethash name iters))
-       if old-key do (puthash old-key (remove name (gethash old-key names-by-key-1)) names-by-key-1)
-       do (puthash key-1 (cons name (gethash key-1 names-by-key-1)) names-by-key-1)
+       if old-key do (puthash old-key (remove name (gethash old-key names-by-key)) names-by-key)
+       do (puthash key-1 (cons name (gethash key-1 names-by-key)) names-by-key)
        do (puthash name key-1 keys-by-name)))
     keys-by-name))
 
