@@ -725,8 +725,7 @@ exclude from the result."
                                     exclude)))
                            collect name)
                   ;; Duplicate keys
-                  (cl-loop for key being the hash-key of names-by-key
-                           using (hash-values names)
+                  (cl-loop for names being the hash-values of names-by-key
                            if (< 1 (length names))
                            collect (car (seq-sort-by #'length #'> names)))
                   ;; Duplicate subkeys
@@ -740,9 +739,9 @@ exclude from the result."
        for name in names-to-update
        for old-key = (gethash name keys-by-name)
        for key-1 = (iter-next (gethash name iters))
-       if old-key-1 do (puthash old-key-1 (remove name (gethash old-key-1 names-by-key-1)) names-by-key-1)
+       if old-key do (puthash old-key (remove name (gethash old-key names-by-key-1)) names-by-key-1)
        do (puthash key-1 (cons name (gethash key-1 names-by-key-1)) names-by-key-1)
-       do (puthash name key-1 key-1s-by-name)))
+       do (puthash name key-1 keys-by-name)))
     keys-by-name))
 
 (defun biome--query-section-fields-define-infixes (fields keys param infix-name)
