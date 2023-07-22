@@ -22,7 +22,7 @@
 
 ;;; Commentary:
 
-;; TODO
+;; Make requests to Open Meteo API.
 
 ;;; Code:
 (require 'json)
@@ -46,13 +46,12 @@
   "Default URLs for Open Meteo API.")
 
 (defcustom biome-api-urls biome-api--default-urls
-  "URL of the Open Meteo API."
+  "URLs of the Open Meteo API."
   :type `(alist
           :key-type string
           :value-type string
           :options ,(mapcar #'car biome-api--default-urls))
   :group 'biome)
-
 
 (defun biome-api--get-params (query)
   "Convert QUERY to a list of parameters for `request'.
@@ -87,7 +86,7 @@ QUERY is a form as defined by `biome-query-current'."
   "Keymap for `biome-api-error-mode'.")
 
 (define-derived-mode biome-api-error-mode text-mode "Lyrics view"
-  "Major mode for viewing open meteo errors.
+  "Major mode for viewing open meteo API errors.
 
 \\{biome-api-error-mode-map}"
   (read-only-mode 1))

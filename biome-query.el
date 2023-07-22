@@ -22,7 +22,12 @@
 
 ;;; Commentary:
 
-;; TODO
+;; Query editor for Open Meteo API.
+;;
+;; The main entrypoints are:
+;; - `biome-query' - start a new query.
+;; - `biome-query--section-open' - start a new query in a section.
+;; These aren't meant to be used directly by the user.
 
 ;;; Code:
 (require 'biome-api-data)
@@ -42,7 +47,7 @@
   :group 'biome)
 
 (defcustom biome-query-date-format "%A, %x"
-  "Format string for date entries.
+  "Format string for date entries in query buffers.
 
 By default \"WEEKDAY, DATE\", where DATE is what Emacs thinks is an
 appropriate way to format days in your language.
@@ -56,10 +61,13 @@ value will be inserted."
 (defcustom biome-query-coords '(("Helsinki, Finland" 60.16952 24.93545)
                                 ("Berlin, Germany" 52.52437 13.41053)
                                 ("Dubai, UAE" 25.0657 55.17128))
-  "List of locations with their coordinates.
+  "List of saved locations with their coordinates.
 
 The format is: (name latitude longitude)."
-  :type '(repeat (list string number number))
+  :type '(repeat (list
+                  (string :tag "Name")
+                  (number :tag "Latitude")
+                  (number :tag "Longitude")))
   :group 'biome)
 
 (defconst biome-query-groups '("daily" "hourly" "minutely_15" "hourly")
@@ -80,20 +88,18 @@ have to be displayed separately.")
   "Items to ignore when generating unique keys.")
 
 (defvar biome-query-current nil
-  "Current report.
+  "Current query.
 
 It is an alist with the following keys:
 - `:name' - name of the root section.
 - `:group' - name of the group (see `biome-query-groups').
-- `:params' - alist with parameters, where the key is either nil (for
-  global parameters) or the value of `:param' key of the corresponding
-  section.
-
-In the former case, the value is an alist with values; in the latter
-case, the value is a list of variable names available in the group.")
+- `:params' - alist with parameters, where the key is either the
+  parameter name (for global variables) or the group name (for grouped
+  variables, e.g. hourly, daily).  In the latter case, the value has
+  to be a list of grouped variables names.")
 
 (defvar biome-query--current-section nil
-  "Current section.")
+  "Current section definition.")
 
 (defvar biome-query--layout-cache (make-hash-table :test 'equal)
   "Cache for dynamic transient layout.")
@@ -104,19 +110,22 @@ case, the value is a list of variable names available in the group.")
 (defvar biome-query--callback nil
   "Call this with the selected query.")
 
-;; TODO delete this
-(setq biome-query--layout-cache (make-hash-table :test 'equal))
-
 ;; Transient display classes
 (defclass biome-query--transient-report (transient-suffix)
   ((transient :initform t))
-  "A transient class to display the current report.")
+  "A transient class to display the current report.
+
+This just prints out `biome-query-current' in somewhat readable
+form.")
 
 (cl-defmethod transient-init-value ((_ biome-query--transient-report))
   "A dummy method for `biome-query--transient-report'."
   nil)
 
 (defun biome-query--update-names-cache (sections cache)
+  "Update the variable names cache for SECTIONS.
+
+CACHE is a hash table.  See `biome-query--get-var-names-cache'."
   (cl-loop for section in sections
            do (when-let (fields (alist-get :fields section))
                 (cl-loop for (api-key . params) in fields
@@ -126,6 +135,14 @@ case, the value is a list of variable names available in the group.")
                 (biome-query--update-names-cache children cache))))
 
 (defun biome-query--get-var-names-cache ()
+  "Generate variable names cache for the current section.
+
+The current section is determined by `biome-query-current'.  The
+return value is a hashmap with variable api keys as keys and their
+names as values.
+
+This is useful because otherwise it would take a long time to look for
+disambiguations of parameters in `biome-api-data'."
   (let* ((name (alist-get :name biome-query-current))
          (cache (alist-get name biome-query--var-names-cache
                            nil nil #'equal)))
@@ -139,12 +156,16 @@ case, the value is a list of variable names available in the group.")
             cache))))
 
 (defun biome-query--get-header (key var-names)
+  "Generate readable name for KEY with a fallback.
+
+KEY is the api key of the variable.  VAR-NAMES is the output of
+`biome-query--get-var-names-cache'."
   (gethash key var-names
            (capitalize (replace-regexp-in-string
                         (regexp-quote "_") " " key))))
 
 (cl-defmethod transient-format ((_ biome-query--transient-report))
-  "Format the current report."
+  "Format the `biome-query-current'."
   (let ((group (alist-get :group biome-query-current))
         (var-names (biome-query--get-var-names-cache))
         lat lon group-vars line-vars vars)
@@ -221,14 +242,14 @@ case, the value is a list of variable names available in the group.")
 
 (defclass biome-query--transient-path (transient-suffix)
   ((transient :initform t))
-  "A transient class to display the current path.")
+  "A transient class to display the current path in query.")
 
 (cl-defmethod transient-init-value ((_ biome-query--transient-path))
   "A dummy method for `biome-query--transient-report'."
   nil)
 
 (cl-defmethod transient-format ((_ biome-query--transient-path))
-  "Format the current path."
+  "Format the current path in query."
   (let* ((scope (oref (or transient--prefix
                           transient-current-prefix)
                       scope))
@@ -298,10 +319,7 @@ OBJ is an instance of `biome-query--transient-switch-variable'."
     new-value))
 
 (cl-defmethod transient-format ((obj biome-query--transient-switch-variable))
-  "Return a string generated using OBJ's `format'.
-%k is formatted using `transient-format-key'.
-%d is formatted using `transient-format-description'.
-%v is formatted using `transient-format-value'."
+  "Format the variable switch OBJ."
   (concat
    " "
    (string-pad (transient-format-key obj) 6)
@@ -311,12 +329,14 @@ OBJ is an instance of `biome-query--transient-switch-variable'."
 
 (defclass biome-query--transient-variable (transient-variable)
   ((api-key :initarg :api-key))
-  "A transient class to display a variable.")
+  "A transient class to work with query variables.
+
+This is mostly used to interact with `biome-query-current'.")
 
 (cl-defmethod transient-infix-set ((obj biome-query--transient-variable) value)
   "Set the value of OBJ to VALUE.
 
-OBJ is an instance of `biome-query--transient-date-variable'."
+This also updates `biome-query-current' with the new value."
   (if value
       (setf
        (alist-get (oref obj api-key) (alist-get :params biome-query-current)
@@ -347,9 +367,15 @@ OBJ is an instance of `biome-query--transient-select-variable'."
       (propertize "unset" 'face 'transient-inactive-value))))
 
 (defclass biome-query--transient-date-variable (biome-query--transient-variable) ()
-  "A transient class to display a date variable.")
+  "A transient class to work with a date variable.
+
+The variable is read via `org-read-date' and stored as a UNIX
+timestamp.")
 
 (cl-defmethod transient-infix-read ((obj biome-query--transient-date-variable))
+  "Read a date from the user with `org-read-date'.
+
+OBJ is an instance of `biome-query--transient-date-variable'."
   (unless (oref obj value)
     (let ((org-read-date-force-compatible-dates nil))
       (time-convert
@@ -364,7 +390,6 @@ OBJ is an instance of `biome-query--transient-date-variable'."
     (if value
         (propertize
          (format-time-string
-          ;; TODO fix
           biome-query-date-format
           (seconds-to-time
            value))
@@ -372,9 +397,16 @@ OBJ is an instance of `biome-query--transient-date-variable'."
       (propertize "unset" 'face 'transient-inactive-value))))
 
 (defclass biome-query--transient-select-variable (biome-query--transient-variable)
-  ((options :initarg :options)))
+  ((options :initarg :options))
+  "A transient class to display a select variable.
+
+`:options' is an alist of the form ((KEY . DESCRIPTION) ...).  If the
+number of options is more than
+`biome-query-completing-read-threshold', the user is prompted via
+`completing-read'.  Otherwise, it just switches to the next option.")
 
 (cl-defmethod transient-infix-value ((obj biome-query--transient-select-variable))
+  "Return the value of OBJ."
   (oref obj value))
 
 (cl-defmethod transient-format-value ((obj biome-query--transient-select-variable))
@@ -417,7 +449,7 @@ OBJ is an instance of `biome-query--transient-date-variable'."
   ((min :initarg :min :initform nil)
    (max :initarg :max :initform nil)
    (integer :initarg :integer :initform nil))
-  "A transient class to display a number variable.")
+  "A transient class to work with a number variable.")
 
 (cl-defmethod transient-infix-read ((obj biome-query--transient-number-variable))
   "Read the value of OBJ."
@@ -475,7 +507,7 @@ OBJ is an instance of `biome-query--transient-date-variable'."
       (propertize "unset" 'face 'transient-inactive-value))))
 
 (defclass biome-query--transient-timezone-variable (biome-query--transient-variable) ()
-  "A transient class to display a timezone variable.")
+  "A transient class to work with a timezone variable.")
 
 (cl-defmethod transient-infix-read ((obj biome-query--transient-timezone-variable))
   "Read the value of OBJ."
@@ -483,7 +515,9 @@ OBJ is an instance of `biome-query--transient-date-variable'."
                    nil t (oref obj value)))
 
 (defclass biome-query--transient-coords (biome-query--transient-variable) ()
-  "A transient class for a coordinate switcher.")
+  "A transient class for a coordinate switcher.
+
+The source of possible coordinates is `biome-query-coords'.")
 
 (cl-defmethod transient-init-value ((obj biome-query--transient-coords))
   "Initialize the value of OBJ."
@@ -535,15 +569,19 @@ OBJ is an instance of `biome-query--transient-date-variable'."
   "A transient class to switch between groups of a query.")
 
 (cl-defmethod transient-infix-value ((obj biome-query--transient-group-switch))
+  "Return the value of OBJ."
   (oref obj value))
 
 (cl-defmethod transient-init-value ((obj biome-query--transient-group-switch))
+  "Initialize the value of OBJ."
   (let ((groups (biome-query--section-groups biome-query--current-section)))
     (oset obj options groups)
     (oset obj value (alist-get :group biome-query-current))))
 
 (cl-defmethod transient-infix-read ((obj biome-query--transient-group-switch))
-  "Read the value of OBJ."
+  "Switch to the next group.
+
+OBJ is an instance of `biome-query--transient-group-switch'."
   (let* ((options (mapcar
                    (lambda (c) (cons (cdr c) (car c)))
                    (oref obj options)))
@@ -591,7 +629,7 @@ number of symbols from the start of the corresponding word.
 SEQ-LENGTHS is a list of possible values of IT - if it's 2, then
 the item is a number that can only be taken as a whole, otherwise
 it's the length of the word."
-  ;; TODO better weight function
+  ;; TODO better weight function?
   (cl-loop for take in it
            for length in seq-lengths
            if (= 2 length) sum 1
@@ -601,7 +639,7 @@ it's the length of the word."
   "Generate unique key candidates for NAME.
 
 The algorithm is as follows: NAME is split into words, each word
-produces a list of all its prefixes. E.g. \"hello\" produces \"\",
+produces a list of all its prefixes.  E.g. \"hello\" produces \"\",
 \"h\", \"he\", \"hel\", etc.  Numbers are takes as a whole,
 e.g. \"100\" produces just \"\" and \"100\".
 
@@ -639,8 +677,6 @@ at 3."
                            (reverse sequences)
                            (reduce #'biome-query--cartesian-product)
                            (mapcar (lambda (it) (if (listp it) (nreverse it) (list it))))
-                           ;; TODO delete comment
-                           ;; ((lambda (kek) (message "Sorting %s" (length kek)) kek))
                            ;; XXX this seems to be just a bit faster than `seq-sort-by'.
                            (mapcar (lambda (it)
                                      (cons (biome-query--unique-key-weight it seq-lengths) it)))
@@ -706,6 +742,9 @@ exclude from the result."
 (defun biome--query-section-fields-define-infixes (fields keys param infix-name)
   "Define infixes for FIELDS.
 
+I wish it were possible to avoid that... Maybe I just didn't find the
+correct way.
+
 PARAM is the value of `:param' of the section.  INFIX-NAME is the
 prefix for infix names.  KEYS is a hash table mapping field names
 to keys."
@@ -761,7 +800,7 @@ to keys."
                   :argument ,name))))))
 
 (defun biome-query--section-fields-children (fields keys parents cache-key)
-  "Get transient laoyut for FIELDS.
+  "Get transient layout for FIELDS.
 
 FIELDS is a list of fields as defined in `biome-api-parse--page'.
 KEYS is the result of `biome-query--unique-keys'.  PARENTS is a list
@@ -822,9 +861,14 @@ list of parent sections."
           sections)])))
 
 (defmacro biome-query--with-layout-cache (cache-key &rest body)
-  "Cache layout for CACHE-KEY.
+  "Cache layout for CACHE-KEY in `biome-query--layout-cache'.
 
-BODY is the body of the macro."
+BODY is the body of the macro that returns the layout.  The resulting
+expression either returns the cached layout or evaluates BODY, caches
+the result and returns it.
+
+This is necessary mostly because `biome-query--unique-keys' is
+sometimes a bit slow."
   (declare (indent 1))
   `(let ((layout (gethash ,cache-key biome-query--layout-cache)))
      (if layout
@@ -878,6 +922,7 @@ SUFFIXES is a list of suffix definitions."
            collect (cons group (alist-get :name child))))
 
 (defun biome-query--reset-report ()
+  "Reset the current query to the current section."
   (interactive)
   (setq biome-query-current
         (copy-tree
@@ -893,6 +938,7 @@ SUFFIXES is a list of suffix definitions."
   (funcall biome-query--callback biome-query-current))
 
 (defun biome-query--generate-preset ()
+  "Generate a preset for the current query."
   (interactive)
   (let ((buf (generate-new-buffer "*biome-preset*")))
     (with-current-buffer buf
@@ -931,6 +977,7 @@ SECTION is a form as defined in `biome-api-parse--page'."
     (put 'biome-query-section 'transient--layout nil)))
 
 (defun biome-query--section-open (name)
+  "Open section NAME in `biome-query--section'."
   (let ((params (alist-get name biome-api-data nil nil #'equal)))
     (unless params
       (error "No such section: %s" name))

@@ -29,6 +29,7 @@
 
 ;;; Code:
 (require 'browse-url)
+(require 'dom)
 (require 'cl-lib)
 (require 'seq)
 

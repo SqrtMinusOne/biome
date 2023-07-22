@@ -22,7 +22,7 @@
 
 ;;; Commentary:
 
-;; TODO
+;; Display results of open meteo queries with `tabulated-list'.
 
 ;;; Code:
 (require 'cl-lib)
@@ -38,6 +38,9 @@
   :group 'biome)
 
 (defun biome-grid--format-units (format)
+  "Add derived units to FORMAT.
+
+FORMAT is an expression as defined by `biome-grid-format'."
   (nreverse
    (reduce (lambda (acc def)
              (push def acc)
@@ -278,8 +281,29 @@
      (nil "is_day" is-day)
      ("wmo code" nil wmo-code)
      ("°" nil direction)))
-  "Format units in the grid."
-  :group 'biome)
+  "Format units in the grid.
+
+This is a list with the following keys:
+- unit;
+- parameter (regexp);
+- format defintion.
+
+The format definition is one of the following:
+- (gradient (value . color) ...);
+- `is-day';
+- `wmo-code';
+- `direction'."
+  :group 'biome
+  :type '(repeat (list
+                  (choice :tag "Unit" (const :tag "No unit" nil) string)
+                  (choice :tag "Parameter (regexp)" (const :tag "No parameter" nil) string)
+                  (choice
+                   (cons (const gradient)
+                         (alist :key-type (number :tag "Value")
+                                :value-type (string :tag "HEX color")))
+                   (const :tag "Is day" is-day)
+                   (const :tag "WMO code" wmo-code)
+                   (const :tag "Direction" direction)))))
 
 (defcustom biome-grid-wmo-codes
   '((0 "☀️" "Clear sky")
@@ -312,7 +336,7 @@
     (99 "⛈️" "Thunderstorm with hail (heavy)"))
   "Descriptions for WMO weather codes.
 
-The defaults values are takes from open-meteo docs."
+The defaults values are taken from open-meteo docs."
   :group 'biome
   :type '(alist :key-type number :value-type (list string string)))
 
@@ -336,12 +360,13 @@ The defaults values are takes from open-meteo docs."
     (360 "↑ N"))
   "Descriptions for directions."
   :group 'biome
-  :type '(repeat (list number string)))
+  :type '(repeat (list (number :tag "Value (0-360)")
+                       (string :tag "Description"))))
 
 (defcustom biome-grid-is-day-format '("🌙 night" "☀️ day")
   "Format for is-day values."
   :group 'biome
-  :type '(repeat string))
+  :type '(list (string :tag "Night") (string :tag "Day")))
 
 (defcustom biome-grid-wmo-show-emoji t
   "Show emoji for WMO weather codes."
@@ -371,6 +396,10 @@ C1 and C2 are hex RGS strings, VAL is a number between 0 and 1."
                     collect (+ (* (- 1 val) v1) (* val v2))))))
 
 (defun biome-grid--format-gradient (value def col-width)
+  "Format VALUE with gradient DEF.
+
+DEF is a list of (value . color) pairs.  COL-WIDTH is the width of the
+column."
   (setq value (float value))
   (let* ((background-color
           (cl-loop for (border1 . color1) in def
@@ -388,7 +417,7 @@ C1 and C2 are hex RGS strings, VAL is a number between 0 and 1."
 (defun biome-grid--format-wmo-code (value)
   "Format WMO code.
 
-VALUE is a WMO number."
+VALUE is a WMO number as defined in `biome-grid-wmo-codes'."
   (let ((format (alist-get value biome-grid-wmo-codes)))
     (if format
         (if biome-grid-wmo-show-emoji
@@ -415,12 +444,21 @@ VALUE is 0 or 1."
   (nth value biome-grid-is-day-format))
 
 (defun biome-grid--get-format-def (col-key unit)
+  "Get format definition for COL-KEY and UNIT."
   (cl-loop for (unit-def col-key-def format-def) in biome-grid-format
            if (and (or (null unit-def) (equal unit unit-def))
-                   (or (null col-key-def) (string-match-p col-key-def (symbol-name col-key))))
+                   (or (null col-key-def) (string-match-p col-key-def
+                                                          (symbol-name col-key))))
            return format-def))
 
 (defun biome-grid--prepare-entries (entries col-key unit)
+  "Prepare entries for display.
+
+This function performs all changes that may affect the width of the
+column.
+
+ENTRIES is a list of values.  COL-KEY is the column key as given by
+the API.  UNIT is the unit of the column."
   (let ((format-def (biome-grid--get-format-def col-key unit)))
     (mapcar
      (lambda (entry)
@@ -436,6 +474,13 @@ VALUE is 0 or 1."
      entries)))
 
 (defun biome-grid--format-entries (entries col-key unit col-width)
+  "Format entries for display.
+
+This uses the width COL-WIDTH for each column, therefore it must not change
+that width.
+
+ENTRIES is a list of values.  COL-KEY is the column key as given by
+the API.  UNIT is the unit of the column."
   (let ((format-def (biome-grid--get-format-def col-key unit)))
     (mapcar
      (lambda (entry)
@@ -448,6 +493,9 @@ VALUE is 0 or 1."
      entries)))
 
 (defun biome-grid--get-col-witdh (col-name entries unit)
+  "Get the width of the column COL-NAME.
+
+ENTRIES is a list of values.  UNIT is the unit of the column."
   (let ((col-name-width (length col-name))
         (entry-width
          (or (cl-loop for entry in entries
@@ -457,10 +505,15 @@ VALUE is 0 or 1."
     ;; XXX this is necessary to compensate for emojis of different
     ;; actual width.  Forunately this doesn't break the formmating of
     ;; the grid (hail `tabulated-list', what a pleasant surprise)
-    (cond ((and (equal unit "wmo code") biome-grid-wmo-show-emoji) (max col-name-width (+ 1 entry-width)))
+    (cond ((and (equal unit "wmo code") biome-grid-wmo-show-emoji)
+           (max col-name-width (+ 1 entry-width)))
           (t (max col-name-width (+ 1 entry-width))))))
 
 (defun biome-grid--set-list (query results)
+  "Set the list of the grid for the `biome-grid-mode' buffer.
+
+QUERY is a form as defined by `biome-query-current'.  RESULTS is a
+response of the API."
   (let* ((group (intern (alist-get :group query)))
          (group-units (intern (format "%s_units" (alist-get :group query))))
          (var-names (biome-query--get-var-names-cache))
@@ -514,6 +567,10 @@ it, in which case it is killed."
     (kill-buffer)))
 
 (defun biome-grid--update-columns (columns)
+  "Update the columns of the grid.
+
+COLUMNS is a list of column names prefixed with \"--\" (to work with
+transient switches)."
   (interactive (list (transient-args transient-current-command)))
   (setq biome-grid--columns-display
         (cl-loop for (key name _display) in biome-grid--columns-display
@@ -523,7 +580,7 @@ it, in which case it is killed."
   (tabulated-list-init-header))
 
 (transient-define-prefix biome-grid-columns ()
-  "Toggle columns in biome-grid buffer."
+  "Toggle columns in `biome-grid' buffer."
   ["Toggle columns"
    :setup-children
    (lambda (_)
@@ -558,13 +615,19 @@ it, in which case it is killed."
   "Keymap for `biome-grid-mode'.")
 
 (define-derived-mode biome-grid-mode tabulated-list-mode "Biome Grid"
-  "Major mode for displaying biome results.")
+  "Major mode for displaying biome results.
+
+\\{biome-grid-mode-map}")
 
 (defun biome-grid (query results)
   "Display RESULTS in a grid.
 
 QUERY is a form as defined by `biome-query-current'.  RESULTS is a
-response of Open Meteo (returned by `biome-api-get'."
+response of Open Meteo (returned by `biome-api-get'.
+
+The grid is displayed with `tabulated-list'.  It doesn't support
+displaying more columns than the window width, so there's
+`biome-grid-columns' to toggle columns."
   (let ((buf (generate-new-buffer "*biome-grid*")))
     (with-current-buffer buf
       (biome-grid-mode)
