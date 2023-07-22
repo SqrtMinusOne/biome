@@ -97,356 +97,356 @@
           ((:name . "Temperature")
            (:fields
             ("temperature_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("temperature_975hPa"
-             (:name . "975 hPa")
+             (:name . "975 hPa (320 m)")
              (:type . checkbox))
             ("temperature_950hPa"
-             (:name . "950 hPa")
+             (:name . "950 hPa (500 m)")
              (:type . checkbox))
             ("temperature_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("temperature_900hPa"
-             (:name . "900 hPa")
+             (:name . "900 hPa (1000 m)")
              (:type . checkbox))
             ("temperature_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("temperature_800hPa"
-             (:name . "800 hPa")
+             (:name . "800 hPa (1900 m)")
              (:type . checkbox))
             ("temperature_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("temperature_600hPa"
-             (:name . "600 hPa")
+             (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
             ("temperature_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("temperature_400hPa"
-             (:name . "400 hPa")
+             (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
             ("temperature_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("temperature_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("temperature_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("temperature_150hPa"
-             (:name . "150 hPa")
+             (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
             ("temperature_100hPa"
-             (:name . "100 hPa")
+             (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
             ("temperature_70hPa"
-             (:name . "70 hPa")
+             (:name . "70 hPa (17.7 km)")
              (:type . checkbox))
             ("temperature_50hPa"
-             (:name . "50 hPa")
+             (:name . "50 hPa (19.3 km)")
              (:type . checkbox))
             ("temperature_30hPa"
-             (:name . "30 hPa")
+             (:name . "30 hPa (22 km)")
              (:type . checkbox))))
           ((:name . "Relative Humidity")
            (:fields
             ("relativehumidity_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("relativehumidity_975hPa"
-             (:name . "975 hPa")
+             (:name . "975 hPa (320 m)")
              (:type . checkbox))
             ("relativehumidity_950hPa"
-             (:name . "950 hPa")
+             (:name . "950 hPa (500 m)")
              (:type . checkbox))
             ("relativehumidity_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("relativehumidity_900hPa"
-             (:name . "900 hPa")
+             (:name . "900 hPa (1000 m)")
              (:type . checkbox))
             ("relativehumidity_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("relativehumidity_800hPa"
-             (:name . "800 hPa")
+             (:name . "800 hPa (1900 m)")
              (:type . checkbox))
             ("relativehumidity_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("relativehumidity_600hPa"
-             (:name . "600 hPa")
+             (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
             ("relativehumidity_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("relativehumidity_400hPa"
-             (:name . "400 hPa")
+             (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
             ("relativehumidity_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("relativehumidity_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("relativehumidity_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("relativehumidity_150hPa"
-             (:name . "150 hPa")
+             (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
             ("relativehumidity_100hPa"
-             (:name . "100 hPa")
+             (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
             ("relativehumidity_70hPa"
-             (:name . "70 hPa")
+             (:name . "70 hPa (17.7 km)")
              (:type . checkbox))
             ("relativehumidity_50hPa"
-             (:name . "50 hPa")
+             (:name . "50 hPa (19.3 km)")
              (:type . checkbox))
             ("relativehumidity_30hPa"
-             (:name . "30 hPa")
+             (:name . "30 hPa (22 km)")
              (:type . checkbox))))
           ((:name . "Cloudcover")
            (:fields
             ("cloudcover_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("cloudcover_975hPa"
-             (:name . "975 hPa")
+             (:name . "975 hPa (320 m)")
              (:type . checkbox))
             ("cloudcover_950hPa"
-             (:name . "950 hPa")
+             (:name . "950 hPa (500 m)")
              (:type . checkbox))
             ("cloudcover_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("cloudcover_900hPa"
-             (:name . "900 hPa")
+             (:name . "900 hPa (1000 m)")
              (:type . checkbox))
             ("cloudcover_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("cloudcover_800hPa"
-             (:name . "800 hPa")
+             (:name . "800 hPa (1900 m)")
              (:type . checkbox))
             ("cloudcover_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("cloudcover_600hPa"
-             (:name . "600 hPa")
+             (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
             ("cloudcover_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("cloudcover_400hPa"
-             (:name . "400 hPa")
+             (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
             ("cloudcover_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("cloudcover_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("cloudcover_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("cloudcover_150hPa"
-             (:name . "150 hPa")
+             (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
             ("cloudcover_100hPa"
-             (:name . "100 hPa")
+             (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
             ("cloudcover_70hPa"
-             (:name . "70 hPa")
+             (:name . "70 hPa (17.7 km)")
              (:type . checkbox))
             ("cloudcover_50hPa"
-             (:name . "50 hPa")
+             (:name . "50 hPa (19.3 km)")
              (:type . checkbox))
             ("cloudcover_30hPa"
-             (:name . "30 hPa")
+             (:name . "30 hPa (22 km)")
              (:type . checkbox))))
           ((:name . "Wind Speed")
            (:fields
             ("windspeed_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("windspeed_975hPa"
-             (:name . "975 hPa")
+             (:name . "975 hPa (320 m)")
              (:type . checkbox))
             ("windspeed_950hPa"
-             (:name . "950 hPa")
+             (:name . "950 hPa (500 m)")
              (:type . checkbox))
             ("windspeed_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("windspeed_900hPa"
-             (:name . "900 hPa")
+             (:name . "900 hPa (1000 m)")
              (:type . checkbox))
             ("windspeed_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("windspeed_800hPa"
-             (:name . "800 hPa")
+             (:name . "800 hPa (1900 m)")
              (:type . checkbox))
             ("windspeed_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("windspeed_600hPa"
-             (:name . "600 hPa")
+             (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
             ("windspeed_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("windspeed_400hPa"
-             (:name . "400 hPa")
+             (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
             ("windspeed_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("windspeed_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("windspeed_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("windspeed_150hPa"
-             (:name . "150 hPa")
+             (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
             ("windspeed_100hPa"
-             (:name . "100 hPa")
+             (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
             ("windspeed_70hPa"
-             (:name . "70 hPa")
+             (:name . "70 hPa (17.7 km)")
              (:type . checkbox))
             ("windspeed_50hPa"
-             (:name . "50 hPa")
+             (:name . "50 hPa (19.3 km)")
              (:type . checkbox))
             ("windspeed_30hPa"
-             (:name . "30 hPa")
+             (:name . "30 hPa (22 km)")
              (:type . checkbox))))
           ((:name . "Wind Direction")
            (:fields
             ("winddirection_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("winddirection_975hPa"
-             (:name . "975 hPa")
+             (:name . "975 hPa (320 m)")
              (:type . checkbox))
             ("winddirection_950hPa"
-             (:name . "950 hPa")
+             (:name . "950 hPa (500 m)")
              (:type . checkbox))
             ("winddirection_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("winddirection_900hPa"
-             (:name . "900 hPa")
+             (:name . "900 hPa (1000 m)")
              (:type . checkbox))
             ("winddirection_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("winddirection_800hPa"
-             (:name . "800 hPa")
+             (:name . "800 hPa (1900 m)")
              (:type . checkbox))
             ("winddirection_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("winddirection_600hPa"
-             (:name . "600 hPa")
+             (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
             ("winddirection_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("winddirection_400hPa"
-             (:name . "400 hPa")
+             (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
             ("winddirection_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("winddirection_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("winddirection_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("winddirection_150hPa"
-             (:name . "150 hPa")
+             (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
             ("winddirection_100hPa"
-             (:name . "100 hPa")
+             (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
             ("winddirection_70hPa"
-             (:name . "70 hPa")
+             (:name . "70 hPa (17.7 km)")
              (:type . checkbox))
             ("winddirection_50hPa"
-             (:name . "50 hPa")
+             (:name . "50 hPa (19.3 km)")
              (:type . checkbox))
             ("winddirection_30hPa"
-             (:name . "30 hPa")
+             (:name . "30 hPa (22 km)")
              (:type . checkbox))))
           ((:name . "Geopotential Height")
            (:fields
             ("geopotential_height_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("geopotential_height_975hPa"
-             (:name . "975 hPa")
+             (:name . "975 hPa (320 m)")
              (:type . checkbox))
             ("geopotential_height_950hPa"
-             (:name . "950 hPa")
+             (:name . "950 hPa (500 m)")
              (:type . checkbox))
             ("geopotential_height_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("geopotential_height_900hPa"
-             (:name . "900 hPa")
+             (:name . "900 hPa (1000 m)")
              (:type . checkbox))
             ("geopotential_height_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("geopotential_height_800hPa"
-             (:name . "800 hPa")
+             (:name . "800 hPa (1900 m)")
              (:type . checkbox))
             ("geopotential_height_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("geopotential_height_600hPa"
-             (:name . "600 hPa")
+             (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
             ("geopotential_height_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("geopotential_height_400hPa"
-             (:name . "400 hPa")
+             (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
             ("geopotential_height_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("geopotential_height_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("geopotential_height_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("geopotential_height_150hPa"
-             (:name . "150 hPa")
+             (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
             ("geopotential_height_100hPa"
-             (:name . "100 hPa")
+             (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
             ("geopotential_height_70hPa"
-             (:name . "70 hPa")
+             (:name . "70 hPa (17.7 km)")
              (:type . checkbox))
             ("geopotential_height_50hPa"
-             (:name . "50 hPa")
+             (:name . "50 hPa (19.3 km)")
              (:type . checkbox))
             ("geopotential_height_30hPa"
-             (:name . "30 hPa")
+             (:name . "30 hPa (22 km)")
              (:type . checkbox)))))))
        (:fields
         ("temperature_2m"
@@ -831,356 +831,356 @@
           ((:name . "Temperature")
            (:fields
             ("temperature_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("temperature_975hPa"
-             (:name . "975 hPa")
+             (:name . "975 hPa (320 m)")
              (:type . checkbox))
             ("temperature_950hPa"
-             (:name . "950 hPa")
+             (:name . "950 hPa (500 m)")
              (:type . checkbox))
             ("temperature_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("temperature_900hPa"
-             (:name . "900 hPa")
+             (:name . "900 hPa (1000 m)")
              (:type . checkbox))
             ("temperature_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("temperature_800hPa"
-             (:name . "800 hPa")
+             (:name . "800 hPa (1900 m)")
              (:type . checkbox))
             ("temperature_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("temperature_600hPa"
-             (:name . "600 hPa")
+             (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
             ("temperature_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("temperature_400hPa"
-             (:name . "400 hPa")
+             (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
             ("temperature_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("temperature_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("temperature_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("temperature_150hPa"
-             (:name . "150 hPa")
+             (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
             ("temperature_100hPa"
-             (:name . "100 hPa")
+             (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
             ("temperature_70hPa"
-             (:name . "70 hPa")
+             (:name . "70 hPa (17.7 km)")
              (:type . checkbox))
             ("temperature_50hPa"
-             (:name . "50 hPa")
+             (:name . "50 hPa (19.3 km)")
              (:type . checkbox))
             ("temperature_30hPa"
-             (:name . "30 hPa")
+             (:name . "30 hPa (22 km)")
              (:type . checkbox))))
           ((:name . "Relative Humidity")
            (:fields
             ("relativehumidity_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("relativehumidity_975hPa"
-             (:name . "975 hPa")
+             (:name . "975 hPa (320 m)")
              (:type . checkbox))
             ("relativehumidity_950hPa"
-             (:name . "950 hPa")
+             (:name . "950 hPa (500 m)")
              (:type . checkbox))
             ("relativehumidity_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("relativehumidity_900hPa"
-             (:name . "900 hPa")
+             (:name . "900 hPa (1000 m)")
              (:type . checkbox))
             ("relativehumidity_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("relativehumidity_800hPa"
-             (:name . "800 hPa")
+             (:name . "800 hPa (1900 m)")
              (:type . checkbox))
             ("relativehumidity_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("relativehumidity_600hPa"
-             (:name . "600 hPa")
+             (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
             ("relativehumidity_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("relativehumidity_400hPa"
-             (:name . "400 hPa")
+             (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
             ("relativehumidity_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("relativehumidity_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("relativehumidity_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("relativehumidity_150hPa"
-             (:name . "150 hPa")
+             (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
             ("relativehumidity_100hPa"
-             (:name . "100 hPa")
+             (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
             ("relativehumidity_70hPa"
-             (:name . "70 hPa")
+             (:name . "70 hPa (17.7 km)")
              (:type . checkbox))
             ("relativehumidity_50hPa"
-             (:name . "50 hPa")
+             (:name . "50 hPa (19.3 km)")
              (:type . checkbox))
             ("relativehumidity_30hPa"
-             (:name . "30 hPa")
+             (:name . "30 hPa (22 km)")
              (:type . checkbox))))
           ((:name . "Cloudcover")
            (:fields
             ("cloudcover_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("cloudcover_975hPa"
-             (:name . "975 hPa")
+             (:name . "975 hPa (320 m)")
              (:type . checkbox))
             ("cloudcover_950hPa"
-             (:name . "950 hPa")
+             (:name . "950 hPa (500 m)")
              (:type . checkbox))
             ("cloudcover_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("cloudcover_900hPa"
-             (:name . "900 hPa")
+             (:name . "900 hPa (1000 m)")
              (:type . checkbox))
             ("cloudcover_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("cloudcover_800hPa"
-             (:name . "800 hPa")
+             (:name . "800 hPa (1900 m)")
              (:type . checkbox))
             ("cloudcover_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("cloudcover_600hPa"
-             (:name . "600 hPa")
+             (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
             ("cloudcover_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("cloudcover_400hPa"
-             (:name . "400 hPa")
+             (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
             ("cloudcover_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("cloudcover_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("cloudcover_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("cloudcover_150hPa"
-             (:name . "150 hPa")
+             (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
             ("cloudcover_100hPa"
-             (:name . "100 hPa")
+             (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
             ("cloudcover_70hPa"
-             (:name . "70 hPa")
+             (:name . "70 hPa (17.7 km)")
              (:type . checkbox))
             ("cloudcover_50hPa"
-             (:name . "50 hPa")
+             (:name . "50 hPa (19.3 km)")
              (:type . checkbox))
             ("cloudcover_30hPa"
-             (:name . "30 hPa")
+             (:name . "30 hPa (22 km)")
              (:type . checkbox))))
           ((:name . "Wind Speed")
            (:fields
             ("windspeed_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("windspeed_975hPa"
-             (:name . "975 hPa")
+             (:name . "975 hPa (320 m)")
              (:type . checkbox))
             ("windspeed_950hPa"
-             (:name . "950 hPa")
+             (:name . "950 hPa (500 m)")
              (:type . checkbox))
             ("windspeed_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("windspeed_900hPa"
-             (:name . "900 hPa")
+             (:name . "900 hPa (1000 m)")
              (:type . checkbox))
             ("windspeed_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("windspeed_800hPa"
-             (:name . "800 hPa")
+             (:name . "800 hPa (1900 m)")
              (:type . checkbox))
             ("windspeed_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("windspeed_600hPa"
-             (:name . "600 hPa")
+             (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
             ("windspeed_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("windspeed_400hPa"
-             (:name . "400 hPa")
+             (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
             ("windspeed_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("windspeed_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("windspeed_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("windspeed_150hPa"
-             (:name . "150 hPa")
+             (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
             ("windspeed_100hPa"
-             (:name . "100 hPa")
+             (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
             ("windspeed_70hPa"
-             (:name . "70 hPa")
+             (:name . "70 hPa (17.7 km)")
              (:type . checkbox))
             ("windspeed_50hPa"
-             (:name . "50 hPa")
+             (:name . "50 hPa (19.3 km)")
              (:type . checkbox))
             ("windspeed_30hPa"
-             (:name . "30 hPa")
+             (:name . "30 hPa (22 km)")
              (:type . checkbox))))
           ((:name . "Wind Direction")
            (:fields
             ("winddirection_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("winddirection_975hPa"
-             (:name . "975 hPa")
+             (:name . "975 hPa (320 m)")
              (:type . checkbox))
             ("winddirection_950hPa"
-             (:name . "950 hPa")
+             (:name . "950 hPa (500 m)")
              (:type . checkbox))
             ("winddirection_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("winddirection_900hPa"
-             (:name . "900 hPa")
+             (:name . "900 hPa (1000 m)")
              (:type . checkbox))
             ("winddirection_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("winddirection_800hPa"
-             (:name . "800 hPa")
+             (:name . "800 hPa (1900 m)")
              (:type . checkbox))
             ("winddirection_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("winddirection_600hPa"
-             (:name . "600 hPa")
+             (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
             ("winddirection_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("winddirection_400hPa"
-             (:name . "400 hPa")
+             (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
             ("winddirection_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("winddirection_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("winddirection_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("winddirection_150hPa"
-             (:name . "150 hPa")
+             (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
             ("winddirection_100hPa"
-             (:name . "100 hPa")
+             (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
             ("winddirection_70hPa"
-             (:name . "70 hPa")
+             (:name . "70 hPa (17.7 km)")
              (:type . checkbox))
             ("winddirection_50hPa"
-             (:name . "50 hPa")
+             (:name . "50 hPa (19.3 km)")
              (:type . checkbox))
             ("winddirection_30hPa"
-             (:name . "30 hPa")
+             (:name . "30 hPa (22 km)")
              (:type . checkbox))))
           ((:name . "Geopotential Height")
            (:fields
             ("geopotential_height_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("geopotential_height_975hPa"
-             (:name . "975 hPa")
+             (:name . "975 hPa (320 m)")
              (:type . checkbox))
             ("geopotential_height_950hPa"
-             (:name . "950 hPa")
+             (:name . "950 hPa (500 m)")
              (:type . checkbox))
             ("geopotential_height_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("geopotential_height_900hPa"
-             (:name . "900 hPa")
+             (:name . "900 hPa (1000 m)")
              (:type . checkbox))
             ("geopotential_height_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("geopotential_height_800hPa"
-             (:name . "800 hPa")
+             (:name . "800 hPa (1900 m)")
              (:type . checkbox))
             ("geopotential_height_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("geopotential_height_600hPa"
-             (:name . "600 hPa")
+             (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
             ("geopotential_height_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("geopotential_height_400hPa"
-             (:name . "400 hPa")
+             (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
             ("geopotential_height_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("geopotential_height_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("geopotential_height_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("geopotential_height_150hPa"
-             (:name . "150 hPa")
+             (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
             ("geopotential_height_100hPa"
-             (:name . "100 hPa")
+             (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
             ("geopotential_height_70hPa"
-             (:name . "70 hPa")
+             (:name . "70 hPa (17.7 km)")
              (:type . checkbox))
             ("geopotential_height_50hPa"
-             (:name . "50 hPa")
+             (:name . "50 hPa (19.3 km)")
              (:type . checkbox))
             ("geopotential_height_30hPa"
-             (:name . "30 hPa")
+             (:name . "30 hPa (22 km)")
              (:type . checkbox)))))))
        (:fields
         ("temperature_2m"
@@ -1536,690 +1536,690 @@
           ((:name . "Temperature")
            (:fields
             ("temperature_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("temperature_975hPa"
-             (:name . "975 hPa")
+             (:name . "975 hPa (320 m)")
              (:type . checkbox))
             ("temperature_950hPa"
-             (:name . "950 hPa")
+             (:name . "950 hPa (500 m)")
              (:type . checkbox))
             ("temperature_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("temperature_900hPa"
-             (:name . "900 hPa")
+             (:name . "900 hPa (1000 m)")
              (:type . checkbox))
             ("temperature_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("temperature_800hPa"
-             (:name . "800 hPa")
+             (:name . "800 hPa (1900 m)")
              (:type . checkbox))
             ("temperature_750hPa"
-             (:name . "750 hPa")
+             (:name . "750 hPa (2.5 km)")
              (:type . checkbox))
             ("temperature_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("temperature_650hPa"
-             (:name . "650 hPa")
+             (:name . "650 hPa (3.6 km)")
              (:type . checkbox))
             ("temperature_600hPa"
-             (:name . "600 hPa")
+             (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
             ("temperature_550hPa"
-             (:name . "550 hPa")
+             (:name . "550 hPa (4.9 km)")
              (:type . checkbox))
             ("temperature_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("temperature_450hPa"
-             (:name . "450 hPa")
+             (:name . "450 hPa (6.3 km)")
              (:type . checkbox))
             ("temperature_400hPa"
-             (:name . "400 hPa")
+             (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
             ("temperature_350hPa"
-             (:name . "350 hPa")
+             (:name . "350 hPa (8.1 km)")
              (:type . checkbox))
             ("temperature_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("temperature_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("temperature_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("temperature_150hPa"
-             (:name . "150 hPa")
+             (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
             ("temperature_100hPa"
-             (:name . "100 hPa")
+             (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
             ("temperature_70hPa"
-             (:name . "70 hPa")
+             (:name . "70 hPa (17.7 km)")
              (:type . checkbox))
             ("temperature_50hPa"
-             (:name . "50 hPa")
+             (:name . "50 hPa (19.3 km)")
              (:type . checkbox))
             ("temperature_40hPa"
-             (:name . "40 hPa")
+             (:name . "40 hPa (20 km)")
              (:type . checkbox))
             ("temperature_30hPa"
-             (:name . "30 hPa")
+             (:name . "30 hPa (22 km)")
              (:type . checkbox))
             ("temperature_20hPa"
-             (:name . "20 hPa")
+             (:name . "20 hPa (23 km)")
              (:type . checkbox))
             ("temperature_15hPa"
-             (:name . "15 hPa")
+             (:name . "15 hPa (24 km)")
              (:type . checkbox))
             ("temperature_10hPa"
-             (:name . "10 hPa")
+             (:name . "10 hPa (26 km)")
              (:type . checkbox))))
           ((:name . "Dewpoint")
            (:fields
             ("dewpoint_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("dewpoint_975hPa"
-             (:name . "975 hPa")
+             (:name . "975 hPa (320 m)")
              (:type . checkbox))
             ("dewpoint_950hPa"
-             (:name . "950 hPa")
+             (:name . "950 hPa (500 m)")
              (:type . checkbox))
             ("dewpoint_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("dewpoint_900hPa"
-             (:name . "900 hPa")
+             (:name . "900 hPa (1000 m)")
              (:type . checkbox))
             ("dewpoint_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("dewpoint_800hPa"
-             (:name . "800 hPa")
+             (:name . "800 hPa (1900 m)")
              (:type . checkbox))
             ("dewpoint_750hPa"
-             (:name . "750 hPa")
+             (:name . "750 hPa (2.5 km)")
              (:type . checkbox))
             ("dewpoint_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("dewpoint_650hPa"
-             (:name . "650 hPa")
+             (:name . "650 hPa (3.6 km)")
              (:type . checkbox))
             ("dewpoint_600hPa"
-             (:name . "600 hPa")
+             (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
             ("dewpoint_550hPa"
-             (:name . "550 hPa")
+             (:name . "550 hPa (4.9 km)")
              (:type . checkbox))
             ("dewpoint_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("dewpoint_450hPa"
-             (:name . "450 hPa")
+             (:name . "450 hPa (6.3 km)")
              (:type . checkbox))
             ("dewpoint_400hPa"
-             (:name . "400 hPa")
+             (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
             ("dewpoint_350hPa"
-             (:name . "350 hPa")
+             (:name . "350 hPa (8.1 km)")
              (:type . checkbox))
             ("dewpoint_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("dewpoint_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("dewpoint_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("dewpoint_150hPa"
-             (:name . "150 hPa")
+             (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
             ("dewpoint_100hPa"
-             (:name . "100 hPa")
+             (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
             ("dewpoint_70hPa"
-             (:name . "70 hPa")
+             (:name . "70 hPa (17.7 km)")
              (:type . checkbox))
             ("dewpoint_50hPa"
-             (:name . "50 hPa")
+             (:name . "50 hPa (19.3 km)")
              (:type . checkbox))
             ("dewpoint_40hPa"
-             (:name . "40 hPa")
+             (:name . "40 hPa (20 km)")
              (:type . checkbox))
             ("dewpoint_30hPa"
-             (:name . "30 hPa")
+             (:name . "30 hPa (22 km)")
              (:type . checkbox))
             ("dewpoint_20hPa"
-             (:name . "20 hPa")
+             (:name . "20 hPa (23 km)")
              (:type . checkbox))
             ("dewpoint_15hPa"
-             (:name . "15 hPa")
+             (:name . "15 hPa (24 km)")
              (:type . checkbox))
             ("dewpoint_10hPa"
-             (:name . "10 hPa")
+             (:name . "10 hPa (26 km)")
              (:type . checkbox))))
           ((:name . "Relative Humidity")
            (:fields
             ("relativehumidity_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("relativehumidity_975hPa"
-             (:name . "975 hPa")
+             (:name . "975 hPa (320 m)")
              (:type . checkbox))
             ("relativehumidity_950hPa"
-             (:name . "950 hPa")
+             (:name . "950 hPa (500 m)")
              (:type . checkbox))
             ("relativehumidity_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("relativehumidity_900hPa"
-             (:name . "900 hPa")
+             (:name . "900 hPa (1000 m)")
              (:type . checkbox))
             ("relativehumidity_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("relativehumidity_800hPa"
-             (:name . "800 hPa")
+             (:name . "800 hPa (1900 m)")
              (:type . checkbox))
             ("relativehumidity_750hPa"
-             (:name . "750 hPa")
+             (:name . "750 hPa (2.5 km)")
              (:type . checkbox))
             ("relativehumidity_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("relativehumidity_650hPa"
-             (:name . "650 hPa")
+             (:name . "650 hPa (3.6 km)")
              (:type . checkbox))
             ("relativehumidity_600hPa"
-             (:name . "600 hPa")
+             (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
             ("relativehumidity_550hPa"
-             (:name . "550 hPa")
+             (:name . "550 hPa (4.9 km)")
              (:type . checkbox))
             ("relativehumidity_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("relativehumidity_450hPa"
-             (:name . "450 hPa")
+             (:name . "450 hPa (6.3 km)")
              (:type . checkbox))
             ("relativehumidity_400hPa"
-             (:name . "400 hPa")
+             (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
             ("relativehumidity_350hPa"
-             (:name . "350 hPa")
+             (:name . "350 hPa (8.1 km)")
              (:type . checkbox))
             ("relativehumidity_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("relativehumidity_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("relativehumidity_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("relativehumidity_150hPa"
-             (:name . "150 hPa")
+             (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
             ("relativehumidity_100hPa"
-             (:name . "100 hPa")
+             (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
             ("relativehumidity_70hPa"
-             (:name . "70 hPa")
+             (:name . "70 hPa (17.7 km)")
              (:type . checkbox))
             ("relativehumidity_50hPa"
-             (:name . "50 hPa")
+             (:name . "50 hPa (19.3 km)")
              (:type . checkbox))
             ("relativehumidity_40hPa"
-             (:name . "40 hPa")
+             (:name . "40 hPa (20 km)")
              (:type . checkbox))
             ("relativehumidity_30hPa"
-             (:name . "30 hPa")
+             (:name . "30 hPa (22 km)")
              (:type . checkbox))
             ("relativehumidity_20hPa"
-             (:name . "20 hPa")
+             (:name . "20 hPa (23 km)")
              (:type . checkbox))
             ("relativehumidity_15hPa"
-             (:name . "15 hPa")
+             (:name . "15 hPa (24 km)")
              (:type . checkbox))
             ("relativehumidity_10hPa"
-             (:name . "10 hPa")
+             (:name . "10 hPa (26 km)")
              (:type . checkbox))))
           ((:name . "Cloudcover")
            (:fields
             ("cloudcover_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("cloudcover_975hPa"
-             (:name . "975 hPa")
+             (:name . "975 hPa (320 m)")
              (:type . checkbox))
             ("cloudcover_950hPa"
-             (:name . "950 hPa")
+             (:name . "950 hPa (500 m)")
              (:type . checkbox))
             ("cloudcover_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("cloudcover_900hPa"
-             (:name . "900 hPa")
+             (:name . "900 hPa (1000 m)")
              (:type . checkbox))
             ("cloudcover_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("cloudcover_800hPa"
-             (:name . "800 hPa")
+             (:name . "800 hPa (1900 m)")
              (:type . checkbox))
             ("cloudcover_750hPa"
-             (:name . "750 hPa")
+             (:name . "750 hPa (2.5 km)")
              (:type . checkbox))
             ("cloudcover_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("cloudcover_650hPa"
-             (:name . "650 hPa")
+             (:name . "650 hPa (3.6 km)")
              (:type . checkbox))
             ("cloudcover_600hPa"
-             (:name . "600 hPa")
+             (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
             ("cloudcover_550hPa"
-             (:name . "550 hPa")
+             (:name . "550 hPa (4.9 km)")
              (:type . checkbox))
             ("cloudcover_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("cloudcover_450hPa"
-             (:name . "450 hPa")
+             (:name . "450 hPa (6.3 km)")
              (:type . checkbox))
             ("cloudcover_400hPa"
-             (:name . "400 hPa")
+             (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
             ("cloudcover_350hPa"
-             (:name . "350 hPa")
+             (:name . "350 hPa (8.1 km)")
              (:type . checkbox))
             ("cloudcover_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("cloudcover_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("cloudcover_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("cloudcover_150hPa"
-             (:name . "150 hPa")
+             (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
             ("cloudcover_100hPa"
-             (:name . "100 hPa")
+             (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
             ("cloudcover_70hPa"
-             (:name . "70 hPa")
+             (:name . "70 hPa (17.7 km)")
              (:type . checkbox))
             ("cloudcover_50hPa"
-             (:name . "50 hPa")
+             (:name . "50 hPa (19.3 km)")
              (:type . checkbox))
             ("cloudcover_40hPa"
-             (:name . "40 hPa")
+             (:name . "40 hPa (20 km)")
              (:type . checkbox))
             ("cloudcover_30hPa"
-             (:name . "30 hPa")
+             (:name . "30 hPa (22 km)")
              (:type . checkbox))
             ("cloudcover_20hPa"
-             (:name . "20 hPa")
+             (:name . "20 hPa (23 km)")
              (:type . checkbox))
             ("cloudcover_15hPa"
-             (:name . "15 hPa")
+             (:name . "15 hPa (24 km)")
              (:type . checkbox))
             ("cloudcover_10hPa"
-             (:name . "10 hPa")
+             (:name . "10 hPa (26 km)")
              (:type . checkbox))))
           ((:name . "Wind Speed")
            (:fields
             ("windspeed_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("windspeed_975hPa"
-             (:name . "975 hPa")
+             (:name . "975 hPa (320 m)")
              (:type . checkbox))
             ("windspeed_950hPa"
-             (:name . "950 hPa")
+             (:name . "950 hPa (500 m)")
              (:type . checkbox))
             ("windspeed_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("windspeed_900hPa"
-             (:name . "900 hPa")
+             (:name . "900 hPa (1000 m)")
              (:type . checkbox))
             ("windspeed_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("windspeed_800hPa"
-             (:name . "800 hPa")
+             (:name . "800 hPa (1900 m)")
              (:type . checkbox))
             ("windspeed_750hPa"
-             (:name . "750 hPa")
+             (:name . "750 hPa (2.5 km)")
              (:type . checkbox))
             ("windspeed_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("windspeed_650hPa"
-             (:name . "650 hPa")
+             (:name . "650 hPa (3.6 km)")
              (:type . checkbox))
             ("windspeed_600hPa"
-             (:name . "600 hPa")
+             (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
             ("windspeed_550hPa"
-             (:name . "550 hPa")
+             (:name . "550 hPa (4.9 km)")
              (:type . checkbox))
             ("windspeed_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("windspeed_450hPa"
-             (:name . "450 hPa")
+             (:name . "450 hPa (6.3 km)")
              (:type . checkbox))
             ("windspeed_400hPa"
-             (:name . "400 hPa")
+             (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
             ("windspeed_350hPa"
-             (:name . "350 hPa")
+             (:name . "350 hPa (8.1 km)")
              (:type . checkbox))
             ("windspeed_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("windspeed_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("windspeed_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("windspeed_150hPa"
-             (:name . "150 hPa")
+             (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
             ("windspeed_100hPa"
-             (:name . "100 hPa")
+             (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
             ("windspeed_70hPa"
-             (:name . "70 hPa")
+             (:name . "70 hPa (17.7 km)")
              (:type . checkbox))
             ("windspeed_50hPa"
-             (:name . "50 hPa")
+             (:name . "50 hPa (19.3 km)")
              (:type . checkbox))
             ("windspeed_40hPa"
-             (:name . "40 hPa")
+             (:name . "40 hPa (20 km)")
              (:type . checkbox))
             ("windspeed_30hPa"
-             (:name . "30 hPa")
+             (:name . "30 hPa (22 km)")
              (:type . checkbox))
             ("windspeed_20hPa"
-             (:name . "20 hPa")
+             (:name . "20 hPa (23 km)")
              (:type . checkbox))
             ("windspeed_15hPa"
-             (:name . "15 hPa")
+             (:name . "15 hPa (24 km)")
              (:type . checkbox))
             ("windspeed_10hPa"
-             (:name . "10 hPa")
+             (:name . "10 hPa (26 km)")
              (:type . checkbox))))
           ((:name . "Wind Direction")
            (:fields
             ("winddirection_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("winddirection_975hPa"
-             (:name . "975 hPa")
+             (:name . "975 hPa (320 m)")
              (:type . checkbox))
             ("winddirection_950hPa"
-             (:name . "950 hPa")
+             (:name . "950 hPa (500 m)")
              (:type . checkbox))
             ("winddirection_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("winddirection_900hPa"
-             (:name . "900 hPa")
+             (:name . "900 hPa (1000 m)")
              (:type . checkbox))
             ("winddirection_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("winddirection_800hPa"
-             (:name . "800 hPa")
+             (:name . "800 hPa (1900 m)")
              (:type . checkbox))
             ("winddirection_750hPa"
-             (:name . "750 hPa")
+             (:name . "750 hPa (2.5 km)")
              (:type . checkbox))
             ("winddirection_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("winddirection_650hPa"
-             (:name . "650 hPa")
+             (:name . "650 hPa (3.6 km)")
              (:type . checkbox))
             ("winddirection_600hPa"
-             (:name . "600 hPa")
+             (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
             ("winddirection_550hPa"
-             (:name . "550 hPa")
+             (:name . "550 hPa (4.9 km)")
              (:type . checkbox))
             ("winddirection_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("winddirection_450hPa"
-             (:name . "450 hPa")
+             (:name . "450 hPa (6.3 km)")
              (:type . checkbox))
             ("winddirection_400hPa"
-             (:name . "400 hPa")
+             (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
             ("winddirection_350hPa"
-             (:name . "350 hPa")
+             (:name . "350 hPa (8.1 km)")
              (:type . checkbox))
             ("winddirection_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("winddirection_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("winddirection_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("winddirection_150hPa"
-             (:name . "150 hPa")
+             (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
             ("winddirection_100hPa"
-             (:name . "100 hPa")
+             (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
             ("winddirection_70hPa"
-             (:name . "70 hPa")
+             (:name . "70 hPa (17.7 km)")
              (:type . checkbox))
             ("winddirection_50hPa"
-             (:name . "50 hPa")
+             (:name . "50 hPa (19.3 km)")
              (:type . checkbox))
             ("winddirection_40hPa"
-             (:name . "40 hPa")
+             (:name . "40 hPa (20 km)")
              (:type . checkbox))
             ("winddirection_30hPa"
-             (:name . "30 hPa")
+             (:name . "30 hPa (22 km)")
              (:type . checkbox))
             ("winddirection_20hPa"
-             (:name . "20 hPa")
+             (:name . "20 hPa (23 km)")
              (:type . checkbox))
             ("winddirection_15hPa"
-             (:name . "15 hPa")
+             (:name . "15 hPa (24 km)")
              (:type . checkbox))
             ("winddirection_10hPa"
-             (:name . "10 hPa")
+             (:name . "10 hPa (26 km)")
              (:type . checkbox))))
           ((:name . "Vertical Velocity")
            (:fields
             ("vertical_velocity_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("vertical_velocity_975hPa"
-             (:name . "975 hPa")
+             (:name . "975 hPa (320 m)")
              (:type . checkbox))
             ("vertical_velocity_950hPa"
-             (:name . "950 hPa")
+             (:name . "950 hPa (500 m)")
              (:type . checkbox))
             ("vertical_velocity_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("vertical_velocity_900hPa"
-             (:name . "900 hPa")
+             (:name . "900 hPa (1000 m)")
              (:type . checkbox))
             ("vertical_velocity_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("vertical_velocity_800hPa"
-             (:name . "800 hPa")
+             (:name . "800 hPa (1900 m)")
              (:type . checkbox))
             ("vertical_velocity_750hPa"
-             (:name . "750 hPa")
+             (:name . "750 hPa (2.5 km)")
              (:type . checkbox))
             ("vertical_velocity_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("vertical_velocity_650hPa"
-             (:name . "650 hPa")
+             (:name . "650 hPa (3.6 km)")
              (:type . checkbox))
             ("vertical_velocity_600hPa"
-             (:name . "600 hPa")
+             (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
             ("vertical_velocity_550hPa"
-             (:name . "550 hPa")
+             (:name . "550 hPa (4.9 km)")
              (:type . checkbox))
             ("vertical_velocity_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("vertical_velocity_450hPa"
-             (:name . "450 hPa")
+             (:name . "450 hPa (6.3 km)")
              (:type . checkbox))
             ("vertical_velocity_400hPa"
-             (:name . "400 hPa")
+             (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
             ("vertical_velocity_350hPa"
-             (:name . "350 hPa")
+             (:name . "350 hPa (8.1 km)")
              (:type . checkbox))
             ("vertical_velocity_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("vertical_velocity_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("vertical_velocity_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("vertical_velocity_150hPa"
-             (:name . "150 hPa")
+             (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
             ("vertical_velocity_100hPa"
-             (:name . "100 hPa")
+             (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
             ("vertical_velocity_70hPa"
-             (:name . "70 hPa")
+             (:name . "70 hPa (17.7 km)")
              (:type . checkbox))
             ("vertical_velocity_50hPa"
-             (:name . "50 hPa")
+             (:name . "50 hPa (19.3 km)")
              (:type . checkbox))
             ("vertical_velocity_40hPa"
-             (:name . "40 hPa")
+             (:name . "40 hPa (20 km)")
              (:type . checkbox))
             ("vertical_velocity_30hPa"
-             (:name . "30 hPa")
+             (:name . "30 hPa (22 km)")
              (:type . checkbox))
             ("vertical_velocity_20hPa"
-             (:name . "20 hPa")
+             (:name . "20 hPa (23 km)")
              (:type . checkbox))
             ("vertical_velocity_15hPa"
-             (:name . "15 hPa")
+             (:name . "15 hPa (24 km)")
              (:type . checkbox))
             ("vertical_velocity_10hPa"
-             (:name . "10 hPa")
+             (:name . "10 hPa (26 km)")
              (:type . checkbox))))
           ((:name . "Geopotential Height")
            (:fields
             ("geopotential_height_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("geopotential_height_975hPa"
-             (:name . "975 hPa")
+             (:name . "975 hPa (320 m)")
              (:type . checkbox))
             ("geopotential_height_950hPa"
-             (:name . "950 hPa")
+             (:name . "950 hPa (500 m)")
              (:type . checkbox))
             ("geopotential_height_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("geopotential_height_900hPa"
-             (:name . "900 hPa")
+             (:name . "900 hPa (1000 m)")
              (:type . checkbox))
             ("geopotential_height_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("geopotential_height_800hPa"
-             (:name . "800 hPa")
+             (:name . "800 hPa (1900 m)")
              (:type . checkbox))
             ("geopotential_height_750hPa"
-             (:name . "750 hPa")
+             (:name . "750 hPa (2.5 km)")
              (:type . checkbox))
             ("geopotential_height_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("geopotential_height_650hPa"
-             (:name . "650 hPa")
+             (:name . "650 hPa (3.6 km)")
              (:type . checkbox))
             ("geopotential_height_600hPa"
-             (:name . "600 hPa")
+             (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
             ("geopotential_height_550hPa"
-             (:name . "550 hPa")
+             (:name . "550 hPa (4.9 km)")
              (:type . checkbox))
             ("geopotential_height_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("geopotential_height_450hPa"
-             (:name . "450 hPa")
+             (:name . "450 hPa (6.3 km)")
              (:type . checkbox))
             ("geopotential_height_400hPa"
-             (:name . "400 hPa")
+             (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
             ("geopotential_height_350hPa"
-             (:name . "350 hPa")
+             (:name . "350 hPa (8.1 km)")
              (:type . checkbox))
             ("geopotential_height_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("geopotential_height_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("geopotential_height_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("geopotential_height_150hPa"
-             (:name . "150 hPa")
+             (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
             ("geopotential_height_100hPa"
-             (:name . "100 hPa")
+             (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
             ("geopotential_height_70hPa"
-             (:name . "70 hPa")
+             (:name . "70 hPa (17.7 km)")
              (:type . checkbox))
             ("geopotential_height_50hPa"
-             (:name . "50 hPa")
+             (:name . "50 hPa (19.3 km)")
              (:type . checkbox))
             ("geopotential_height_40hPa"
-             (:name . "40 hPa")
+             (:name . "40 hPa (20 km)")
              (:type . checkbox))
             ("geopotential_height_30hPa"
-             (:name . "30 hPa")
+             (:name . "30 hPa (22 km)")
              (:type . checkbox))
             ("geopotential_height_20hPa"
-             (:name . "20 hPa")
+             (:name . "20 hPa (23 km)")
              (:type . checkbox))
             ("geopotential_height_15hPa"
-             (:name . "15 hPa")
+             (:name . "15 hPa (24 km)")
              (:type . checkbox))
             ("geopotential_height_10hPa"
-             (:name . "10 hPa")
+             (:name . "10 hPa (26 km)")
              (:type . checkbox)))))))
        (:fields
         ("temperature_2m"
@@ -2505,625 +2505,625 @@
           ((:name . "Temperature")
            (:fields
             ("temperature_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("temperature_950hPa"
-             (:name . "950 hPa")
+             (:name . "950 hPa (500 m)")
              (:type . checkbox))
             ("temperature_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("temperature_900hPa"
-             (:name . "900 hPa")
+             (:name . "900 hPa (1000 m)")
              (:type . checkbox))
             ("temperature_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("temperature_800hPa"
-             (:name . "800 hPa")
+             (:name . "800 hPa (1900 m)")
              (:type . checkbox))
             ("temperature_750hPa"
-             (:name . "750 hPa")
+             (:name . "750 hPa (2.5 km)")
              (:type . checkbox))
             ("temperature_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("temperature_650hPa"
-             (:name . "650 hPa")
+             (:name . "650 hPa (3.6 km)")
              (:type . checkbox))
             ("temperature_600hPa"
-             (:name . "600 hPa")
+             (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
             ("temperature_550hPa"
-             (:name . "550 hPa")
+             (:name . "550 hPa (4.9 km)")
              (:type . checkbox))
             ("temperature_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("temperature_450hPa"
-             (:name . "450 hPa")
+             (:name . "450 hPa (6.3 km)")
              (:type . checkbox))
             ("temperature_400hPa"
-             (:name . "400 hPa")
+             (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
             ("temperature_350hPa"
-             (:name . "350 hPa")
+             (:name . "350 hPa (8.1 km)")
              (:type . checkbox))
             ("temperature_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("temperature_275hPa"
-             (:name . "275 hPa")
+             (:name . "275 hPa (9.7 km)")
              (:type . checkbox))
             ("temperature_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("temperature_225hPa"
-             (:name . "225 hPa")
+             (:name . "225 hPa (11 km)")
              (:type . checkbox))
             ("temperature_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("temperature_175hPa"
-             (:name . "175 hPa")
+             (:name . "175 hPa (12.6 km)")
              (:type . checkbox))
             ("temperature_150hPa"
-             (:name . "150 hPa")
+             (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
             ("temperature_125hPa"
-             (:name . "125 hPa")
+             (:name . "125 hPa (14.6 km)")
              (:type . checkbox))
             ("temperature_100hPa"
-             (:name . "100 hPa")
+             (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
             ("temperature_70hPa"
-             (:name . "70 hPa")
+             (:name . "70 hPa (17.7 km)")
              (:type . checkbox))
             ("temperature_50hPa"
-             (:name . "50 hPa")
+             (:name . "50 hPa (19.3 km)")
              (:type . checkbox))
             ("temperature_30hPa"
-             (:name . "30 hPa")
+             (:name . "30 hPa (22 km)")
              (:type . checkbox))
             ("temperature_20hPa"
-             (:name . "20 hPa")
+             (:name . "20 hPa (23 km)")
              (:type . checkbox))
             ("temperature_10hPa"
-             (:name . "10 hPa")
+             (:name . "10 hPa (26 km)")
              (:type . checkbox))))
           ((:name . "Dewpoint")
            (:fields
             ("dewpoint_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("dewpoint_950hPa"
-             (:name . "950 hPa")
+             (:name . "950 hPa (500 m)")
              (:type . checkbox))
             ("dewpoint_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("dewpoint_900hPa"
-             (:name . "900 hPa")
+             (:name . "900 hPa (1000 m)")
              (:type . checkbox))
             ("dewpoint_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("dewpoint_800hPa"
-             (:name . "800 hPa")
+             (:name . "800 hPa (1900 m)")
              (:type . checkbox))
             ("dewpoint_750hPa"
-             (:name . "750 hPa")
+             (:name . "750 hPa (2.5 km)")
              (:type . checkbox))
             ("dewpoint_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("dewpoint_650hPa"
-             (:name . "650 hPa")
+             (:name . "650 hPa (3.6 km)")
              (:type . checkbox))
             ("dewpoint_600hPa"
-             (:name . "600 hPa")
+             (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
             ("dewpoint_550hPa"
-             (:name . "550 hPa")
+             (:name . "550 hPa (4.9 km)")
              (:type . checkbox))
             ("dewpoint_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("dewpoint_450hPa"
-             (:name . "450 hPa")
+             (:name . "450 hPa (6.3 km)")
              (:type . checkbox))
             ("dewpoint_400hPa"
-             (:name . "400 hPa")
+             (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
             ("dewpoint_350hPa"
-             (:name . "350 hPa")
+             (:name . "350 hPa (8.1 km)")
              (:type . checkbox))
             ("dewpoint_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("dewpoint_275hPa"
-             (:name . "275 hPa")
+             (:name . "275 hPa (9.7 km)")
              (:type . checkbox))
             ("dewpoint_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("dewpoint_225hPa"
-             (:name . "225 hPa")
+             (:name . "225 hPa (11 km)")
              (:type . checkbox))
             ("dewpoint_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("dewpoint_175hPa"
-             (:name . "175 hPa")
+             (:name . "175 hPa (12.6 km)")
              (:type . checkbox))
             ("dewpoint_150hPa"
-             (:name . "150 hPa")
+             (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
             ("dewpoint_125hPa"
-             (:name . "125 hPa")
+             (:name . "125 hPa (14.6 km)")
              (:type . checkbox))
             ("dewpoint_100hPa"
-             (:name . "100 hPa")
+             (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
             ("dewpoint_70hPa"
-             (:name . "70 hPa")
+             (:name . "70 hPa (17.7 km)")
              (:type . checkbox))
             ("dewpoint_50hPa"
-             (:name . "50 hPa")
+             (:name . "50 hPa (19.3 km)")
              (:type . checkbox))
             ("dewpoint_30hPa"
-             (:name . "30 hPa")
+             (:name . "30 hPa (22 km)")
              (:type . checkbox))
             ("dewpoint_20hPa"
-             (:name . "20 hPa")
+             (:name . "20 hPa (23 km)")
              (:type . checkbox))
             ("dewpoint_10hPa"
-             (:name . "10 hPa")
+             (:name . "10 hPa (26 km)")
              (:type . checkbox))))
           ((:name . "Relative Humidity")
            (:fields
             ("relativehumidity_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("relativehumidity_950hPa"
-             (:name . "950 hPa")
+             (:name . "950 hPa (500 m)")
              (:type . checkbox))
             ("relativehumidity_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("relativehumidity_900hPa"
-             (:name . "900 hPa")
+             (:name . "900 hPa (1000 m)")
              (:type . checkbox))
             ("relativehumidity_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("relativehumidity_800hPa"
-             (:name . "800 hPa")
+             (:name . "800 hPa (1900 m)")
              (:type . checkbox))
             ("relativehumidity_750hPa"
-             (:name . "750 hPa")
+             (:name . "750 hPa (2.5 km)")
              (:type . checkbox))
             ("relativehumidity_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("relativehumidity_650hPa"
-             (:name . "650 hPa")
+             (:name . "650 hPa (3.6 km)")
              (:type . checkbox))
             ("relativehumidity_600hPa"
-             (:name . "600 hPa")
+             (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
             ("relativehumidity_550hPa"
-             (:name . "550 hPa")
+             (:name . "550 hPa (4.9 km)")
              (:type . checkbox))
             ("relativehumidity_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("relativehumidity_450hPa"
-             (:name . "450 hPa")
+             (:name . "450 hPa (6.3 km)")
              (:type . checkbox))
             ("relativehumidity_400hPa"
-             (:name . "400 hPa")
+             (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
             ("relativehumidity_350hPa"
-             (:name . "350 hPa")
+             (:name . "350 hPa (8.1 km)")
              (:type . checkbox))
             ("relativehumidity_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("relativehumidity_275hPa"
-             (:name . "275 hPa")
+             (:name . "275 hPa (9.7 km)")
              (:type . checkbox))
             ("relativehumidity_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("relativehumidity_225hPa"
-             (:name . "225 hPa")
+             (:name . "225 hPa (11 km)")
              (:type . checkbox))
             ("relativehumidity_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("relativehumidity_175hPa"
-             (:name . "175 hPa")
+             (:name . "175 hPa (12.6 km)")
              (:type . checkbox))
             ("relativehumidity_150hPa"
-             (:name . "150 hPa")
+             (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
             ("relativehumidity_125hPa"
-             (:name . "125 hPa")
+             (:name . "125 hPa (14.6 km)")
              (:type . checkbox))
             ("relativehumidity_100hPa"
-             (:name . "100 hPa")
+             (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
             ("relativehumidity_70hPa"
-             (:name . "70 hPa")
+             (:name . "70 hPa (17.7 km)")
              (:type . checkbox))
             ("relativehumidity_50hPa"
-             (:name . "50 hPa")
+             (:name . "50 hPa (19.3 km)")
              (:type . checkbox))
             ("relativehumidity_30hPa"
-             (:name . "30 hPa")
+             (:name . "30 hPa (22 km)")
              (:type . checkbox))
             ("relativehumidity_20hPa"
-             (:name . "20 hPa")
+             (:name . "20 hPa (23 km)")
              (:type . checkbox))
             ("relativehumidity_10hPa"
-             (:name . "10 hPa")
+             (:name . "10 hPa (26 km)")
              (:type . checkbox))))
           ((:name . "Cloudcover")
            (:fields
             ("cloudcover_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("cloudcover_950hPa"
-             (:name . "950 hPa")
+             (:name . "950 hPa (500 m)")
              (:type . checkbox))
             ("cloudcover_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("cloudcover_900hPa"
-             (:name . "900 hPa")
+             (:name . "900 hPa (1000 m)")
              (:type . checkbox))
             ("cloudcover_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("cloudcover_800hPa"
-             (:name . "800 hPa")
+             (:name . "800 hPa (1900 m)")
              (:type . checkbox))
             ("cloudcover_750hPa"
-             (:name . "750 hPa")
+             (:name . "750 hPa (2.5 km)")
              (:type . checkbox))
             ("cloudcover_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("cloudcover_650hPa"
-             (:name . "650 hPa")
+             (:name . "650 hPa (3.6 km)")
              (:type . checkbox))
             ("cloudcover_600hPa"
-             (:name . "600 hPa")
+             (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
             ("cloudcover_550hPa"
-             (:name . "550 hPa")
+             (:name . "550 hPa (4.9 km)")
              (:type . checkbox))
             ("cloudcover_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("cloudcover_450hPa"
-             (:name . "450 hPa")
+             (:name . "450 hPa (6.3 km)")
              (:type . checkbox))
             ("cloudcover_400hPa"
-             (:name . "400 hPa")
+             (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
             ("cloudcover_350hPa"
-             (:name . "350 hPa")
+             (:name . "350 hPa (8.1 km)")
              (:type . checkbox))
             ("cloudcover_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("cloudcover_275hPa"
-             (:name . "275 hPa")
+             (:name . "275 hPa (9.7 km)")
              (:type . checkbox))
             ("cloudcover_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("cloudcover_225hPa"
-             (:name . "225 hPa")
+             (:name . "225 hPa (11 km)")
              (:type . checkbox))
             ("cloudcover_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("cloudcover_175hPa"
-             (:name . "175 hPa")
+             (:name . "175 hPa (12.6 km)")
              (:type . checkbox))
             ("cloudcover_150hPa"
-             (:name . "150 hPa")
+             (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
             ("cloudcover_125hPa"
-             (:name . "125 hPa")
+             (:name . "125 hPa (14.6 km)")
              (:type . checkbox))
             ("cloudcover_100hPa"
-             (:name . "100 hPa")
+             (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
             ("cloudcover_70hPa"
-             (:name . "70 hPa")
+             (:name . "70 hPa (17.7 km)")
              (:type . checkbox))
             ("cloudcover_50hPa"
-             (:name . "50 hPa")
+             (:name . "50 hPa (19.3 km)")
              (:type . checkbox))
             ("cloudcover_30hPa"
-             (:name . "30 hPa")
+             (:name . "30 hPa (22 km)")
              (:type . checkbox))
             ("cloudcover_20hPa"
-             (:name . "20 hPa")
+             (:name . "20 hPa (23 km)")
              (:type . checkbox))
             ("cloudcover_10hPa"
-             (:name . "10 hPa")
+             (:name . "10 hPa (26 km)")
              (:type . checkbox))))
           ((:name . "Wind Speed")
            (:fields
             ("windspeed_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("windspeed_950hPa"
-             (:name . "950 hPa")
+             (:name . "950 hPa (500 m)")
              (:type . checkbox))
             ("windspeed_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("windspeed_900hPa"
-             (:name . "900 hPa")
+             (:name . "900 hPa (1000 m)")
              (:type . checkbox))
             ("windspeed_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("windspeed_800hPa"
-             (:name . "800 hPa")
+             (:name . "800 hPa (1900 m)")
              (:type . checkbox))
             ("windspeed_750hPa"
-             (:name . "750 hPa")
+             (:name . "750 hPa (2.5 km)")
              (:type . checkbox))
             ("windspeed_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("windspeed_650hPa"
-             (:name . "650 hPa")
+             (:name . "650 hPa (3.6 km)")
              (:type . checkbox))
             ("windspeed_600hPa"
-             (:name . "600 hPa")
+             (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
             ("windspeed_550hPa"
-             (:name . "550 hPa")
+             (:name . "550 hPa (4.9 km)")
              (:type . checkbox))
             ("windspeed_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("windspeed_450hPa"
-             (:name . "450 hPa")
+             (:name . "450 hPa (6.3 km)")
              (:type . checkbox))
             ("windspeed_400hPa"
-             (:name . "400 hPa")
+             (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
             ("windspeed_350hPa"
-             (:name . "350 hPa")
+             (:name . "350 hPa (8.1 km)")
              (:type . checkbox))
             ("windspeed_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("windspeed_275hPa"
-             (:name . "275 hPa")
+             (:name . "275 hPa (9.7 km)")
              (:type . checkbox))
             ("windspeed_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("windspeed_225hPa"
-             (:name . "225 hPa")
+             (:name . "225 hPa (11 km)")
              (:type . checkbox))
             ("windspeed_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("windspeed_175hPa"
-             (:name . "175 hPa")
+             (:name . "175 hPa (12.6 km)")
              (:type . checkbox))
             ("windspeed_150hPa"
-             (:name . "150 hPa")
+             (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
             ("windspeed_125hPa"
-             (:name . "125 hPa")
+             (:name . "125 hPa (14.6 km)")
              (:type . checkbox))
             ("windspeed_100hPa"
-             (:name . "100 hPa")
+             (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
             ("windspeed_70hPa"
-             (:name . "70 hPa")
+             (:name . "70 hPa (17.7 km)")
              (:type . checkbox))
             ("windspeed_50hPa"
-             (:name . "50 hPa")
+             (:name . "50 hPa (19.3 km)")
              (:type . checkbox))
             ("windspeed_30hPa"
-             (:name . "30 hPa")
+             (:name . "30 hPa (22 km)")
              (:type . checkbox))
             ("windspeed_20hPa"
-             (:name . "20 hPa")
+             (:name . "20 hPa (23 km)")
              (:type . checkbox))
             ("windspeed_10hPa"
-             (:name . "10 hPa")
+             (:name . "10 hPa (26 km)")
              (:type . checkbox))))
           ((:name . "Wind Direction")
            (:fields
             ("winddirection_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("winddirection_950hPa"
-             (:name . "950 hPa")
+             (:name . "950 hPa (500 m)")
              (:type . checkbox))
             ("winddirection_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("winddirection_900hPa"
-             (:name . "900 hPa")
+             (:name . "900 hPa (1000 m)")
              (:type . checkbox))
             ("winddirection_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("winddirection_800hPa"
-             (:name . "800 hPa")
+             (:name . "800 hPa (1900 m)")
              (:type . checkbox))
             ("winddirection_750hPa"
-             (:name . "750 hPa")
+             (:name . "750 hPa (2.5 km)")
              (:type . checkbox))
             ("winddirection_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("winddirection_650hPa"
-             (:name . "650 hPa")
+             (:name . "650 hPa (3.6 km)")
              (:type . checkbox))
             ("winddirection_600hPa"
-             (:name . "600 hPa")
+             (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
             ("winddirection_550hPa"
-             (:name . "550 hPa")
+             (:name . "550 hPa (4.9 km)")
              (:type . checkbox))
             ("winddirection_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("winddirection_450hPa"
-             (:name . "450 hPa")
+             (:name . "450 hPa (6.3 km)")
              (:type . checkbox))
             ("winddirection_400hPa"
-             (:name . "400 hPa")
+             (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
             ("winddirection_350hPa"
-             (:name . "350 hPa")
+             (:name . "350 hPa (8.1 km)")
              (:type . checkbox))
             ("winddirection_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("winddirection_275hPa"
-             (:name . "275 hPa")
+             (:name . "275 hPa (9.7 km)")
              (:type . checkbox))
             ("winddirection_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("winddirection_225hPa"
-             (:name . "225 hPa")
+             (:name . "225 hPa (11 km)")
              (:type . checkbox))
             ("winddirection_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("winddirection_175hPa"
-             (:name . "175 hPa")
+             (:name . "175 hPa (12.6 km)")
              (:type . checkbox))
             ("winddirection_150hPa"
-             (:name . "150 hPa")
+             (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
             ("winddirection_125hPa"
-             (:name . "125 hPa")
+             (:name . "125 hPa (14.6 km)")
              (:type . checkbox))
             ("winddirection_100hPa"
-             (:name . "100 hPa")
+             (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
             ("winddirection_70hPa"
-             (:name . "70 hPa")
+             (:name . "70 hPa (17.7 km)")
              (:type . checkbox))
             ("winddirection_50hPa"
-             (:name . "50 hPa")
+             (:name . "50 hPa (19.3 km)")
              (:type . checkbox))
             ("winddirection_30hPa"
-             (:name . "30 hPa")
+             (:name . "30 hPa (22 km)")
              (:type . checkbox))
             ("winddirection_20hPa"
-             (:name . "20 hPa")
+             (:name . "20 hPa (23 km)")
              (:type . checkbox))
             ("winddirection_10hPa"
-             (:name . "10 hPa")
+             (:name . "10 hPa (26 km)")
              (:type . checkbox))))
           ((:name . "Geopotential Height")
            (:fields
             ("geopotential_height_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("geopotential_height_950hPa"
-             (:name . "950 hPa")
+             (:name . "950 hPa (500 m)")
              (:type . checkbox))
             ("geopotential_height_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("geopotential_height_900hPa"
-             (:name . "900 hPa")
+             (:name . "900 hPa (1000 m)")
              (:type . checkbox))
             ("geopotential_height_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("geopotential_height_800hPa"
-             (:name . "800 hPa")
+             (:name . "800 hPa (1900 m)")
              (:type . checkbox))
             ("geopotential_height_750hPa"
-             (:name . "750 hPa")
+             (:name . "750 hPa (2.5 km)")
              (:type . checkbox))
             ("geopotential_height_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("geopotential_height_650hPa"
-             (:name . "650 hPa")
+             (:name . "650 hPa (3.6 km)")
              (:type . checkbox))
             ("geopotential_height_600hPa"
-             (:name . "600 hPa")
+             (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
             ("geopotential_height_550hPa"
-             (:name . "550 hPa")
+             (:name . "550 hPa (4.9 km)")
              (:type . checkbox))
             ("geopotential_height_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("geopotential_height_450hPa"
-             (:name . "450 hPa")
+             (:name . "450 hPa (6.3 km)")
              (:type . checkbox))
             ("geopotential_height_400hPa"
-             (:name . "400 hPa")
+             (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
             ("geopotential_height_350hPa"
-             (:name . "350 hPa")
+             (:name . "350 hPa (8.1 km)")
              (:type . checkbox))
             ("geopotential_height_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("geopotential_height_275hPa"
-             (:name . "275 hPa")
+             (:name . "275 hPa (9.7 km)")
              (:type . checkbox))
             ("geopotential_height_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("geopotential_height_225hPa"
-             (:name . "225 hPa")
+             (:name . "225 hPa (11 km)")
              (:type . checkbox))
             ("geopotential_height_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("geopotential_height_175hPa"
-             (:name . "175 hPa")
+             (:name . "175 hPa (12.6 km)")
              (:type . checkbox))
             ("geopotential_height_150hPa"
-             (:name . "150 hPa")
+             (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
             ("geopotential_height_125hPa"
-             (:name . "125 hPa")
+             (:name . "125 hPa (14.6 km)")
              (:type . checkbox))
             ("geopotential_height_100hPa"
-             (:name . "100 hPa")
+             (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
             ("geopotential_height_70hPa"
-             (:name . "70 hPa")
+             (:name . "70 hPa (17.7 km)")
              (:type . checkbox))
             ("geopotential_height_50hPa"
-             (:name . "50 hPa")
+             (:name . "50 hPa (19.3 km)")
              (:type . checkbox))
             ("geopotential_height_30hPa"
-             (:name . "30 hPa")
+             (:name . "30 hPa (22 km)")
              (:type . checkbox))
             ("geopotential_height_20hPa"
-             (:name . "20 hPa")
+             (:name . "20 hPa (23 km)")
              (:type . checkbox))
             ("geopotential_height_10hPa"
-             (:name . "10 hPa")
+             (:name . "10 hPa (26 km)")
              (:type . checkbox)))))))
        (:fields
         ("temperature_2m"
@@ -3220,9 +3220,9 @@
          (:name . "Temperature (50 m)")
          (:type . checkbox))
         ("temperature_100m"
-         (:name . "Temperature (100 m)")
          (:type . checkbox))
-        ("temperature_150m"
+        ("temperature_100m"
+         (:name . "Temperature (100 m)")
          (:name . "Temperature (150 m)")
          (:type . checkbox))
         ("temperature_200m"
@@ -3382,263 +3382,263 @@
           ((:name . "Temperature")
            (:fields
             ("temperature_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("temperature_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("temperature_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("temperature_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("temperature_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("temperature_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("temperature_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("temperature_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("temperature_50hPa"
-             (:name . "50 hPa")
+             (:name . "50 hPa (19.3 km)")
              (:type . checkbox))))
           ((:name . "Relative Humidity")
            (:fields
             ("relative_humidity_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("relative_humidity_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("relative_humidity_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("relative_humidity_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("relative_humidity_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("relative_humidity_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("relative_humidity_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("relative_humidity_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("relative_humidity_50hPa"
-             (:name . "50 hPa")
+             (:name . "50 hPa (19.3 km)")
              (:type . checkbox))))
           ((:name . "Specific Humidity")
            (:fields
             ("specific_humidity_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("specific_humidity_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("specific_humidity_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("specific_humidity_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("specific_humidity_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("specific_humidity_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("specific_humidity_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("specific_humidity_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("specific_humidity_50hPa"
-             (:name . "50 hPa")
+             (:name . "50 hPa (19.3 km)")
              (:type . checkbox))))
           ((:name . "Cloudcover")
            (:fields
             ("cloudcover_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("cloudcover_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("cloudcover_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("cloudcover_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("cloudcover_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("cloudcover_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("cloudcover_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("cloudcover_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("cloudcover_50hPa"
-             (:name . "50 hPa")
+             (:name . "50 hPa (19.3 km)")
              (:type . checkbox))))
           ((:name . "Wind Speed")
            (:fields
             ("windspeed_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("windspeed_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("windspeed_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("windspeed_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("windspeed_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("windspeed_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("windspeed_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("windspeed_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("windspeed_50hPa"
-             (:name . "50 hPa")
+             (:name . "50 hPa (19.3 km)")
              (:type . checkbox))))
           ((:name . "Wind Direction")
            (:fields
             ("winddirection_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("winddirection_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("winddirection_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("winddirection_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("winddirection_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("winddirection_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("winddirection_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("winddirection_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("winddirection_50hPa"
-             (:name . "50 hPa")
+             (:name . "50 hPa (19.3 km)")
              (:type . checkbox))))
           ((:name . "Geopotential Height")
            (:fields
             ("geopotential_height_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("geopotential_height_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("geopotential_height_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("geopotential_height_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("geopotential_height_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("geopotential_height_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("geopotential_height_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("geopotential_height_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("geopotential_height_50hPa"
-             (:name . "50 hPa")
+             (:name . "50 hPa (19.3 km)")
              (:type . checkbox))))
           ((:name . "Relative Vorticity")
            (:fields
             ("atmosphere_relative_vorticity_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("atmosphere_relative_vorticity_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("atmosphere_relative_vorticity_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("atmosphere_relative_vorticity_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("atmosphere_relative_vorticity_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("atmosphere_relative_vorticity_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("atmosphere_relative_vorticity_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("atmosphere_relative_vorticity_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("atmosphere_relative_vorticity_50hPa"
-             (:name . "50 hPa")
+             (:name . "50 hPa (19.3 km)")
              (:type . checkbox))))
           ((:name . "Divergence of Wind")
            (:fields
             ("divergence_of_wind_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("divergence_of_wind_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("divergence_of_wind_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("divergence_of_wind_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("divergence_of_wind_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("divergence_of_wind_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("divergence_of_wind_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("divergence_of_wind_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("divergence_of_wind_50hPa"
-             (:name . "50 hPa")
+             (:name . "50 hPa (19.3 km)")
              (:type . checkbox)))))))
        (:fields
         ("temperature_2m"
@@ -3808,247 +3808,247 @@
           ((:name . "Temperature")
            (:fields
             ("temperature_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("temperature_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("temperature_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("temperature_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("temperature_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("temperature_400hPa"
-             (:name . "400 hPa")
+             (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
             ("temperature_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("temperature_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("temperature_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("temperature_150hPa"
-             (:name . "150 hPa")
+             (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
             ("temperature_100hPa"
-             (:name . "100 hPa")
+             (:name . "100 hPa (15.8 km)")
              (:type . checkbox))))
           ((:name . "Dewpoint")
            (:fields
             ("dewpoint_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("dewpoint_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("dewpoint_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("dewpoint_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("dewpoint_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("dewpoint_400hPa"
-             (:name . "400 hPa")
+             (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
             ("dewpoint_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("dewpoint_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("dewpoint_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("dewpoint_150hPa"
-             (:name . "150 hPa")
+             (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
             ("dewpoint_100hPa"
-             (:name . "100 hPa")
+             (:name . "100 hPa (15.8 km)")
              (:type . checkbox))))
           ((:name . "Relative Humidity")
            (:fields
             ("relativehumidity_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("relativehumidity_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("relativehumidity_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("relativehumidity_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("relativehumidity_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("relativehumidity_400hPa"
-             (:name . "400 hPa")
+             (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
             ("relativehumidity_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("relativehumidity_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("relativehumidity_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("relativehumidity_150hPa"
-             (:name . "150 hPa")
+             (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
             ("relativehumidity_100hPa"
-             (:name . "100 hPa")
+             (:name . "100 hPa (15.8 km)")
              (:type . checkbox))))
           ((:name . "Cloudcover")
            (:fields
             ("cloudcover_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("cloudcover_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("cloudcover_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("cloudcover_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("cloudcover_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("cloudcover_400hPa"
-             (:name . "400 hPa")
+             (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
             ("cloudcover_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("cloudcover_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("cloudcover_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("cloudcover_150hPa"
-             (:name . "150 hPa")
+             (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
             ("cloudcover_100hPa"
-             (:name . "100 hPa")
+             (:name . "100 hPa (15.8 km)")
              (:type . checkbox))))
           ((:name . "Wind Speed")
            (:fields
             ("windspeed_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("windspeed_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("windspeed_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("windspeed_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("windspeed_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("windspeed_400hPa"
-             (:name . "400 hPa")
+             (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
             ("windspeed_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("windspeed_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("windspeed_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("windspeed_150hPa"
-             (:name . "150 hPa")
+             (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
             ("windspeed_100hPa"
-             (:name . "100 hPa")
+             (:name . "100 hPa (15.8 km)")
              (:type . checkbox))))
           ((:name . "Wind Direction")
            (:fields
             ("winddirection_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("winddirection_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("winddirection_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("winddirection_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("winddirection_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("winddirection_400hPa"
-             (:name . "400 hPa")
+             (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
             ("winddirection_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("winddirection_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("winddirection_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("winddirection_150hPa"
-             (:name . "150 hPa")
+             (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
             ("winddirection_100hPa"
-             (:name . "100 hPa")
+             (:name . "100 hPa (15.8 km)")
              (:type . checkbox))))
           ((:name . "Geopotential Height")
            (:fields
             ("geopotential_height_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("geopotential_height_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("geopotential_height_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("geopotential_height_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("geopotential_height_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("geopotential_height_400hPa"
-             (:name . "400 hPa")
+             (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
             ("geopotential_height_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("geopotential_height_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("geopotential_height_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("geopotential_height_150hPa"
-             (:name . "150 hPa")
+             (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
             ("geopotential_height_100hPa"
-             (:name . "100 hPa")
+             (:name . "100 hPa (15.8 km)")
              (:type . checkbox)))))))
        (:fields
         ("temperature_2m"
@@ -4411,667 +4411,667 @@
           ((:name . "Temperature")
            (:fields
             ("temperature_10hPa"
-             (:name . "10 hPa")
+             (:name . "10 hPa (26 km)")
              (:type . checkbox))
             ("temperature_20hPa"
-             (:name . "20 hPa")
+             (:name . "20 hPa (23 km)")
              (:type . checkbox))
             ("temperature_30hPa"
-             (:name . "30 hPa")
+             (:name . "30 hPa (22 km)")
              (:type . checkbox))
             ("temperature_50hPa"
-             (:name . "50 hPa")
+             (:name . "50 hPa (19.3 km)")
              (:type . checkbox))
             ("temperature_100hPa"
-             (:name . "100 hPa")
+             (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
             ("temperature_150hPa"
-             (:name . "150 hPa")
+             (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
             ("temperature_175hPa"
-             (:name . "175 hPa")
+             (:name . "175 hPa (12.6 km)")
              (:type . checkbox))
             ("temperature_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("temperature_225hPa"
-             (:name . "225 hPa")
+             (:name . "225 hPa (11 km)")
              (:type . checkbox))
             ("temperature_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("temperature_275hPa"
-             (:name . "275 hPa")
+             (:name . "275 hPa (9.7 km)")
              (:type . checkbox))
             ("temperature_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("temperature_350hPa"
-             (:name . "350 hPa")
+             (:name . "350 hPa (8.1 km)")
              (:type . checkbox))
             ("temperature_400hPa"
-             (:name . "400 hPa")
+             (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
             ("temperature_450hPa"
-             (:name . "450 hPa")
+             (:name . "450 hPa (6.3 km)")
              (:type . checkbox))
             ("temperature_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("temperature_550hPa"
-             (:name . "550 hPa")
+             (:name . "550 hPa (4.9 km)")
              (:type . checkbox))
             ("temperature_600hPa"
-             (:name . "600 hPa")
+             (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
             ("temperature_650hPa"
-             (:name . "650 hPa")
+             (:name . "650 hPa (3.6 km)")
              (:type . checkbox))
             ("temperature_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("temperature_750hPa"
-             (:name . "750 hPa")
+             (:name . "750 hPa (2.5 km)")
              (:type . checkbox))
             ("temperature_800hPa"
-             (:name . "800 hPa")
+             (:name . "800 hPa (1900 m)")
              (:type . checkbox))
             ("temperature_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("temperature_875hPa"
-             (:name . "875 hPa")
+             (:name . "875 hPa (1200 m)")
              (:type . checkbox))
             ("temperature_900hPa"
-             (:name . "900 hPa")
+             (:name . "900 hPa (1000 m)")
              (:type . checkbox))
             ("temperature_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("temperature_950hPa"
-             (:name . "950 hPa")
+             (:name . "950 hPa (500 m)")
              (:type . checkbox))
             ("temperature_970hPa"
-             (:name . "970 hPa")
+             (:name . "970 hPa (370 m)")
              (:type . checkbox))
             ("temperature_985hPa"
-             (:name . "985 hPa")
+             (:name . "985 hPa (240 m)")
              (:type . checkbox))
             ("temperature_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("temperature_1015hPa"
-             (:name . "1015 hPa")
+             (:name . "1015 hPa (-10 m)")
              (:type . checkbox))))
           ((:name . "Dewpoint")
            (:fields
             ("dewpoint_10hPa"
-             (:name . "10 hPa")
+             (:name . "10 hPa (26 km)")
              (:type . checkbox))
             ("dewpoint_20hPa"
-             (:name . "20 hPa")
+             (:name . "20 hPa (23 km)")
              (:type . checkbox))
             ("dewpoint_30hPa"
-             (:name . "30 hPa")
+             (:name . "30 hPa (22 km)")
              (:type . checkbox))
             ("dewpoint_50hPa"
-             (:name . "50 hPa")
+             (:name . "50 hPa (19.3 km)")
              (:type . checkbox))
             ("dewpoint_100hPa"
-             (:name . "100 hPa")
+             (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
             ("dewpoint_150hPa"
-             (:name . "150 hPa")
+             (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
             ("dewpoint_175hPa"
-             (:name . "175 hPa")
+             (:name . "175 hPa (12.6 km)")
              (:type . checkbox))
             ("dewpoint_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("dewpoint_225hPa"
-             (:name . "225 hPa")
+             (:name . "225 hPa (11 km)")
              (:type . checkbox))
             ("dewpoint_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("dewpoint_275hPa"
-             (:name . "275 hPa")
+             (:name . "275 hPa (9.7 km)")
              (:type . checkbox))
             ("dewpoint_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("dewpoint_350hPa"
-             (:name . "350 hPa")
+             (:name . "350 hPa (8.1 km)")
              (:type . checkbox))
             ("dewpoint_400hPa"
-             (:name . "400 hPa")
+             (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
             ("dewpoint_450hPa"
-             (:name . "450 hPa")
+             (:name . "450 hPa (6.3 km)")
              (:type . checkbox))
             ("dewpoint_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("dewpoint_550hPa"
-             (:name . "550 hPa")
+             (:name . "550 hPa (4.9 km)")
              (:type . checkbox))
             ("dewpoint_600hPa"
-             (:name . "600 hPa")
+             (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
             ("dewpoint_650hPa"
-             (:name . "650 hPa")
+             (:name . "650 hPa (3.6 km)")
              (:type . checkbox))
             ("dewpoint_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("dewpoint_750hPa"
-             (:name . "750 hPa")
+             (:name . "750 hPa (2.5 km)")
              (:type . checkbox))
             ("dewpoint_800hPa"
-             (:name . "800 hPa")
+             (:name . "800 hPa (1900 m)")
              (:type . checkbox))
             ("dewpoint_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("dewpoint_875hPa"
-             (:name . "875 hPa")
+             (:name . "875 hPa (1200 m)")
              (:type . checkbox))
             ("dewpoint_900hPa"
-             (:name . "900 hPa")
+             (:name . "900 hPa (1000 m)")
              (:type . checkbox))
             ("dewpoint_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("dewpoint_950hPa"
-             (:name . "950 hPa")
+             (:name . "950 hPa (500 m)")
              (:type . checkbox))
             ("dewpoint_970hPa"
-             (:name . "970 hPa")
+             (:name . "970 hPa (370 m)")
              (:type . checkbox))
             ("dewpoint_985hPa"
-             (:name . "985 hPa")
+             (:name . "985 hPa (240 m)")
              (:type . checkbox))
             ("dewpoint_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("dewpoint_1015hPa"
-             (:name . "1015 hPa")
+             (:name . "1015 hPa (-10 m)")
              (:type . checkbox))))
           ((:name . "Relative Humidity")
            (:fields
             ("relativehumidity_10hPa"
-             (:name . "10 hPa")
+             (:name . "10 hPa (26 km)")
              (:type . checkbox))
             ("relativehumidity_20hPa"
-             (:name . "20 hPa")
+             (:name . "20 hPa (23 km)")
              (:type . checkbox))
             ("relativehumidity_30hPa"
-             (:name . "30 hPa")
+             (:name . "30 hPa (22 km)")
              (:type . checkbox))
             ("relativehumidity_50hPa"
-             (:name . "50 hPa")
+             (:name . "50 hPa (19.3 km)")
              (:type . checkbox))
             ("relativehumidity_100hPa"
-             (:name . "100 hPa")
+             (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
             ("relativehumidity_150hPa"
-             (:name . "150 hPa")
+             (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
             ("relativehumidity_175hPa"
-             (:name . "175 hPa")
+             (:name . "175 hPa (12.6 km)")
              (:type . checkbox))
             ("relativehumidity_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("relativehumidity_225hPa"
-             (:name . "225 hPa")
+             (:name . "225 hPa (11 km)")
              (:type . checkbox))
             ("relativehumidity_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("relativehumidity_275hPa"
-             (:name . "275 hPa")
+             (:name . "275 hPa (9.7 km)")
              (:type . checkbox))
             ("relativehumidity_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("relativehumidity_350hPa"
-             (:name . "350 hPa")
+             (:name . "350 hPa (8.1 km)")
              (:type . checkbox))
             ("relativehumidity_400hPa"
-             (:name . "400 hPa")
+             (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
             ("relativehumidity_450hPa"
-             (:name . "450 hPa")
+             (:name . "450 hPa (6.3 km)")
              (:type . checkbox))
             ("relativehumidity_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("relativehumidity_550hPa"
-             (:name . "550 hPa")
+             (:name . "550 hPa (4.9 km)")
              (:type . checkbox))
             ("relativehumidity_600hPa"
-             (:name . "600 hPa")
+             (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
             ("relativehumidity_650hPa"
-             (:name . "650 hPa")
+             (:name . "650 hPa (3.6 km)")
              (:type . checkbox))
             ("relativehumidity_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("relativehumidity_750hPa"
-             (:name . "750 hPa")
+             (:name . "750 hPa (2.5 km)")
              (:type . checkbox))
             ("relativehumidity_800hPa"
-             (:name . "800 hPa")
+             (:name . "800 hPa (1900 m)")
              (:type . checkbox))
             ("relativehumidity_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("relativehumidity_875hPa"
-             (:name . "875 hPa")
+             (:name . "875 hPa (1200 m)")
              (:type . checkbox))
             ("relativehumidity_900hPa"
-             (:name . "900 hPa")
+             (:name . "900 hPa (1000 m)")
              (:type . checkbox))
             ("relativehumidity_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("relativehumidity_950hPa"
-             (:name . "950 hPa")
+             (:name . "950 hPa (500 m)")
              (:type . checkbox))
             ("relativehumidity_970hPa"
-             (:name . "970 hPa")
+             (:name . "970 hPa (370 m)")
              (:type . checkbox))
             ("relativehumidity_985hPa"
-             (:name . "985 hPa")
+             (:name . "985 hPa (240 m)")
              (:type . checkbox))
             ("relativehumidity_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("relativehumidity_1015hPa"
-             (:name . "1015 hPa")
+             (:name . "1015 hPa (-10 m)")
              (:type . checkbox))))
           ((:name . "Cloudcover")
            (:fields
             ("cloudcover_10hPa"
-             (:name . "10 hPa")
+             (:name . "10 hPa (26 km)")
              (:type . checkbox))
             ("cloudcover_20hPa"
-             (:name . "20 hPa")
+             (:name . "20 hPa (23 km)")
              (:type . checkbox))
             ("cloudcover_30hPa"
-             (:name . "30 hPa")
+             (:name . "30 hPa (22 km)")
              (:type . checkbox))
             ("cloudcover_50hPa"
-             (:name . "50 hPa")
+             (:name . "50 hPa (19.3 km)")
              (:type . checkbox))
             ("cloudcover_100hPa"
-             (:name . "100 hPa")
+             (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
             ("cloudcover_150hPa"
-             (:name . "150 hPa")
+             (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
             ("cloudcover_175hPa"
-             (:name . "175 hPa")
+             (:name . "175 hPa (12.6 km)")
              (:type . checkbox))
             ("cloudcover_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("cloudcover_225hPa"
-             (:name . "225 hPa")
+             (:name . "225 hPa (11 km)")
              (:type . checkbox))
             ("cloudcover_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("cloudcover_275hPa"
-             (:name . "275 hPa")
+             (:name . "275 hPa (9.7 km)")
              (:type . checkbox))
             ("cloudcover_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("cloudcover_350hPa"
-             (:name . "350 hPa")
+             (:name . "350 hPa (8.1 km)")
              (:type . checkbox))
             ("cloudcover_400hPa"
-             (:name . "400 hPa")
+             (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
             ("cloudcover_450hPa"
-             (:name . "450 hPa")
+             (:name . "450 hPa (6.3 km)")
              (:type . checkbox))
             ("cloudcover_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("cloudcover_550hPa"
-             (:name . "550 hPa")
+             (:name . "550 hPa (4.9 km)")
              (:type . checkbox))
             ("cloudcover_600hPa"
-             (:name . "600 hPa")
+             (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
             ("cloudcover_650hPa"
-             (:name . "650 hPa")
+             (:name . "650 hPa (3.6 km)")
              (:type . checkbox))
             ("cloudcover_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("cloudcover_750hPa"
-             (:name . "750 hPa")
+             (:name . "750 hPa (2.5 km)")
              (:type . checkbox))
             ("cloudcover_800hPa"
-             (:name . "800 hPa")
+             (:name . "800 hPa (1900 m)")
              (:type . checkbox))
             ("cloudcover_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("cloudcover_875hPa"
-             (:name . "875 hPa")
+             (:name . "875 hPa (1200 m)")
              (:type . checkbox))
             ("cloudcover_900hPa"
-             (:name . "900 hPa")
+             (:name . "900 hPa (1000 m)")
              (:type . checkbox))
             ("cloudcover_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("cloudcover_950hPa"
-             (:name . "950 hPa")
+             (:name . "950 hPa (500 m)")
              (:type . checkbox))
             ("cloudcover_970hPa"
-             (:name . "970 hPa")
+             (:name . "970 hPa (370 m)")
              (:type . checkbox))
             ("cloudcover_985hPa"
-             (:name . "985 hPa")
+             (:name . "985 hPa (240 m)")
              (:type . checkbox))
             ("cloudcover_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("cloudcover_1015hPa"
-             (:name . "1015 hPa")
+             (:name . "1015 hPa (-10 m)")
              (:type . checkbox))))
           ((:name . "Wind Speed")
            (:fields
             ("windspeed_10hPa"
-             (:name . "10 hPa")
+             (:name . "10 hPa (26 km)")
              (:type . checkbox))
             ("windspeed_20hPa"
-             (:name . "20 hPa")
+             (:name . "20 hPa (23 km)")
              (:type . checkbox))
             ("windspeed_30hPa"
-             (:name . "30 hPa")
+             (:name . "30 hPa (22 km)")
              (:type . checkbox))
             ("windspeed_50hPa"
-             (:name . "50 hPa")
+             (:name . "50 hPa (19.3 km)")
              (:type . checkbox))
             ("windspeed_100hPa"
-             (:name . "100 hPa")
+             (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
             ("windspeed_150hPa"
-             (:name . "150 hPa")
+             (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
             ("windspeed_175hPa"
-             (:name . "175 hPa")
+             (:name . "175 hPa (12.6 km)")
              (:type . checkbox))
             ("windspeed_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("windspeed_225hPa"
-             (:name . "225 hPa")
+             (:name . "225 hPa (11 km)")
              (:type . checkbox))
             ("windspeed_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("windspeed_275hPa"
-             (:name . "275 hPa")
+             (:name . "275 hPa (9.7 km)")
              (:type . checkbox))
             ("windspeed_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("windspeed_350hPa"
-             (:name . "350 hPa")
+             (:name . "350 hPa (8.1 km)")
              (:type . checkbox))
             ("windspeed_400hPa"
-             (:name . "400 hPa")
+             (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
             ("windspeed_450hPa"
-             (:name . "450 hPa")
+             (:name . "450 hPa (6.3 km)")
              (:type . checkbox))
             ("windspeed_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("windspeed_550hPa"
-             (:name . "550 hPa")
+             (:name . "550 hPa (4.9 km)")
              (:type . checkbox))
             ("windspeed_600hPa"
-             (:name . "600 hPa")
+             (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
             ("windspeed_650hPa"
-             (:name . "650 hPa")
+             (:name . "650 hPa (3.6 km)")
              (:type . checkbox))
             ("windspeed_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("windspeed_750hPa"
-             (:name . "750 hPa")
+             (:name . "750 hPa (2.5 km)")
              (:type . checkbox))
             ("windspeed_800hPa"
-             (:name . "800 hPa")
+             (:name . "800 hPa (1900 m)")
              (:type . checkbox))
             ("windspeed_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("windspeed_875hPa"
-             (:name . "875 hPa")
+             (:name . "875 hPa (1200 m)")
              (:type . checkbox))
             ("windspeed_900hPa"
-             (:name . "900 hPa")
+             (:name . "900 hPa (1000 m)")
              (:type . checkbox))
             ("windspeed_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("windspeed_950hPa"
-             (:name . "950 hPa")
+             (:name . "950 hPa (500 m)")
              (:type . checkbox))
             ("windspeed_970hPa"
-             (:name . "970 hPa")
+             (:name . "970 hPa (370 m)")
              (:type . checkbox))
             ("windspeed_985hPa"
-             (:name . "985 hPa")
+             (:name . "985 hPa (240 m)")
              (:type . checkbox))
             ("windspeed_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("windspeed_1015hPa"
-             (:name . "1015 hPa")
+             (:name . "1015 hPa (-10 m)")
              (:type . checkbox))))
           ((:name . "Wind Direction")
            (:fields
             ("winddirection_10hPa"
-             (:name . "10 hPa")
+             (:name . "10 hPa (26 km)")
              (:type . checkbox))
             ("winddirection_20hPa"
-             (:name . "20 hPa")
+             (:name . "20 hPa (23 km)")
              (:type . checkbox))
             ("winddirection_30hPa"
-             (:name . "30 hPa")
+             (:name . "30 hPa (22 km)")
              (:type . checkbox))
             ("winddirection_50hPa"
-             (:name . "50 hPa")
+             (:name . "50 hPa (19.3 km)")
              (:type . checkbox))
             ("winddirection_100hPa"
-             (:name . "100 hPa")
+             (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
             ("winddirection_150hPa"
-             (:name . "150 hPa")
+             (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
             ("winddirection_175hPa"
-             (:name . "175 hPa")
+             (:name . "175 hPa (12.6 km)")
              (:type . checkbox))
             ("winddirection_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("winddirection_225hPa"
-             (:name . "225 hPa")
+             (:name . "225 hPa (11 km)")
              (:type . checkbox))
             ("winddirection_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("winddirection_275hPa"
-             (:name . "275 hPa")
+             (:name . "275 hPa (9.7 km)")
              (:type . checkbox))
             ("winddirection_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("winddirection_350hPa"
-             (:name . "350 hPa")
+             (:name . "350 hPa (8.1 km)")
              (:type . checkbox))
             ("winddirection_400hPa"
-             (:name . "400 hPa")
+             (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
             ("winddirection_450hPa"
-             (:name . "450 hPa")
+             (:name . "450 hPa (6.3 km)")
              (:type . checkbox))
             ("winddirection_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("winddirection_550hPa"
-             (:name . "550 hPa")
+             (:name . "550 hPa (4.9 km)")
              (:type . checkbox))
             ("winddirection_600hPa"
-             (:name . "600 hPa")
+             (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
             ("winddirection_650hPa"
-             (:name . "650 hPa")
+             (:name . "650 hPa (3.6 km)")
              (:type . checkbox))
             ("winddirection_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("winddirection_750hPa"
-             (:name . "750 hPa")
+             (:name . "750 hPa (2.5 km)")
              (:type . checkbox))
             ("winddirection_800hPa"
-             (:name . "800 hPa")
+             (:name . "800 hPa (1900 m)")
              (:type . checkbox))
             ("winddirection_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("winddirection_875hPa"
-             (:name . "875 hPa")
+             (:name . "875 hPa (1200 m)")
              (:type . checkbox))
             ("winddirection_900hPa"
-             (:name . "900 hPa")
+             (:name . "900 hPa (1000 m)")
              (:type . checkbox))
             ("winddirection_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("winddirection_950hPa"
-             (:name . "950 hPa")
+             (:name . "950 hPa (500 m)")
              (:type . checkbox))
             ("winddirection_970hPa"
-             (:name . "970 hPa")
+             (:name . "970 hPa (370 m)")
              (:type . checkbox))
             ("winddirection_985hPa"
-             (:name . "985 hPa")
+             (:name . "985 hPa (240 m)")
              (:type . checkbox))
             ("winddirection_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("winddirection_1015hPa"
-             (:name . "1015 hPa")
+             (:name . "1015 hPa (-10 m)")
              (:type . checkbox))))
           ((:name . "Geopotential Height")
            (:fields
             ("geopotential_height_10hPa"
-             (:name . "10 hPa")
+             (:name . "10 hPa (26 km)")
              (:type . checkbox))
             ("geopotential_height_20hPa"
-             (:name . "20 hPa")
+             (:name . "20 hPa (23 km)")
              (:type . checkbox))
             ("geopotential_height_30hPa"
-             (:name . "30 hPa")
+             (:name . "30 hPa (22 km)")
              (:type . checkbox))
             ("geopotential_height_50hPa"
-             (:name . "50 hPa")
+             (:name . "50 hPa (19.3 km)")
              (:type . checkbox))
             ("geopotential_height_100hPa"
-             (:name . "100 hPa")
+             (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
             ("geopotential_height_150hPa"
-             (:name . "150 hPa")
+             (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
             ("geopotential_height_175hPa"
-             (:name . "175 hPa")
+             (:name . "175 hPa (12.6 km)")
              (:type . checkbox))
             ("geopotential_height_200hPa"
-             (:name . "200 hPa")
+             (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
             ("geopotential_height_225hPa"
-             (:name . "225 hPa")
+             (:name . "225 hPa (11 km)")
              (:type . checkbox))
             ("geopotential_height_250hPa"
-             (:name . "250 hPa")
+             (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
             ("geopotential_height_275hPa"
-             (:name . "275 hPa")
+             (:name . "275 hPa (9.7 km)")
              (:type . checkbox))
             ("geopotential_height_300hPa"
-             (:name . "300 hPa")
+             (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
             ("geopotential_height_350hPa"
-             (:name . "350 hPa")
+             (:name . "350 hPa (8.1 km)")
              (:type . checkbox))
             ("geopotential_height_400hPa"
-             (:name . "400 hPa")
+             (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
             ("geopotential_height_450hPa"
-             (:name . "450 hPa")
+             (:name . "450 hPa (6.3 km)")
              (:type . checkbox))
             ("geopotential_height_500hPa"
-             (:name . "500 hPa")
+             (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
             ("geopotential_height_550hPa"
-             (:name . "550 hPa")
+             (:name . "550 hPa (4.9 km)")
              (:type . checkbox))
             ("geopotential_height_600hPa"
-             (:name . "600 hPa")
+             (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
             ("geopotential_height_650hPa"
-             (:name . "650 hPa")
+             (:name . "650 hPa (3.6 km)")
              (:type . checkbox))
             ("geopotential_height_700hPa"
-             (:name . "700 hPa")
+             (:name . "700 hPa (3 km)")
              (:type . checkbox))
             ("geopotential_height_750hPa"
-             (:name . "750 hPa")
+             (:name . "750 hPa (2.5 km)")
              (:type . checkbox))
             ("geopotential_height_800hPa"
-             (:name . "800 hPa")
+             (:name . "800 hPa (1900 m)")
              (:type . checkbox))
             ("geopotential_height_850hPa"
-             (:name . "850 hPa")
+             (:name . "850 hPa (1500 m)")
              (:type . checkbox))
             ("geopotential_height_875hPa"
-             (:name . "875 hPa")
+             (:name . "875 hPa (1200 m)")
              (:type . checkbox))
             ("geopotential_height_900hPa"
-             (:name . "900 hPa")
+             (:name . "900 hPa (1000 m)")
              (:type . checkbox))
             ("geopotential_height_925hPa"
-             (:name . "925 hPa")
+             (:name . "925 hPa (800 m)")
              (:type . checkbox))
             ("geopotential_height_950hPa"
-             (:name . "950 hPa")
+             (:name . "950 hPa (500 m)")
              (:type . checkbox))
             ("geopotential_height_970hPa"
-             (:name . "970 hPa")
+             (:name . "970 hPa (370 m)")
              (:type . checkbox))
             ("geopotential_height_985hPa"
-             (:name . "985 hPa")
+             (:name . "985 hPa (240 m)")
              (:type . checkbox))
             ("geopotential_height_1000hPa"
-             (:name . "1000 hPa")
+             (:name . "1000 hPa (110 m)")
              (:type . checkbox))
             ("geopotential_height_1015hPa"
-             (:name . "1015 hPa")
+             (:name . "1015 hPa (-10 m)")
              (:type . checkbox)))))))
        (:fields
         ("temperature_2m"
@@ -5499,16 +5499,16 @@
        (:name . "Reanalysis models")
        (:fields
         ("best_match"
-         (:name . "Best match")
+         (:name . "Best match (ERA5 & ERA5-Land combined)")
          (:type . checkbox))
         ("era5"
-         (:name . "ERA5")
+         (:name . "ERA5 (25 km, Global)")
          (:type . checkbox))
         ("era5_land"
-         (:name . "ERA5-Land")
+         (:name . "ERA5-Land (10 km, Global)")
          (:type . checkbox))
         ("cerra"
-         (:name . "CERRA")
+         (:name . "CERRA (5 km, Europe, 1985 to June 2021)")
          (:type . checkbox))))))
     ("Ensemble Models"
      (:name . "Ensemble Models")
@@ -5865,25 +5865,25 @@
        (:name . "Climate models")
        (:fields
         ("CMCC_CM2_VHR4"
-         (:name . "CMCC_CM2_VHR4")
+         (:name . "CMCC_CM2_VHR4 (30 km)")
          (:type . checkbox))
         ("FGOALS_f3_H"
-         (:name . "FGOALS_f3_H")
+         (:name . "FGOALS_f3_H (28 km)")
          (:type . checkbox))
         ("HiRAM_SIT_HR"
-         (:name . "HiRAM_SIT_HR")
+         (:name . "HiRAM_SIT_HR (25 km)")
          (:type . checkbox))
         ("MRI_AGCM3_2_S"
-         (:name . "MRI_AGCM3_2_S")
+         (:name . "MRI_AGCM3_2_S (20 km)")
          (:type . checkbox))
         ("EC_Earth3P_HR"
-         (:name . "EC_Earth3P_HR")
+         (:name . "EC_Earth3P_HR (29 km)")
          (:type . checkbox))
         ("MPI_ESM1_2_XR"
-         (:name . "MPI_ESM1_2_XR")
+         (:name . "MPI_ESM1_2_XR (51 km)")
          (:type . checkbox))
         ("NICAM16_8S"
-         (:name . "NICAM16_8S")
+         (:name . "NICAM16_8S (31 km)")
          (:type . checkbox))))))
     ("Marine Forecast"
      (:name . "Marine Forecast")
@@ -6022,19 +6022,19 @@
            (:name . "European AQI")
            (:type . checkbox))
           ("european_aqi_pm2_5"
-           (:name . "European AQI PM")
+           (:name . "European AQI PM 2.5")
            (:type . checkbox))
           ("european_aqi_pm10"
-           (:name . "European AQI PM")
+           (:name . "European AQI PM 10")
            (:type . checkbox))
           ("european_aqi_no2"
-           (:name . "European AQI NO")
+           (:name . "European AQI NO 2")
            (:type . checkbox))
           ("european_aqi_o3"
-           (:name . "European AQI O")
+           (:name . "European AQI O 3")
            (:type . checkbox))
           ("european_aqi_so2"
-           (:name . "European AQI SO")
+           (:name . "European AQI SO 2")
            (:type . checkbox))))
         ((:name . "United States Air Quality Index")
          (:fields
@@ -6042,41 +6042,41 @@
            (:name . "United States AQI")
            (:type . checkbox))
           ("us_aqi_pm2_5"
-           (:name . "United States AQI PM")
+           (:name . "United States AQI PM 2.5")
            (:type . checkbox))
           ("us_aqi_pm10"
-           (:name . "United States AQI PM")
+           (:name . "United States AQI PM 10")
            (:type . checkbox))
           ("us_aqi_no2"
-           (:name . "United States AQI NO")
+           (:name . "United States AQI NO 2")
            (:type . checkbox))
           ("us_aqi_co"
            (:name . "United States AQI CO")
            (:type . checkbox))
           ("us_aqi_o3"
-           (:name . "United States AQI O")
+           (:name . "United States AQI O 3")
            (:type . checkbox))
           ("us_aqi_so2"
-           (:name . "United States AQI SO")
+           (:name . "United States AQI SO 2")
            (:type . checkbox)))))
        (:fields
         ("pm10"
-         (:name . "Particulate Matter PM")
+         (:name . "Particulate Matter PM 10")
          (:type . checkbox))
         ("pm2_5"
-         (:name . "Particulate Matter PM")
+         (:name . "Particulate Matter PM 2.5")
          (:type . checkbox))
         ("carbon_monoxide"
          (:name . "Carbon Monoxide CO")
          (:type . checkbox))
         ("nitrogen_dioxide"
-         (:name . "Nitrogen Dioxide NO")
+         (:name . "Nitrogen Dioxide NO 2")
          (:type . checkbox))
         ("sulphur_dioxide"
-         (:name . "Sulphur Dioxide SO")
+         (:name . "Sulphur Dioxide SO 2")
          (:type . checkbox))
         ("ozone"
-         (:name . "Ozone O")
+         (:name . "Ozone O 3")
          (:type . checkbox))
         ("aerosol_optical_depth"
          (:name . "Aerosol Optical Depth")
@@ -6091,25 +6091,25 @@
          (:name . "UV Index Clear Sky")
          (:type . checkbox))
         ("ammonia"
-         (:name . "Ammonia NH")
+         (:name . "Ammonia NH 3 (*)")
          (:type . checkbox))
         ("alder_pollen"
-         (:name . "Alder Pollen")
+         (:name . "Alder Pollen (*)")
          (:type . checkbox))
         ("birch_pollen"
-         (:name . "Birch Pollen")
+         (:name . "Birch Pollen (*)")
          (:type . checkbox))
         ("grass_pollen"
-         (:name . "Grass Pollen")
+         (:name . "Grass Pollen (*)")
          (:type . checkbox))
         ("mugwort_pollen"
-         (:name . "Mugwort Pollen")
+         (:name . "Mugwort Pollen (*)")
          (:type . checkbox))
         ("olive_pollen"
-         (:name . "Olive Pollen")
+         (:name . "Olive Pollen (*)")
          (:type . checkbox))
         ("ragweed_pollen"
-         (:name . "Ragweed Pollen")
+         (:name . "Ragweed Pollen (*)")
          (:type . checkbox))))
       ((:name . "Settings")
        (:fields
@@ -6174,10 +6174,10 @@
          (:name . "River Discharge Minimum")
          (:type . checkbox))
         ("river_discharge_p25"
-         (:name . "River Discharge 25 Percentile")
+         (:name . "River Discharge 25 th Percentile")
          (:type . checkbox))
         ("river_discharge_p75"
-         (:name . "River Discharge 75 Percentile")
+         (:name . "River Discharge 75 th Percentile")
          (:type . checkbox))
         ("ensemble"
          (:name . "All 50 Ensemble Members")

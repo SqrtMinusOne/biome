@@ -185,13 +185,13 @@ SECTION is a DOM element.  Return a list of fields as defined by
                          (:options . ,(mapcar
                                        (lambda (opt) (cons (dom-attr opt 'value)
                                                            (biome-api-parse--fix-string
-                                                            (dom-text opt))))
+                                                            (dom-texts opt))))
                                        (dom-by-tag elem 'option)))))
                  fields)
              else if (eq (dom-tag elem) 'label)
              do (push (cons (or (cdr (assoc (dom-attr elem 'for) field-id-mapping))
                                 (dom-attr elem 'for))
-                            (biome-api-parse--fix-string (dom-text elem)))
+                            (biome-api-parse--fix-string (dom-texts elem)))
                       field-names))
     (cl-loop for (id . name) in field-names
              do (when-let ((field (assoc id fields)))
