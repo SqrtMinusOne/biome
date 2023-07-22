@@ -6199,7 +6199,7 @@
          (:name . "Forecast days")
          (:type . number)
          (:min . 0)
-         (:max . 16))
+         (:max . 210))
         ("timeformat"
          (:name . "Timeformat")
          (:type . select)

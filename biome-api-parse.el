@@ -315,7 +315,13 @@ NAME is the page name as given in `biome-api-parse--urls'."
     (cl-loop for var in biome-api-parse--add-settings
              if (member name (alist-get :pages var))
              do (push (copy-tree (alist-get :param var))
-                      (alist-get :fields (cdr settings-data)))))
+                      (alist-get :fields (cdr settings-data))))
+    ;; Fix forecast_days for Flood API
+    (when (equal name "Flood")
+      (let ((forecast-days (alist-get "forecast_days"
+                                      (alist-get :fields (cdr settings-data))
+                                      nil nil #'equal)))
+        (setf (alist-get :max forecast-days) 210))))
   ;; Add section-specific URL params
   ;; XXX I do not know why this doesn't work without returning
   ;; sections from the loop
