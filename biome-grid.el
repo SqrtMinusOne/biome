@@ -485,6 +485,7 @@ the API.  UNIT is the unit of the column."
     (mapcar
      (lambda (entry)
        (cond
+        ((or (equal entry "")) entry)
         ((eq (car-safe format-def) 'gradient)
          (biome-grid--format-gradient entry (cdr format-def) col-width))
         ((numberp entry) (format (format "%%%ds" col-width) entry))

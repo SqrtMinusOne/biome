@@ -735,6 +735,9 @@ exclude from the result."
                                    for subkey = (seq-take key i)
                                    for dupe-names = (gethash subkey names-by-key)
                                    when dupe-names append dupe-names)))))
+      ;; XXX I don't have the slighest idea why, but renaming the
+      ;; variable `key-1' into `key' makes the byte-compiler complain
+      ;; about `key' being unused.  Hope that's not a Heisenbug.
       (cl-loop
        for name in names-to-update
        for old-key = (gethash name keys-by-name)
