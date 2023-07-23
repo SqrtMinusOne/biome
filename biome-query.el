@@ -327,7 +327,7 @@ OBJ is an instance of `biome-query--transient-switch-variable'."
   "Format the variable switch OBJ."
   (concat
    " "
-   (string-pad (transient-format-key obj) 6)
+   (compat-call string-pad (transient-format-key obj) 6)
    (transient-format-description obj)
    (when (oref obj value)
      (propertize " (+)" 'face 'transient-argument))))
@@ -894,7 +894,7 @@ is a list of parent sections."
   (biome-query--with-layout-cache
       (string-join
        (mapcar
-        (lambda (s) (string-replace " " "-" s))
+        (lambda (s) (compat-call string-replace " " "-" s))
         (cons
          (alist-get :name section)
          (mapcar (lambda (s) (alist-get :name s)) parents)))
