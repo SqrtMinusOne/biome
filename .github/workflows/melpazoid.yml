@@ -2,7 +2,6 @@
 
 # If your package is on GitHub, enable melpazoid's checks by copying this file
 # to .github/workflows/melpazoid.yml and modifying RECIPE and EXIST_OK below.
-
 name: melpazoid
 on: [push, pull_request]
 
