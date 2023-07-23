@@ -10,7 +10,7 @@ The service is AGPL-licensed; the hosted API is free for non-commercial use if y
 The package isn't yet available anywhere but in this repository. My preferred way for such cases is [[https://github.com/jwiegley/use-package][use-package]] and [[https://github.com/radian-software/straight.el][straight.el]]:
 #+begin_src emacs-lisp
 (use-package biome
-  :straight (:host github :repo "SqrtMinusOne/biome.el"))
+  :straight (:host github :repo "SqrtMinusOne/biome"))
 #+end_src
 
 Or clone the repository, add it to =load-path=, and =require= the package.
