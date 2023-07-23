@@ -1,1 +1,88 @@
 #+TITLE: BIOME - Bountiful Interface to Open Meteo for Emacs
+
+Interface to [[https://open-meteo.com/][Open Meteo]] for Emacs. The service provides weather forecasts, historical weather data, climate change projections, and more.
+
+The service is AGPL-licensed; the hosted API is free for non-commercial use if you make less than 10000 requests per day.
+
+[[file:img/report.png]]
+
+* Installation
+The package isn't yet available anywhere but in this repository. My preferred way for such cases is [[https://github.com/jwiegley/use-package][use-package]] and [[https://github.com/radian-software/straight.el][straight.el]]:
+#+begin_src emacs-lisp
+(use-package biome
+  :straight (:host github :repo "SqrtMinusOne/biome.el"))
+#+end_src
+
+Or clone the repository, add it to =load-path=, and =require= the package.
+
+* Usage
+The main entry point is =M-x biome=. Each item under "Open Meteo Data" corresponds to a particular endpoint of the service. For instance, =M-x biome ww= is a generic weather forecast. Check out the [[https://open-meteo.com/en/docs][API docs]] for more detailed descriptions.
+
+[[file:img/root.png]]
+
+Each of these items opens a query interface. A query consists of "global" variables, such as location, units, etc., and "group variables". Groups are usually "hourly" and "daily".
+
+[[file:img/query.png]]
+
+Global variables must always include a location (section "Select Coordinates or City"). To enter a location, you can either enter latitude and longitude (Open Meteo has an [[https://open-meteo.com/en/docs/geocoding-api][API for those]] as well) or select a location from =biome-query-coords=. Example configuration:
+#+begin_src emacs-lisp
+(setq biome-query-coords
+      '(("Helsinki, Finland" 60.16952 24.93545)
+        ("Berlin, Germany" 52.52437 13.41053)
+        ("Dubai, UAE" 25.0657 55.17128)))
+#+end_src
+
+A timezone is also often required ("Settings" > "Timezone").
+
+The current group is switched with =<tab>=. Each group's section has a set of variables that can be toggled on and off, such as temperature, precipitation, etc. Check out the [[https://open-meteo.com/en/docs][API docs]] if you're interested in the meaning of more esoteric ones.
+
+Press =RET= after you've configured the query to call the API. If something goes wrong, it will output an error, such as:
+#+begin_example
+Open Meteo has returned an error.
+Error: (error http 400)
+Reason: Timezone is required
+#+end_example
+
+Or it will open the results table (the first screenshot).
+
+=tabulated-list= doesn't support horizontal scrolling, so press =c= to toggle columns' visibility.
+
+[[file:img/columns.png]]
+
+* More configuration
+To save a query for later, press =P= in the root of the query interface. This will generate a definition like this:
+#+begin_src emacs-lisp
+(biome-def-preset biome-query-preset-177
+  ((:name . "Weather Forecast")
+   (:group . "hourly")
+   (:params
+    ("hourly" "windgusts_10m" "windspeed_10m" "cloudcover" "surface_pressure" "weathercode" "snowfall" "showers" "rain" "relativehumidity_2m" "temperature_2m")
+    ("longitude" . 24.93545)
+    ("latitude" . 60.16952))))
+#+end_src
+
+Add this somewhere in your config after the package is loaded, e.g., in the =:config= section of the =use-package= form or wrapped in [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Hooks-for-Loading.html#index-with_002deval_002dafter_002dload][with-eval-after-load]]. Running =M-x biome-query-preset-177= will create a query interface with this preset.
+
+Table formatting can be configured with =biome-grid-format=; check the docstring for more information. For instance, if you want to disable all gradients:
+#+begin_src emacs-lisp
+(setq biome-grid-format (seq-filter (lambda (f) (not (eq (car-safe (nth 2 f))
+                                                         'gradient)))
+                                    biome-grid-format))
+#+end_src
+
+* Implementation notes
+This isn't the most complicated thing I've done, but it's probably the most over-engineered one.
+
+As you may have guessed, the interfaces mirror the [[https://open-meteo.com/en/docs][API docs]]. I've implemented [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Parsing-HTML_002fXML.html][parsing of these HTMLs]] in =biome-api-parse--generate=, which generates the value of =biome-api-data=. Initially, it downloaded the HTML pages by itself, but - imagine that - the website was migrated to Svelte after I'd implemented maybe 80% of the parsing logic, and the Svelte version populates the accordions via JavaScript. So, as of now, the function requires opening the website in the browser, manually toggling all the accordions, and copying the HTML from DevTools. Fortunately, the parsing is a one-off operation.
+
+Then, the interface... I like [[https://github.com/magit/transient/][transient.el]], so I wanted to make the interface generated dynamically from =biome-api-data=, which turned out harder than I expected. I probably should've just used [[https://www.gnu.org/software/emacs/manual/html_mono/widget.html][widget.el]].
+
+Generating sensible keys was a challenge. I've made an algorithm in =biome-query--unique-keys= that sort of works well.
+
+And as for populating transient prefixes, I tried to use =:setup-children= in a few places, but it's not general enough, namely, it doesn't seem to support specifying =:class= for child groups... So I ended up overriding =transient--layout= in the prefix setup. This doesn't seem to have any undesirable side effects.
+
+Also, the only way I found to use custom infix classes in these dynamic definitions was to eval =transient-define-infix= for each required place. Unfortunately, that adds a lot of stuff to the interactive functions namespace.
+
+Getting to the results display, Lars Ingebrigtsen's [[https://lars.ingebrigtsen.no/2022/04/13/more-vtable-fun/][vtable]] comes only in Emacs 29, so I used [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Tabulated-List-Mode.html][tabulated-list]]. The only disadvantage of the latter is the lack of horizontal scroll support, which can be worked around by hiding columns with =biome-grid-columns=.
+
+Most variables are formatted with a gradient, colors for which were mostly inspired by [[https://www.windy.com/][Windy]]. Formatting for things like air quality variables is probably all over the place, so take the red color with a grain of salt.
