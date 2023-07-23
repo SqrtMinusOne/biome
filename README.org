@@ -4,7 +4,7 @@ Interface to [[https://open-meteo.com/][Open Meteo]] for Emacs. The service prov
 
 The service is AGPL-licensed; the hosted API is free for non-commercial use if you make less than 10000 requests per day.
 
-[[file:img/report.png]]
+[[./img/report.png]]
 
 * Installation
 The package isn't yet available anywhere but in this repository. My preferred way for such cases is [[https://github.com/jwiegley/use-package][use-package]] and [[https://github.com/radian-software/straight.el][straight.el]]:
@@ -18,11 +18,11 @@ Or clone the repository, add it to =load-path=, and =require= the package.
 * Usage
 The main entry point is =M-x biome=. Each item under "Open Meteo Data" corresponds to a particular endpoint of the service. For instance, =M-x biome ww= is a generic weather forecast. Check out the [[https://open-meteo.com/en/docs][API docs]] for more detailed descriptions.
 
-[[file:img/root.png]]
+[[./img/root.png]]
 
 Each of these items opens a query interface. A query consists of "global" variables, such as location, units, etc., and "group variables". Groups are usually "hourly" and "daily".
 
-[[file:img/query.png]]
+[[./img/query.png]]
 
 Global variables must always include a location (section "Select Coordinates or City"). To enter a location, you can either enter latitude and longitude (Open Meteo has an [[https://open-meteo.com/en/docs/geocoding-api][API for those]] as well) or select a location from =biome-query-coords=. Example configuration:
 #+begin_src emacs-lisp
@@ -47,7 +47,7 @@ Or it will open the results table (the first screenshot).
 
 =tabulated-list= doesn't support horizontal scrolling, so press =c= to toggle columns' visibility.
 
-[[file:img/columns.png]]
+[[./img/columns.png]]
 
 * More configuration
 To save a query for later, press =P= in the root of the query interface. This will generate a definition like this:
