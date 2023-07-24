@@ -977,7 +977,7 @@ SECTION is a form as defined in `biome-api-parse--page'."
              ("q" "Up" transient-quit-one)
              ("Q" "Quit" transient-quit-all)
              ,@(unless parents
-                 '(("P" "Generate preset defition" biome-query--generate-preset)
+                 '(("P" "Generate preset definition" biome-query--generate-preset)
                    ("R" "Reset" biome-query--reset-report :transient t)))])))
         (transient-setup 'biome-query--section nil nil :scope
                          `((:section . ,section)
