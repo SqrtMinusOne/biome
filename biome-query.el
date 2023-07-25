@@ -231,10 +231,12 @@ KEY is the api key of the variable.  VAR-NAMES is the output of
             (when group
               (format "Group: %s\n"
                       (propertize group 'face 'transient-value)))
-            (when group-vars
+            (when (or group group-vars)
               (format "Group variables: %s\n"
-                      (mapconcat (lambda (x) (propertize x 'face 'font-lock-variable-name-face))
-                                 group-vars "; ")))
+                      (if group-vars
+                          (mapconcat (lambda (x) (propertize x 'face 'font-lock-variable-name-face))
+                                     group-vars "; ")
+                        (propertize "unset" 'face 'error))))
             (when vars
               (format "Variables: %s\n"
                       (mapconcat #'identity vars "; ")))
