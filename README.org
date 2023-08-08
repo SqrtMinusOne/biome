@@ -1,5 +1,7 @@
 #+TITLE: BIOME - Bountiful Interface to Open Meteo for Emacs
 
+[[https://melpa.org/#/biome][file:https://melpa.org/packages/biome-badge.svg]]
+
 Interface to [[https://open-meteo.com/][Open Meteo]] for Emacs. The service provides weather forecasts, historical weather data, climate change projections, and more.
 
 The service is AGPL-licensed; the hosted API is free for non-commercial use if you make less than 10000 requests per day.
@@ -7,10 +9,10 @@ The service is AGPL-licensed; the hosted API is free for non-commercial use if y
 [[./img/report.png]]
 
 * Installation
-The package isn't yet available anywhere but in this repository. My preferred way for such cases is [[https://github.com/jwiegley/use-package][use-package]] and [[https://github.com/radian-software/straight.el][straight.el]]:
+The package is available on MELPA. Install it however you normally install packages, I prefer [[https://github.com/jwiegley/use-package][use-package]] and [[https://github.com/radian-software/straight.el][straight.el]]:
 #+begin_src emacs-lisp
 (use-package biome
-  :straight (:host github :repo "SqrtMinusOne/biome"))
+  :straight t)
 #+end_src
 
 Or clone the repository, add it to =load-path=, and =require= the package.
