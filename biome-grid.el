@@ -280,6 +280,7 @@ FORMAT is an expression as defined by `biome-grid-format'."
                        (240 . "#b13c74")))
      (nil "is_day" is-day)
      ("wmo code" nil wmo-code)
+     ("iso8601" nil date)
      ("°" nil direction)))
   "Format units in the grid.
 
@@ -303,6 +304,7 @@ The format definition is one of the following:
                                 :value-type (string :tag "HEX color")))
                    (const :tag "Is day" is-day)
                    (const :tag "WMO code" wmo-code)
+                   (const :tag "Date" date)
                    (const :tag "Direction" direction)))))
 
 (defcustom biome-grid-wmo-codes
@@ -371,6 +373,20 @@ The defaults values are taken from open-meteo docs."
 (defcustom biome-grid-wmo-show-emoji t
   "Show emoji for WMO weather codes."
   :type 'boolean
+  :group 'biome)
+
+(defcustom biome-grid-date-format "%Y-%m-%d"
+  "Format for date strings.
+
+See `format-time-string' for possible format values."
+  :type 'string
+  :group 'biome)
+
+(defcustom biome-grid-datetime-format "%Y-%m-%d %H:%M"
+  "Format for datetime strings.
+
+See `format-time-string' for possible format values."
+  :type 'string
   :group 'biome)
 
 (defvar-local biome-grid--columns-display nil
@@ -451,6 +467,17 @@ VALUE is 0 or 1."
                                                           (symbol-name col-key))))
            return format-def))
 
+(defun biome-grid--format-date (value)
+  "Format VALUE as iso8601 date or datetime."
+  (let* ((decoded-time (iso8601-parse value))
+         (has-time (fixnump (car decoded-time))))
+    (if has-time
+        (format-time-string biome-grid-datetime-format (encode-time decoded-time))
+      (setf (nth 0 decoded-time) 0
+            (nth 1 decoded-time) 0
+            (nth 2 decoded-time) 0)
+      (format-time-string biome-grid-date-format (encode-time decoded-time)))))
+
 (defun biome-grid--prepare-entries (entries col-key unit)
   "Prepare entries for display.
 
@@ -470,6 +497,8 @@ the API.  UNIT is the unit of the column."
          (biome-grid--format-direction entry))
         ((eq format-def 'is-day)
          (biome-grid--format-is-day entry))
+        ((eq format-def 'date)
+         (biome-grid--format-date entry))
         (t entry)))
      entries)))
 
