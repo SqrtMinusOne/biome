@@ -73,6 +73,12 @@ The format is: (name latitude longitude)."
                   (number :tag "Longitude")))
   :group 'biome)
 
+(defcustom biome-query-override-column-names nil
+  "Override column names for variables."
+  :type '(repeat (cons
+                  (string :tag "Variable name")
+                  (string :tag "Column name"))))
+
 (defconst biome-query-groups '("daily" "hourly" "minutely_15" "hourly")
   "Name of groups.
 
@@ -163,9 +169,10 @@ disambiguations of parameters in `biome-api-data'."
 
 KEY is the api key of the variable.  VAR-NAMES is the output of
 `biome-query--get-var-names-cache'."
-  (gethash key var-names
-           (capitalize (replace-regexp-in-string
-                        (regexp-quote "_") " " key))))
+  (or (cdr (assoc key biome-query-override-column-names))
+      (gethash key var-names)
+      (capitalize (replace-regexp-in-string
+                   (regexp-quote "_") " " key))))
 
 (cl-defmethod transient-format ((_obj biome-query--transient-report))
   "Format the `biome-query-current'."
