@@ -655,15 +655,15 @@ it's the length of the word."
 
 The algorithm is as follows: NAME is split into words, each word
 produces a list of all its prefixes.  E.g. \"hello\" produces \"\",
-\"h\", \"he\", \"hel\", etc.  Numbers are takes as a whole,
+\"h\", \"he\", \"hel\", etc.  Numbers are taken as a whole,
 e.g. \"100\" produces just \"\" and \"100\".
 
-One key canditate is a concatenation of prefixes of the first
+One key canditade is a concatenation of prefixes of the first
 MAX-WORDS words, in the same order in which words appeared in NAME.
 
 All possible key candidates are weighted by
 `biome-query--unique-key-weight'.  The iteration yields these
-candidates in the ascending order by these weights, up to MAX-WEIGHT.
+candidates in ascending order of those weights, up to MAX-WEIGHT.
 
 This algorithm has exponential computational complexity because
 it sorts the cartesian product of all prefixes of each word, and it
