@@ -77,7 +77,8 @@ The format is: (name latitude longitude)."
   "Override column names for variables."
   :type '(repeat (cons
                   (string :tag "Variable name")
-                  (string :tag "Column name"))))
+                  (string :tag "Column name")))
+  :group 'biome)
 
 (defconst biome-query-groups '("daily" "hourly" "minutely_15" "hourly")
   "Name of groups.
