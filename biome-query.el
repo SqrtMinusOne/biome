@@ -695,7 +695,8 @@ at 3."
                            (mapcar (lambda (it)
                                      (cons (biome-query--unique-key-weight it seq-lengths) it)))
                            (seq-filter (lambda (it) (< (car it) max-weight)))
-                           ((lambda (sequences) (sort sequences (lambda (a b) (< (car a) (car b))))))
+                           (funcall
+                            (lambda (sequences) (sort sequences (lambda (a b) (< (car a) (car b))))))
                            (mapcar #'cdr)
                            (seq-sort-by
                             (lambda (it)
