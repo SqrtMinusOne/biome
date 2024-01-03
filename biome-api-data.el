@@ -3220,9 +3220,9 @@
          (:name . "Temperature (50 m)")
          (:type . checkbox))
         ("temperature_100m"
-         (:type . checkbox))
-        ("temperature_100m"
-         (:name . "Temperature (100 m)")
+         (:type . checkbox)
+         (:name . "Temperature (100 m)"))
+        ("temperature_150m"
          (:name . "Temperature (150 m)")
          (:type . checkbox))
         ("temperature_200m"
