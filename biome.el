@@ -75,7 +75,7 @@ API."
   (biome-query--section-open (alist-get :name biome-query-current)))
 
 (defun biome-multi ()
-  "Run multiple queries to Open Meteo and join results."
+  "Run multiple queries to Open Meteo and join the results."
   (interactive)
   (biome-multi-query
    (lambda (query)

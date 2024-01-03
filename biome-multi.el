@@ -22,7 +22,7 @@
 
 ;;; Commentary:
 
-;; TODO
+;; Tools for doing multiple queries to Open Meteo.
 
 ;;; Code:
 (require 'biome-query)
@@ -46,7 +46,7 @@ This is a list of forms as defined by `biome-query-current'.")
   nil)
 
 (cl-defmethod transient-format ((_ biome-multi--transient-report))
-  "TODO."
+  "Format the current report for `biome-multi'."
   (if (seq-empty-p biome-multi-query-current)
       (propertize "Add at least one query" 'face 'error)
     (cl-loop for i from 0
@@ -63,6 +63,7 @@ This is a list of forms as defined by `biome-query-current'.")
   :key "~~1")
 
 (defun biome-multi-add-query ()
+  "Add new query to `biome-multi'."
   (interactive)
   (biome-query
    (lambda (query)
@@ -72,10 +73,12 @@ This is a list of forms as defined by `biome-query-current'.")
      (biome-multi-query biome-multi--callback))))
 
 (defun biome-multi-reset ()
+  "Reset `biome-multi'."
   (interactive)
   (setq biome-multi-query-current nil))
 
 (defun biome-multi-edit (idx)
+  "Edit query number IDX in `biome-multi'."
   (interactive "nQuery number: ")
   (when (or (< idx 0)
             (>= idx (length biome-multi-query-current)))
@@ -88,6 +91,7 @@ This is a list of forms as defined by `biome-query-current'.")
   (biome-query--section-open (alist-get :name biome-query-current)))
 
 (defun biome-multi-remove (idx)
+  "Remove query number IDX from `biome-multi'."
   (interactive "nQuery number: ")
   (when (or (< idx 0)
             (>= idx (length biome-multi-query-current)))
@@ -99,6 +103,7 @@ This is a list of forms as defined by `biome-query-current'.")
                  collect query)))
 
 (defun biome-multi-exec ()
+  "Process the query made by `biome-multi-query'."
   (interactive)
   (when (seq-empty-p biome-multi-query-current)
     (user-error "No queries to execute"))
@@ -124,6 +129,11 @@ This is a list of forms as defined by `biome-query-current'.")
   (transient-setup 'biome-multi-query))
 
 (defun biome-multi--unique-names-grouped (names-by-group group-names)
+  "Make names unique in accordance with GROUP-NAMES.
+
+NAMES-BY-GROUP is a list of lists of names.  GROUP-NAMES is a list
+of group names.  The function returns a hash table mapping
+original names to unique names."
   (let ((name-occurences (make-hash-table :test #'equal))
         (names-mapping (make-hash-table :test #'equal)))
     (cl-loop for names in names-by-group
@@ -146,6 +156,10 @@ This is a list of forms as defined by `biome-query-current'.")
     names-mapping))
 
 (defun biome-multi--unique-names (names)
+  "Make NAMES unique.
+
+NAMES is a list of strings.  The return value is a list of
+strings as well."
   (let ((name-occurences (make-hash-table :test #'equal))
         (added-occurences (make-hash-table :test #'equal)))
     (cl-loop for name in names
@@ -164,6 +178,17 @@ This is a list of forms as defined by `biome-query-current'.")
                                 added-occurences))))))
 
 (defun biome-multi--join-results (queries query-names vars-mapping results)
+  "Join RESULTS of QUERIES by time.
+
+Time has be in a string format, comparable by `string-lessp'.
+
+QUERIES is a list of forms as defined by `biome-query-current'.
+QUERY-NAMES is a list of query names, made unique.  VARS-MAPPING is
+the result of `biome-multi--unique-names-grouped' on the list of
+variables.  RESULTS is a list of responses from Open Meteo.
+
+This function returns the results field mimicking the one returned
+by Open Meteo."
   (let ((times (make-hash-table :test #'equal))
         (var-values-per-time (make-hash-table :test #'equal)))
     (cl-loop for result in results
@@ -198,7 +223,11 @@ This is a list of forms as defined by `biome-query-current'.")
 (defun biome-multi--merge (queries results)
   "Merge QUERIES into one query.
 
-QUERIES is a list of forms as defined by `biome-query-current'."
+QUERIES is a list of forms as defined by `biome-query-current'.  RESULTS
+is a list of responses from Open Meteo.
+
+The function mimicks the response of Open Meteo, but only insofar
+as it is necessary for `biome-grid'."
   (let* ((vars-by-group
           (cl-loop for query in queries
                    for group = (alist-get :group query)
