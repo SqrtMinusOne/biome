@@ -40,6 +40,7 @@
 
 ;;; Code:
 (require 'biome-api)
+(require 'biome-multi)
 (require 'biome-query)
 (require 'biome-grid)
 
@@ -72,6 +73,17 @@ API."
   ;; `biome-query--callback' should have been already set by the
   ;; previous invocation of `biome'
   (biome-query--section-open (alist-get :name biome-query-current)))
+
+(defun biome-multi ()
+  "Run multiple queries to Open Meteo and join results."
+  (interactive)
+  (biome-multi-query
+   (lambda (query)
+     (biome-api-get-multiple
+      query
+      (lambda (queries results)
+        (let ((merged (biome-multi--merge queries results)))
+          (funcall biome-frontend (nth 0 merged) (nth 1 merged))))))))
 
 (defmacro biome-def-preset (name params)
   "Declare a query preset.

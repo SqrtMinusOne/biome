@@ -175,12 +175,14 @@ KEY is the api key of the variable.  VAR-NAMES is the output of
       (capitalize (replace-regexp-in-string
                    (regexp-quote "_") " " key))))
 
-(cl-defmethod transient-format ((_obj biome-query--transient-report))
-  "Format the `biome-query-current'."
-  (let ((group (alist-get :group biome-query-current))
+(defun biome-query--format (query)
+  "Format QUERY for display.
+
+QUERY is a form as defined by `transient-define-prefix'."
+  (let ((group (alist-get :group query))
         (var-names (biome-query--get-var-names-cache))
         lat lon group-vars line-vars vars)
-    (dolist (item (alist-get :params biome-query-current))
+    (dolist (item (alist-get :params query))
       (cond
        ((stringp item)
         (push (biome-query--get-header item var-names) vars))
@@ -250,6 +252,10 @@ KEY is the api key of the variable.  VAR-NAMES is the output of
                       (mapconcat #'identity vars "; ")))
             (when line-vars
               (concat (mapconcat #'identity line-vars "\n") "\n")))))
+
+(cl-defmethod transient-format ((_obj biome-query--transient-report))
+  "Format the `biome-query-current'."
+  (biome-query--format biome-query-current))
 
 (transient-define-infix biome-query--transient-report-infix ()
   :class 'biome-query--transient-report
@@ -953,7 +959,7 @@ SUFFIXES is a list of suffix definitions."
   "Process the query made by `biome-query'."
   (interactive)
   (unless biome-query--callback
-    (user-error "Biome-query--callback is not set"))
+    (error "Biome-query--callback is not set"))
   (funcall biome-query--callback biome-query-current))
 
 (defun biome-query--generate-preset ()
