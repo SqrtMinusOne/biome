@@ -65,7 +65,8 @@ This is a list of forms as defined by `biome-query-current'.")
 (defun biome-multi-add-query ()
   "Add new query to `biome-multi'."
   (interactive)
-  (biome-query
+  (funcall-interactively
+   #'biome-query
    (lambda (query)
      (if (seq-empty-p biome-multi-query-current)
          (setq biome-multi-query-current (list (copy-tree query)))
@@ -109,17 +110,29 @@ This is a list of forms as defined by `biome-query-current'.")
     (user-error "No queries to execute"))
   (funcall biome-multi--callback biome-multi-query-current))
 
+(defun biome-multi--generate-preset ()
+  "Generate a preset for the current multi-query."
+  (interactive)
+  (let ((buf (generate-new-buffer "*biome-preset*")))
+    (with-current-buffer buf
+      (emacs-lisp-mode)
+      (insert ";; Add this to your config\n")
+      (insert (pp-to-string `(biome-def-multi-preset ,(gensym "biome-query-preset-")
+                               ,biome-multi-query-current))))
+    (switch-to-buffer buf)))
+
 (transient-define-prefix biome-multi-query (callback)
   ["Open Meteo Multi Query"
    (biome-multi--transient-report-infix)]
   ["Queries"
    :class transient-row
-   ("a" "Add query" biome-multi-add-query)
+   ("a" "Add query" biome-multi-add-query :transient transient--do-replace)
    ("e" "Edit query" biome-multi-edit :transient t)
    ("d" "Delete query" biome-multi-remove :transient t)]
   ["Actions"
    :class transient-row
    ("RET" "Run" biome-multi-exec)
+   ("P" "Generate preset definition" biome-multi--generate-preset)
    ("R" "Reset" biome-multi-reset :transient t)
    ("q" "Quit" transient-quit-one)]
   (interactive (list nil))
