@@ -1,6 +1,6 @@
 ;;; biome-grid.el --- Display results of open meteo queries -*- lexical-binding: t -*-
 
-;; Copyright (C) 2023 Korytov Pavel
+;; Copyright (C) 2023-2024 Korytov Pavel
 
 ;; Maintainer: Korytov Pavel <thexcloud@gmail.com>
 ;; Homepage: https://github.com/SqrtMinusOne/biome

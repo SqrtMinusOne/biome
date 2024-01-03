@@ -1,6 +1,6 @@
 ;;; biome.el --- Bountiful Interface to Open Meteo for Emacs  -*- lexical-binding: t -*-
 
-;; Copyright (C) 2023 Korytov Pavel
+;; Copyright (C) 2023-2024 Korytov Pavel
 
 ;; Author: Korytov Pavel <thexcloud@gmail.com>
 ;; Maintainer: Korytov Pavel <thexcloud@gmail.com>
