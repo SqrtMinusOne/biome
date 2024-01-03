@@ -143,7 +143,7 @@ called with QUERIES and the data returned by the API as arguments."
           :params (biome-api--get-params query)
           :parser #'json-read
           :success (cl-function
-                    (lambda (&allow-other-keys)
+                    (lambda (&rest)
                       ;; I'm not sure why, but `request-response-done-p' for
                       ;; the current request returns nil.  I don't
                       ;; know how stable this is, so...
