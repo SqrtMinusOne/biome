@@ -40,6 +40,7 @@
 
 ;;; Code:
 (require 'biome-api)
+(require 'biome-multi)
 (require 'biome-query)
 (require 'biome-grid)
 
@@ -73,6 +74,18 @@ API."
   ;; previous invocation of `biome'
   (biome-query--section-open (alist-get :name biome-query-current)))
 
+(defun biome-multi ()
+  "Run multiple queries to Open Meteo and join the results."
+  (interactive)
+  (funcall-interactively
+   #'biome-multi-query
+   (lambda (query)
+     (biome-api-get-multiple
+      query
+      (lambda (queries results)
+        (let ((merged (biome-multi--merge queries results)))
+          (funcall biome-frontend (nth 0 merged) (nth 1 merged))))))))
+
 (defmacro biome-def-preset (name params)
   "Declare a query preset.
 
@@ -89,6 +102,20 @@ PARAMS as query."
              (biome-api-get query biome-frontend)))
      (setq biome-query-current ',params)
      (biome-query--section-open (alist-get :name ',params))))
+
+(defmacro biome-def-multi-preset (name params)
+  "Declare a multi-query preset.
+
+NAME is the name of the target function.  PARAMS is a form as defined
+by `biome-multi-query-current'.
+
+This macro creates an interactive function that runs `biome-multi' with
+PARAMS as query."
+  (declare (indent 1))
+  `(defun ,name ()
+     (interactive)
+     (setq biome-multi-query-current ',params)
+     (call-interactively #'biome-multi)))
 
 (provide 'biome)
 ;;; biome.el ends here

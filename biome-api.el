@@ -128,5 +128,42 @@ called with QUERY and the data returned by the API as arguments."
       (cl-function (lambda (&key error-thrown response &allow-other-keys)
                      (biome-api--show-error error-thrown response))))))
 
+(defun biome-api-get-multiple (queries callback)
+  "Get data from Open Meteo API.
+
+QUERIES is a list of forms as defined by `biome-query-current'.  CALLBACK is
+called with QUERIES and the data returned by the API as arguments."
+  (let (requests)
+    (seq-map-indexed
+     (lambda (query idx)
+       (push
+        (request (alist-get (alist-get :name query)
+                            biome-api-urls nil nil #'equal)
+          :type "GET"
+          :params (biome-api--get-params query)
+          :parser #'json-read
+          :success (cl-function
+                    (lambda (&allow-other-keys)
+                      ;; I'm not sure why, but `request-response-done-p' for
+                      ;; the current request returns nil.  I don't
+                      ;; know how stable this is, so...
+                      (let ((completed-count
+                             (cl-loop for i from 0
+                                      for request in requests
+                                      if (or (request-response-done-p request)
+                                             (= i (- (length requests) 1 idx)))
+                                      sum 1)))
+                        (message "Completed %d/%d requests"
+                                 completed-count (length queries))
+                        (when (eq (length queries) completed-count)
+                          (funcall callback (copy-tree queries)
+                                   (mapcar #'request-response-data
+                                           (reverse requests)))))))
+          :error
+          (cl-function (lambda (&key error-thrown response &allow-other-keys)
+                         (biome-api--show-error error-thrown response))))
+        requests))
+     queries)))
+
 (provide 'biome-api)
 ;;; biome-api.el ends here
