@@ -72,6 +72,37 @@ Table formatting can be configured with =biome-grid-format=; check the docstring
                                     biome-grid-format))
 #+end_src
 
+* Composite queries
+The package also allows executing multiple queries at once to join their results. This can be useful for comparing weather in different locations or for viewing different reports about the same location.
+
+Run =M-x biome-multi= to invoke the-multi query dialog.
+
+[[./img/multi.png]]
+
+(/yes, I've switched to a light theme since the time of the previous screenshot/)
+
+Pressing =a= invokes the standard query dialog, where pressing =RET= returns to the root dialog, adding the query to the list. Pressing =RET= in the root dialog executes the queries in the list.
+
+Queries are executed concurrently. The results are shown if all queries have been successfully completed.
+
+=P= generates a preset defintion for the current query:
+#+begin_src emacs-lisp
+(biome-def-multi-preset biome-query-preset-601
+  (((:name . "Air Quality")
+    (:group . "hourly")
+    (:params
+     ("hourly" "uv_index" "european_aqi")
+     ("longitude" . 24.93545)
+     ("latitude" . 60.16952)))
+   ((:name . "Weather Forecast")
+    (:group . "hourly")
+    (:params
+     ("hourly" "weathercode" "snowfall" "showers" "rain" "temperature_2m")
+     ("longitude" . 24.93545)
+     ("latitude" . 60.16952)))))
+#+end_src
+Just note that the macro is called =biome-def-multi-preset=.
+
 * Implementation notes
 This isn't the most complicated thing I've done, but it's probably the most over-engineered one.
 
