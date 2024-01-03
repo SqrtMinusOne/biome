@@ -79,7 +79,6 @@ API."
   (interactive)
   (funcall-interactively
    #'biome-multi-query
-   biome-multi-query
    (lambda (query)
      (biome-api-get-multiple
       query
