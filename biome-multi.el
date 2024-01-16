@@ -126,8 +126,8 @@ This is a list of forms as defined by `biome-query-current'.")
    (biome-multi--transient-report-infix)]
   ["Queries"
    :class transient-row
-   ("a" "Add query" biome-multi-add-query :transient transient--do-replace)
-   ("e" "Edit query" biome-multi-edit :transient t)
+   ("a" "Add query" biome-multi-add-query :transient transient--do-stack)
+   ("e" "Edit query" biome-multi-edit :transient transient--do-stack)
    ("d" "Delete query" biome-multi-remove :transient t)]
   ["Actions"
    :class transient-row

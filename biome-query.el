@@ -882,7 +882,7 @@ list of parent sections."
                           (not (member param biome-query-groups)))
                       (biome-query--section section ',parents)
                     (message "Need to activate group: %s" param))))
-              :transient transient--do-replace))
+              :transient transient--do-stack))
           sections)])))
 
 (defmacro biome-query--with-layout-cache (cache-key &rest body)
@@ -1025,7 +1025,7 @@ SECTION is a form as defined in `biome-api-parse--page'."
                          ,name
                          (lambda () (interactive)
                            (biome-query--section-open ,name))
-                         :transient transient--do-replace))))]
+                         :transient transient--do-stack))))]
   ["Actions"
    :class transient-row
    ("r" "Resume" biome-resume :transient transient--do-replace)
