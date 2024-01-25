@@ -661,11 +661,13 @@ displaying more columns than the window width, so there's
 `biome-grid-columns' to toggle columns."
   (let ((buf (generate-new-buffer "*biome-grid*")))
     (with-current-buffer buf
-      (biome-grid-mode)
+      (let (biome-grid-mode-hook)
+        (biome-grid-mode))
       (biome-grid--set-list query results)
       (tabulated-list-print t)
       (tabulated-list-init-header)
-      (toggle-truncate-lines 1))
+      (toggle-truncate-lines 1)
+      (run-mode-hooks 'biome-grid-mode-hook))
     (switch-to-buffer buf)))
 
 (provide 'biome-grid)
