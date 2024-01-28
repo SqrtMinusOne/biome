@@ -85,7 +85,7 @@ QUERY is a form as defined by `biome-query-current'."
     keymap)
   "Keymap for `biome-api-error-mode'.")
 
-(define-derived-mode biome-api-error-mode text-mode "Lyrics view"
+(define-derived-mode biome-api-error-mode text-mode "Biome Error"
   "Major mode for viewing open meteo API errors.
 
 \\{biome-api-error-mode-map}"
