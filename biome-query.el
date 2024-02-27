@@ -1016,16 +1016,17 @@ SECTION is a form as defined in `biome-api-parse--page'."
 
 (transient-define-prefix biome-query (callback)
   ["Open Meteo Data"
+   :class transient-column
    :setup-children
    (lambda (_)
-     (cl-loop for (name . params) in biome-api-data
-              collect (transient-parse-suffix
-                       transient--prefix
-                       `(,(alist-get :key params)
-                         ,name
-                         (lambda () (interactive)
-                           (biome-query--section-open ,name))
-                         :transient transient--do-stack))))]
+     (transient-parse-suffixes
+      'transient--prefix
+      (cl-loop for (name . params) in biome-api-data
+       collect `(,(alist-get :key params)
+                  ,name
+                  (lambda () (interactive)
+                    (biome-query--section-open ,name))
+                  :transient transient--do-stack))))]
   ["Actions"
    :class transient-row
    ("r" "Resume" biome-resume :transient transient--do-replace)
