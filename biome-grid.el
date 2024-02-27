@@ -613,15 +613,16 @@ transient switches)."
 (transient-define-prefix biome-grid-columns ()
   "Toggle columns in `biome-grid' buffer."
   ["Toggle columns"
+   :class transient-column
    :setup-children
    (lambda (_)
      (let ((keys (biome-query--unique-keys
                   (mapcar #'cadr biome-grid--columns-display) '("q"))))
-       (cl-loop for (api-key name display) in biome-grid--columns-display
-                for key = (gethash name keys)
-                collect
-                (transient-parse-suffix
-                 'transient-prefix
+       (transient-parse-suffixes
+        'transient-prefix
+        (cl-loop for (api-key name display) in biome-grid--columns-display
+                 for key = (gethash name keys)
+                 collect
                  `(,key ,name ,(format "--%s" api-key)
                         :init-value
                         (lambda (obj)
