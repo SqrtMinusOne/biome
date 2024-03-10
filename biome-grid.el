@@ -38,6 +38,18 @@
   :type 'boolean
   :group 'biome)
 
+(defcustom biome-grid-highlight-current t
+  "Highlight current hour or day.
+
+This requires time formatted as iso8601."
+  :type 'boolean
+  :group 'boolean)
+
+(defface biome-grid-highlight-current-face
+  '((t :inherit highlight))
+  "Highlight current hour or day."
+  :group 'biome)
+
 (defun biome-grid--format-units (format)
   "Add derived units to FORMAT.
 
@@ -646,6 +658,31 @@ transient switches)."
     keymap)
   "Keymap for `biome-grid-mode'.")
 
+(defun biome-grid--maybe-highlight-current ()
+  "Highlight current hour or day (if hour is not found)."
+  (when biome-grid-highlight-current
+    (save-excursion
+      (goto-char (point-min))
+      (let ((needle-datetime
+             (substring
+              (format-time-string biome-grid-datetime-format (current-time))
+              ;; Remove seconds
+              0 -3))
+            (needle-date
+             (format-time-string biome-grid-date-format (current-time)))
+            start end)
+        (if (search-forward needle-datetime nil t)
+            (setq start (line-beginning-position)
+                  end (line-end-position))
+          (goto-char (point-min))
+          (when (search-forward needle-date nil t)
+            (setq start (line-beginning-position)
+                  end (line-end-position))))
+        (when (and start end)
+          (let ((ov (make-overlay start end)))
+            (overlay-put ov 'priority -49)
+            (overlay-put ov 'face 'biome-grid-highlight-current-face)))))))
+
 (define-derived-mode biome-grid-mode tabulated-list-mode "Biome Grid"
   "Major mode for displaying biome results.
 
@@ -668,6 +705,7 @@ displaying more columns than the window width, so there's
       (tabulated-list-print t)
       (tabulated-list-init-header)
       (toggle-truncate-lines 1)
+      (biome-grid--maybe-highlight-current)
       (run-mode-hooks 'biome-grid-mode-hook))
     (switch-to-buffer buf)))
 
