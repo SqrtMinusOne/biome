@@ -58,7 +58,17 @@ API."
   :group 'biome)
 
 (defcustom biome-presets-alist nil
-  "Presets for `biome' queries."
+  "Presets for `biome' queries.
+
+One item of the list is another list with three elements:
+- preset name;
+- `:normal' for normal `biome' or `:multi' for `biome-multi';
+- parameters as defined by `biome-query-current' or
+  `biome-multi-query-current'.
+Thus, preset names are the keys of the alist.
+
+To generate expressions that add stuff to this list, run \"Generate
+preset definition\" in `biome' or `biome-multi'."
   :type '(repeat
           (list
            (string :tag "Preset name")
@@ -128,7 +138,14 @@ PARAMS as query."
      (call-interactively #'biome-multi)))
 
 (defun biome-preset (preset-def)
-  "Run PRESET-DEF."
+  "Run `biome' with a preset.
+
+PRESET-DEF is one preset as defined by `biome-presets-alist', sans the
+name.  If run interactively, prompt PRESET-DEF from
+`biome-presets-alist'.
+
+Run \"Generate preset definition\" in `biome' or `biome-multi' to
+generate expressions that add stuff to `biome-presets-alist'."
   (interactive (list (alist-get
                       (completing-read "Preset" biome-presets-alist)
                       biome-presets-alist nil nil #'equal)))
@@ -138,10 +155,10 @@ PARAMS as query."
        (setq biome-query--callback
              (lambda (query)
                (biome-api-get query biome-frontend)))
-       (setq biome-query-current params)
+       (setq biome-query-current (copy-tree params))
        (biome-query--section-open (alist-get :name params)))
       (:multi
-       (setq biome-multi-query-current params)
+       (setq biome-multi-query-current (copy-tree params))
        (call-interactively #'biome-multi)))))
 
 (provide 'biome)

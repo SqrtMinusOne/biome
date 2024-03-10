@@ -39,6 +39,10 @@
 
 (require 'biome-api-data)
 
+;; XXX Recursive imports T_T
+(declare-function biome-preset "biome")
+(declare-function biome-multi "biome")
+
 (defcustom biome-query-max-fields-in-row 20
   "Maximum number of fields in a row."
   :type 'integer
@@ -438,7 +442,7 @@ number of options is more than
      (mapconcat
       (lambda (choice)
         (propertize (cdr choice) 'face
-                    (if (eq (car choice) value)
+                    (if (equal (car choice) value)
                         'transient-value
                       'transient-inactive-value)))
       (oref obj options)
@@ -1030,14 +1034,16 @@ SECTION is a form as defined in `biome-api-parse--page'."
      (transient-parse-suffixes
       'transient--prefix
       (cl-loop for (name . params) in biome-api-data
-       collect `(,(alist-get :key params)
-                  ,name
-                  (lambda () (interactive)
-                    (biome-query--section-open ,name))
-                  :transient transient--do-stack))))]
+               collect `(,(alist-get :key params)
+                         ,name
+                         (lambda () (interactive)
+                           (biome-query--section-open ,name))
+                         :transient transient--do-stack))))]
   ["Actions"
    :class transient-row
    ("r" "Resume" biome-resume :transient transient--do-replace)
+   ("p" "Preset" biome-preset :transient transient--do-stack)
+   ("u" "Join multiple queries" biome-multi :transient transient--do-stack)
    ("q" "Quit" transient-quit-one)]
   (interactive (list nil))
   (unless callback
