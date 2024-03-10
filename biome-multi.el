@@ -113,12 +113,20 @@ This is a list of forms as defined by `biome-query-current'.")
 (defun biome-multi--generate-preset ()
   "Generate a preset for the current multi-query."
   (interactive)
-  (let ((buf (generate-new-buffer "*biome-preset*")))
+  (let ((buf (generate-new-buffer "*biome-preset*"))
+        (preset-symbol (gensym "biome-query-preset-")))
     (with-current-buffer buf
       (emacs-lisp-mode)
       (insert ";; Add this to your config\n")
-      (insert (pp-to-string `(biome-def-multi-preset ,(gensym "biome-query-preset-")
-                               ,biome-multi-query-current))))
+      (insert (pp-to-string `(biome-def-multi-preset ,preset-symbol
+                               ,biome-multi-query-current)))
+      (insert ";; invoke with M-x " (symbol-name preset-symbol))
+      (insert "\n\n;; Or:\n")
+      (insert (pp-to-string `(add-to-list 'biome-presets-alist
+                                          '(,(symbol-name preset-symbol)
+                                            :multi
+                                            ,biome-multi-query-current))))
+      (insert ";; invoke with M-x biome-preset"))
     (switch-to-buffer buf)))
 
 (transient-define-prefix biome-multi-query (callback)

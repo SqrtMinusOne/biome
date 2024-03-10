@@ -57,6 +57,16 @@ API."
   :type 'function
   :group 'biome)
 
+(defcustom biome-presets-alist nil
+  "Presets for `biome' queries."
+  :type '(repeat
+          (list
+           (string :tag "Preset name")
+           (choice (const :tag "Normal" :normal)
+                   (const :tag "Multi" :multi))
+           (sexp :tag "Parameters")))
+  :group 'biome)
+
 (defun biome ()
   "Bountiful Interface to Open Meteo for Emacs."
   (interactive)
@@ -116,6 +126,23 @@ PARAMS as query."
      (interactive)
      (setq biome-multi-query-current ',params)
      (call-interactively #'biome-multi)))
+
+(defun biome-preset (preset-def)
+  "Run PRESET-DEF."
+  (interactive (list (alist-get
+                      (completing-read "Preset" biome-presets-alist)
+                      biome-presets-alist nil nil #'equal)))
+  (pcase-let ((`(,kind ,params) preset-def))
+    (pcase kind
+      (:normal
+       (setq biome-query--callback
+             (lambda (query)
+               (biome-api-get query biome-frontend)))
+       (setq biome-query-current params)
+       (biome-query--section-open (alist-get :name params)))
+      (:multi
+       (setq biome-multi-query-current params)
+       (call-interactively #'biome-multi)))))
 
 (provide 'biome)
 ;;; biome.el ends here

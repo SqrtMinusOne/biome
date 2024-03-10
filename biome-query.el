@@ -965,12 +965,20 @@ SUFFIXES is a list of suffix definitions."
 (defun biome-query--generate-preset ()
   "Generate a preset for the current query."
   (interactive)
-  (let ((buf (generate-new-buffer "*biome-preset*")))
+  (let ((buf (generate-new-buffer "*biome-preset*"))
+        (preset-symbol (gensym "biome-query-preset-")))
     (with-current-buffer buf
       (emacs-lisp-mode)
       (insert ";; Add this to your config\n")
-      (insert (pp-to-string `(biome-def-preset ,(gensym "biome-query-preset-")
-                               ,biome-query-current))))
+      (insert (pp-to-string `(biome-def-preset ,preset-symbol
+                               ,biome-query-current)))
+      (insert ";; invoke with M-x " (symbol-name preset-symbol))
+      (insert "\n\n;; Or:\n")
+      (insert (pp-to-string `(add-to-list 'biome-presets-alist
+                                          '(,(symbol-name preset-symbol)
+                                            :normal
+                                            ,biome-query-current))))
+      (insert ";; invoke with M-x biome-preset"))
     (switch-to-buffer buf)))
 
 (transient-define-prefix biome-query--section (section &optional parents)
