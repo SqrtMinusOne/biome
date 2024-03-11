@@ -644,15 +644,64 @@ transient switches)."
    ("RET" "Apply" biome-grid--update-columns :transient t)
    ("q" "Quit" transient-quit-one)])
 
+(defun biome-grid-export-csv (file-name query results)
+  "Export the displayed `biome' results as CSV.
+
+FILE-NAME is the target file name.  QUERY is a form as defined by
+`biome-query-current'.  RESULTS is a response of Open Meteo (returned
+by `biome-api-get')."
+  (interactive (list (read-file-name "CSV: " nil "result.csv")
+                     biome-grid--current-query
+                     biome-grid--current-results))
+  (let* ((group (intern (alist-get :group query)))
+         (group-units (intern (format "%s_units" (alist-get :group query))))
+         (var-names (biome-query--get-var-names-cache))
+         (data (seq-filter
+                (lambda (group)
+                  (or (null biome-grid--columns-display)
+                      (nth 1 (alist-get (car group) biome-grid--columns-display))))
+                (copy-tree (alist-get group results))))
+         (data-i (seq-max (mapcar (lambda (datum) (length (cdr datum))) data))))
+    (with-temp-file file-name
+      (insert (string-join
+               (cl-loop for (key . _value) in data
+                        for unit = (replace-regexp-in-string
+                                    (regexp-quote "%") "%%"
+                                    (alist-get key (alist-get group-units results)))
+                        for var-name = (biome-query--get-header (symbol-name key) var-names)
+                        for col-name = (if (and biome-grid-display-units
+                                                (not (string-empty-p unit)))
+                                           (format "%s (%s)" var-name unit) var-name)
+                        collect (format "\"%s\"" col-name))
+               ",")
+              "\n"
+              (cl-loop for i from 0 to (1- data-i)
+                       concat (mapconcat
+                               (lambda (datum-item)
+                                 (if (length> (cdr datum-item) i)
+                                     (let ((item (aref (cdr datum-item) i)))
+                                       (cond ((numberp item) (format "%s" item))
+                                             ((and (stringp item)
+                                                   (string-match-p " " item))
+                                              (format "\"%s\"" item))
+                                             ((stringp item) (format "%s" item))
+                                             (t "")))
+                                   ""))
+                               data ",")
+                       concat "\n")))))
+
+
 (defvar biome-grid-mode-map
   (let ((keymap (make-sparse-keymap)))
     (set-keymap-parent keymap tabulated-list-mode-map)
     (define-key keymap (kbd "q") #'biome-grid-bury-or-kill-this-buffer)
     (define-key keymap (kbd "c") #'biome-grid-columns)
+    (define-key keymap (kbd "s") #'biome-grid-export-csv)
     (when (fboundp 'evil-define-key*)
       (evil-define-key* 'normal keymap
         "q" #'biome-grid-bury-or-kill-this-buffer
         "c" #'biome-grid-columns
+        "s" #'biome-grid-export-csv
         "{" #'tabulated-list-narrow-current-column
         "}" #'tabulated-list-widen-current-column))
     keymap)
