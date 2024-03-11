@@ -51,6 +51,8 @@ Or it will open the results table (the first screenshot).
 
 [[./img/columns.png]]
 
+Press =c= or invoke =M-x biome-grid-export-csv= to export the results in CSV format.
+
 * More configuration
 To save a query for later, press =P= in the root of the query interface. This will generate a definition like this:
 #+begin_src emacs-lisp
