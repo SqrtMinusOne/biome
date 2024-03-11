@@ -65,11 +65,18 @@ To save a query for later, press =P= in the root of the query interface. This wi
 
 Add this somewhere in your config after the package is loaded, e.g., in the =:config= section of the =use-package= form or wrapped in [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Hooks-for-Loading.html#index-with_002deval_002dafter_002dload][with-eval-after-load]]. Running =M-x biome-query-preset-177= will create a query interface with this preset.
 
+Alternatively, use the =add-to-list= form (generated below the =biome-def-preset= form). Presets added that way will show up in =M-x biome-presets= or "Presets" in =M-x biome=.
+
 Table formatting can be configured with =biome-grid-format=; check the docstring for more information. For instance, if you want to disable all gradients:
 #+begin_src emacs-lisp
 (setq biome-grid-format (seq-filter (lambda (f) (not (eq (car-safe (nth 2 f))
                                                          'gradient)))
                                     biome-grid-format))
+#+end_src
+
+Turn off highlighting of the current hour or day as follows:
+#+begin_src emacs-lisp
+(setq biome-grid-highlight-current nil)
 #+end_src
 
 * Composite queries
