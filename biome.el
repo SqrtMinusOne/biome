@@ -57,6 +57,26 @@ API."
   :type 'function
   :group 'biome)
 
+(defcustom biome-presets-alist nil
+  "Presets for `biome' queries.
+
+One item of the list is another list with three elements:
+- preset name;
+- `:normal' for normal `biome' or `:multi' for `biome-multi';
+- parameters as defined by `biome-query-current' or
+  `biome-multi-query-current'.
+Thus, preset names are the keys of the alist.
+
+To generate expressions that add stuff to this list, run \"Generate
+preset definition\" in `biome' or `biome-multi'."
+  :type '(repeat
+          (list
+           (string :tag "Preset name")
+           (choice (const :tag "Normal" :normal)
+                   (const :tag "Multi" :multi))
+           (sexp :tag "Parameters")))
+  :group 'biome)
+
 (defun biome ()
   "Bountiful Interface to Open Meteo for Emacs."
   (interactive)
@@ -116,6 +136,30 @@ PARAMS as query."
      (interactive)
      (setq biome-multi-query-current ',params)
      (call-interactively #'biome-multi)))
+
+(defun biome-preset (preset-def)
+  "Run `biome' with a preset.
+
+PRESET-DEF is one preset as defined by `biome-presets-alist', sans the
+name.  If run interactively, prompt PRESET-DEF from
+`biome-presets-alist'.
+
+Run \"Generate preset definition\" in `biome' or `biome-multi' to
+generate expressions that add stuff to `biome-presets-alist'."
+  (interactive (list (alist-get
+                      (completing-read "Preset" biome-presets-alist)
+                      biome-presets-alist nil nil #'equal)))
+  (pcase-let ((`(,kind ,params) preset-def))
+    (pcase kind
+      (:normal
+       (setq biome-query--callback
+             (lambda (query)
+               (biome-api-get query biome-frontend)))
+       (setq biome-query-current (copy-tree params))
+       (biome-query--section-open (alist-get :name params)))
+      (:multi
+       (setq biome-multi-query-current (copy-tree params))
+       (call-interactively #'biome-multi)))))
 
 (provide 'biome)
 ;;; biome.el ends here

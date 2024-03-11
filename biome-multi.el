@@ -25,9 +25,13 @@
 ;; Tools for doing multiple queries to Open Meteo.
 
 ;;; Code:
-(require 'biome-query)
 (require 'font-lock)
 (require 'transient)
+
+(require 'biome-query)
+
+;; XXX Recursive imports T_T
+(declare-function biome-preset "biome")
 
 (defvar biome-multi-query-current nil
   "Current query.
@@ -113,12 +117,20 @@ This is a list of forms as defined by `biome-query-current'.")
 (defun biome-multi--generate-preset ()
   "Generate a preset for the current multi-query."
   (interactive)
-  (let ((buf (generate-new-buffer "*biome-preset*")))
+  (let ((buf (generate-new-buffer "*biome-preset*"))
+        (preset-symbol (gensym "biome-query-preset-")))
     (with-current-buffer buf
       (emacs-lisp-mode)
       (insert ";; Add this to your config\n")
-      (insert (pp-to-string `(biome-def-multi-preset ,(gensym "biome-query-preset-")
-                               ,biome-multi-query-current))))
+      (insert (pp-to-string `(biome-def-multi-preset ,preset-symbol
+                               ,biome-multi-query-current)))
+      (insert ";; invoke with M-x " (symbol-name preset-symbol))
+      (insert "\n\n;; Or:\n")
+      (insert (pp-to-string `(add-to-list 'biome-presets-alist
+                                          '(,(symbol-name preset-symbol)
+                                            :multi
+                                            ,biome-multi-query-current))))
+      (insert ";; invoke with M-x biome-preset"))
     (switch-to-buffer buf)))
 
 (transient-define-prefix biome-multi-query (callback)
@@ -132,6 +144,7 @@ This is a list of forms as defined by `biome-query-current'.")
   ["Actions"
    :class transient-row
    ("RET" "Run" biome-multi-exec)
+   ("p" "Preset" biome-preset :transient transient--do-replace)
    ("P" "Generate preset definition" biome-multi--generate-preset)
    ("R" "Reset" biome-multi-reset :transient t)
    ("q" "Quit" transient-quit-one)]

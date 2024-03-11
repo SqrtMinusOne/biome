@@ -39,6 +39,10 @@
 
 (require 'biome-api-data)
 
+;; XXX Recursive imports T_T
+(declare-function biome-preset "biome")
+(declare-function biome-multi "biome")
+
 (defcustom biome-query-max-fields-in-row 20
   "Maximum number of fields in a row."
   :type 'integer
@@ -438,7 +442,7 @@ number of options is more than
      (mapconcat
       (lambda (choice)
         (propertize (cdr choice) 'face
-                    (if (eq (car choice) value)
+                    (if (equal (car choice) value)
                         'transient-value
                       'transient-inactive-value)))
       (oref obj options)
@@ -965,12 +969,20 @@ SUFFIXES is a list of suffix definitions."
 (defun biome-query--generate-preset ()
   "Generate a preset for the current query."
   (interactive)
-  (let ((buf (generate-new-buffer "*biome-preset*")))
+  (let ((buf (generate-new-buffer "*biome-preset*"))
+        (preset-symbol (gensym "biome-query-preset-")))
     (with-current-buffer buf
       (emacs-lisp-mode)
       (insert ";; Add this to your config\n")
-      (insert (pp-to-string `(biome-def-preset ,(gensym "biome-query-preset-")
-                               ,biome-query-current))))
+      (insert (pp-to-string `(biome-def-preset ,preset-symbol
+                               ,biome-query-current)))
+      (insert ";; invoke with M-x " (symbol-name preset-symbol))
+      (insert "\n\n;; Or:\n")
+      (insert (pp-to-string `(add-to-list 'biome-presets-alist
+                                          '(,(symbol-name preset-symbol)
+                                            :normal
+                                            ,biome-query-current))))
+      (insert ";; invoke with M-x biome-preset"))
     (switch-to-buffer buf)))
 
 (transient-define-prefix biome-query--section (section &optional parents)
@@ -1022,14 +1034,16 @@ SECTION is a form as defined in `biome-api-parse--page'."
      (transient-parse-suffixes
       'transient--prefix
       (cl-loop for (name . params) in biome-api-data
-       collect `(,(alist-get :key params)
-                  ,name
-                  (lambda () (interactive)
-                    (biome-query--section-open ,name))
-                  :transient transient--do-stack))))]
+               collect `(,(alist-get :key params)
+                         ,name
+                         (lambda () (interactive)
+                           (biome-query--section-open ,name))
+                         :transient transient--do-stack))))]
   ["Actions"
    :class transient-row
    ("r" "Resume" biome-resume :transient transient--do-replace)
+   ("p" "Preset" biome-preset :transient transient--do-stack)
+   ("u" "Join multiple queries" biome-multi :transient transient--do-stack)
    ("q" "Quit" transient-quit-one)]
   (interactive (list nil))
   (unless callback
