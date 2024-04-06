@@ -45,6 +45,14 @@
     ("Flood" . "https://flood-api.open-meteo.com/v1/flood"))
   "Default URLs for Open Meteo API.")
 
+(defcustom biome-api-try-parse-error-as-response nil
+  "Try to parse error responses as normal ones.
+
+This is a workaround for my termux setup, somehow request' gives
+the parsed response to the error callback there."
+  :group 'biome
+  :type 'boolean)
+
 (defcustom biome-api-urls biome-api--default-urls
   "URLs of the Open Meteo API."
   :type `(alist
@@ -91,7 +99,7 @@ QUERY is a form as defined by `biome-query-current'."
 \\{biome-api-error-mode-map}"
   (read-only-mode 1))
 
-(defun biome-api--show-error (error-thrown response)
+(defun biome-api--show-error (error-thrown response &optional err)
   "Show ERROR-THROWN and RESPONSE in a buffer."
   (let ((buffer (generate-new-buffer "*biome-api-error*")))
     (with-current-buffer buffer
@@ -100,6 +108,11 @@ QUERY is a form as defined by `biome-query-current'."
        (propertize "Error: " 'face 'font-lock-warning-face)
        (prin1-to-string error-thrown)
        "\n")
+      (when err
+        (insert
+         (propertize "Pasing error: " 'face 'font-lock-warning-face)
+         (error-message-string err)
+         "\n"))
       (condition-case nil
           (insert (propertize "Reason: " 'face 'font-lock-warning-face)
                   (alist-get 'reason (request-response-data response))
@@ -125,8 +138,12 @@ called with QUERY and the data returned by the API as arguments."
                 (lambda (&key data &allow-other-keys)
                   (funcall callback (copy-tree query) data)))
       :error
-      (cl-function (lambda (&key error-thrown response &allow-other-keys)
-                     (biome-api--show-error error-thrown response))))))
+      (cl-function
+       (lambda (&key error-thrown response &allow-other-keys)
+         (if biome-api-try-parse-error-as-response
+             (condition-case err
+                 (funcall callback (copy-tree query) (request-response-data response))
+               (error (biome-api--show-error error-thrown response err)))))))))
 
 (defun biome-api-get-multiple (queries callback)
   "Get data from Open Meteo API.

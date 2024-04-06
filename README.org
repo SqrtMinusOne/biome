@@ -17,6 +17,21 @@ The package is available on MELPA. Install it however you normally install packa
 
 Or clone the repository, add it to =load-path=, and =require= the package.
 
+** Issues with termux?
+I've been trying to run this package on termux and had some issues.
+
+First, for some reason =request.el= throws the successfully parsed response as error. Use this as a workaround:
+#+begin_src emacs-lisp
+(setq biome-api-try-parse-error-as-response t)
+#+end_src
+
+Second, somehow the =<tab>= is not the same as the =<TAB>= key. The following might be neccessary:
+#+begin_src emacs-lisp
+(setq biome-query-tab-key "<TAB>")
+#+end_src
+
+Be sure to add that before the package initialization.
+
 * Usage
 The main entry point is =M-x biome=. Each item under "Open Meteo Data" corresponds to a particular endpoint of the service. For instance, =M-x biome ww= is a generic weather forecast. Check out the [[https://open-meteo.com/en/docs][API docs]] for more detailed descriptions.
 

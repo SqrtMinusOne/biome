@@ -84,6 +84,11 @@ The format is: (name latitude longitude)."
                   (string :tag "Column name")))
   :group 'biome)
 
+(defcustom biome-query-tab-key "<tab>"
+  "Key used for TAB."
+  :type 'string
+  :group 'biome)
+
 (defconst biome-query-groups '("daily" "hourly" "minutely_15" "hourly")
   "Name of groups.
 
@@ -629,7 +634,7 @@ OBJ is an instance of `biome-query--transient-group-switch'."
 
 (transient-define-infix biome-query--transient-group-switch-infix ()
   :class 'biome-query--transient-group-switch
-  :key "<tab>"
+  :key biome-query-tab-key
   :description "Switch group")
 
 ;; Layout generation
