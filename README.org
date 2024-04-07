@@ -20,7 +20,7 @@ Or clone the repository, add it to =load-path=, and =require= the package.
 ** Issues with termux?
 I've been trying to run this package on termux and had some issues.
 
-First, for some reason =request.el= throws a successfully parsed response as error. Use this as a workaround:
+First, for some reason =request.el= throws a successfully parsed response as an error. Use this as a workaround:
 #+begin_src emacs-lisp
 (setq biome-api-try-parse-error-as-response t)
 #+end_src
