@@ -20,12 +20,12 @@ Or clone the repository, add it to =load-path=, and =require= the package.
 ** Issues with termux?
 I've been trying to run this package on termux and had some issues.
 
-First, for some reason =request.el= throws the successfully parsed response as error. Use this as a workaround:
+First, for some reason =request.el= throws a successfully parsed response as error. Use this as a workaround:
 #+begin_src emacs-lisp
 (setq biome-api-try-parse-error-as-response t)
 #+end_src
 
-Second, somehow the =<tab>= is not the same as the =<TAB>= key. The following might be neccessary:
+Second, somehow =<tab>= is not the same as =<TAB>=. The following might be necessary:
 #+begin_src emacs-lisp
 (setq biome-query-tab-key "<TAB>")
 #+end_src
