@@ -89,7 +89,7 @@ The format is: (name latitude longitude)."
   :type 'string
   :group 'biome)
 
-(defconst biome-query-groups '("daily" "hourly" "minutely_15" "hourly")
+(defconst biome-query-groups '("daily" "hourly" "minutely_15" "hourly" "current")
   "Name of groups.
 
 A group is a mutually exclusive choice.  E.g. in the \"Weather

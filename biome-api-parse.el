@@ -36,16 +36,19 @@
 (defvar biome-api-parse--data nil
   "Data parsed from the API docs.")
 
+(defvar biome-api-parse--htmls (make-hash-table :test #'equal)
+  "HTML strings of the API docs.")
+
 (defconst biome-api-parse--urls
   '(((:name . "Weather Forecast")
      (:url . "https://open-meteo.com/en/docs")
      (:description . "Seamless integration of high-resolution weather models with up 16 days forecast")
      (:key . "ww"))
-    ((:name . "DWD ICON")
+    ((:name . "DWD ICON (Germany)")
      (:url . "https://open-meteo.com/en/docs/dwd-api")
      (:description . "German Weather Service ICON model. 15-minutely data for Central Europe")
      (:key . "wd"))
-    ((:name . "NOAA GFS & HRRR")
+    ((:name . "NOAA GFS & HRRR (U.S.)")
      (:url . "https://open-meteo.com/en/docs/gfs-api")
      (:description . "Forecasts tailored for the US region")
      (:key . "wu"))
@@ -57,18 +60,26 @@
      (:url . "https://open-meteo.com/en/docs/ecmwf-api")
      (:description . "Open-data forecasts by ECMWF")
      (:key . "we"))
-    ((:name . "JMA")
+    ((:name . "JMA (Japan)")
      (:url . "https://open-meteo.com/en/docs/jma-api")
      (:description . "Forecasts tailored for Japan")
      (:key . "wj"))
-    ((:name . "MET Norway")
+    ((:name . "MET (Norway)")
      (:url . "https://open-meteo.com/en/docs/metno-api")
      (:description . "Forecasts exclusively for North Europe")
      (:key . "wn"))
-    ((:name . "GEM")
+    ((:name . "GEM (Canada)")
      (:url . "https://open-meteo.com/en/docs/gem-api")
      (:description . "Forecasts tailored for North America")
      (:key . "wa"))
+    ((:name . "BOM (Australia)")
+     (:url . "https://open-meteo.com/en/docs/bom-api/")
+     (:description . "Weather forecasts from the Australian Bureau of Meteorology")
+     (:key . "wb"))
+    ((:name . "CMA (China)")
+     (:url . "https://open-meteo.com/en/docs/gem-api")
+     (:description . "Weather forecasts from the Chinese Meteorological Administration")
+     (:key . "wc"))
     ((:name . "Historical Weather")
      (:url . "https://open-meteo.com/en/docs/historical-weather-api")
      (:description . "Weather information since 1940")
@@ -100,6 +111,7 @@
     ("Hourly Weather Variables" . "hourly")
     ("15-Minutely Weather Variables" . "minutely_15")
     ("3-Hourly Weather Variables" . "hourly")
+    ("Current Weather" . "current")
     ("Hourly Marine Variables" . "hourly")
     ("Daily Marine Variables" . "daily")
     ("Hourly Air Quality Variables" . "hourly")
@@ -313,6 +325,12 @@ NAME is the page name as given in `biome-api-parse--urls'."
   ;; Add settings
   (when-let ((settings-data (biome-api-parse--postprocess-extract-section
                              sections "settings")))
+    ;; Merge settings and "Location and Time"
+    (when-let ((location-data (biome-api-parse--postprocess-extract-section
+                               sections "location and time" t)))
+      (setf (alist-get :fields settings-data)
+            (append (alist-get :fields location-data)
+                    (alist-get :fields settings-data))))
     (cl-loop for var in biome-api-parse--add-settings
              if (member name (alist-get :pages var))
              do (push (copy-tree (alist-get :param var))
@@ -403,8 +421,14 @@ fields attributes as cdr:
   "Parse one page from open-meteo API docs.
 
 DATUM is an element of `biome-api-parse--urls'."
-  (browse-url (alist-get :url datum))
-  (let* ((html (read-string "Enter HTML string: "))
+
+  (let* ((html (or (gethash (alist-get :url datum) biome-api-parse--htmls)
+                   (progn
+                     (browse-url (alist-get :url datum))
+                     (let ((html (read-string "Enter HTML string: ")))
+                       (puthash (alist-get :url datum) html
+                                biome-api-parse--htmls)
+                       html))))
          (parsed (biome-api-parse--page html (alist-get :name datum))))
     (setf (alist-get (alist-get :name datum)
                      biome-api-parse--data nil nil #'equal)
@@ -421,7 +445,7 @@ DATUM is an element of `biome-api-parse--urls'."
     seq-uniq
     (seq-sort #'string-lessp)))
 
-(defun biome-api-parse--generate ()
+(defun biome-api-parse--generate (&optional arg)
   "Generate `biome-api-data' and `biome-api-timezones' constants.
 
 This function does two things:
@@ -432,10 +456,15 @@ Unfortunately, the HTML pages have accordions that are dynamically
 loaded, so we need to manually load them in the browser, expand the
 accordions and copy the HTML source.
 
+HTML strings are cached in `biome-api-parse--htmls'.  Set ARG to
+non-nil to reset.
+
 The function prints the generated constants to a new buffer.  Save
 them to biome-api-data.el."
-  (interactive)
+  (interactive "P")
   (setq biome-api-parse--data nil)
+  (when arg
+    (setq biome-api-parse--htmls (make-hash-table :test #'equal)))
   (let ((timezones (biome-api-parse--timezones)))
     (cl-loop for datum in biome-api-parse--urls
              do (biome-api-parse--datum datum))
