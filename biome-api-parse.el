@@ -88,6 +88,10 @@
      (:url . "https://open-meteo.com/en/docs/ensemble-api")
      (:description . "Weather information since 1940")
      (:key . "e"))
+    ((:name . "Previous Runs API")
+     (:url . "https://open-meteo.com/en/docs/previous-runs-api")
+     (:description . "Weather Forecasts from Previous Days to Compare Run-To-Run Performance")
+     (:key . "v"))
     ((:name . "Climate Change")
      (:url . "https://open-meteo.com/en/docs/climate-api")
      (:description . "Climate change projections")
@@ -149,11 +153,61 @@
   "Replace these variable defintions with the given ones.")
 
 (defconst biome-api-parse--add-settings
-  `(((:param . ("elevation" . ((:name . "Elevation")
-                               (:type . float))))
-     (:pages . ("Weather Forecast" "DWD ICON" "NOAA GFS & HRRR"
-                "MeteoFrance" "ECMWF" "JMA" "MET Norway" "GEM" "Historical Weather"
-                "Ensemble Models")))))
+  `(("settings" . (((:param . ("elevation" . ((:name . "Elevation")
+                                              (:type . float))))
+                    (:pages . ("Weather Forecast"
+                               "DWD ICON (Germany)"
+                               "NOAA GFS & HRRR (U.S.)"
+                               "MeteoFrance"
+                               "ECMWF"
+                               "JMA (Japan)"
+                               "MET (Norway)"
+                               "GEM (Canada)"
+                               "BOM (Australia)"
+                               "CMA (China)"
+                               "Historical Weather"
+                               "Ensemble Models")))))
+    ("coordinates and time" . (((:param . ("start_date" . ((:name . "Start date")
+                                                           (:type . date))))
+                                (:pages . ("Weather Forecast"
+                                           "DWD ICON (Germany)"
+                                           "NOAA GFS & HRRR (U.S.)"
+                                           "MeteoFrance"
+                                           "ECMWF"
+                                           "JMA (Japan)"
+                                           "MET (Norway)"
+                                           "GEM (Canada)"
+                                           "BOM (Australia)"
+                                           "CMA (China)"
+                                           "Ensemble Models"
+                                           "Previous Runs API"
+                                           "Marine Forecast"
+                                           "Flood")))
+                               ((:param . ("end_date" . ((:name . "End date")
+                                                         (:type . date))))
+                                (:pages . ("Weather Forecast"
+                                           "DWD ICON (Germany)"
+                                           "NOAA GFS & HRRR (U.S.)"
+                                           "MeteoFrance"
+                                           "ECMWF"
+                                           "JMA (Japan)"
+                                           "MET (Norway)"
+                                           "GEM (Canada)"
+                                           "BOM (Australia)"
+                                           "CMA (China)"
+                                           "Ensemble Models"
+                                           "Previous Runs API"
+                                           "Marine Forecast"
+                                           "Flood")))))))
+
+;; TODO make empty when the website is fixed
+(defconst biome-api-parse--field-names-default
+  '(("tilt" . "Panel Tilt (0° horizontal)")
+    ("azimuth" . "Panel Azimuth (0° S, -90° E, 90° W)")))
+
+;; TODO make empty when the website is fixed
+(defconst biome-api-parse--fix-ids
+  '(("past_minutely_15s" . "past_minutely_15")))
 
 (defun biome-api-parse--fix-string (string)
   "Remove extra spaces and newlines from STRING."
@@ -163,27 +217,47 @@
     " "
     string)))
 
+(defun biome-api-parse--table-variables (section)
+  "Parse variable in table in SECTION.
+
+SECTION is a DOM element.  Return a list of sections as defined by
+`biome-api-parse--page', one section per each table row."
+  (when-let* ((table (car (dom-by-class section "table-responsive")))
+              (table-rows (dom-by-tag table 'tr)))
+    (cl-loop for row in table-rows
+             for name = (dom-text (car (dom-by-tag row 'td)))
+             for fields = (biome-api-parse--page-variables row)
+             ;; do (cl-loop for field in fields
+             ;;             do (setf (alist-get :name field)
+             ;;                      (format "%s (%s)" (alist-get :name field) name)))
+             collect `((:name . ,name)
+                       (:fields . ,fields)))))
+
 (defun biome-api-parse--page-variables (section)
   "Parse variables from SECTION.
 
 SECTION is a DOM element.  Return a list of fields as defined by
 `biome-api-parse--page'."
   (let ((elements (dom-search section (lambda (el) (not (stringp el)))))
-        fields field-names field-id-mapping)
+        (field-names (copy-tree biome-api-parse--field-names-default))
+        fields field-id-mapping)
     (cl-loop for elem in elements
              for dom-id = (seq-some
                            (lambda (v) (unless (string-empty-p v) v))
                            (list (dom-attr elem 'id)
                                  (dom-attr elem 'name)))
-             for id = (seq-some
-                       (lambda (v) (unless (string-empty-p v) v))
-                       (list (let ((val (dom-attr elem 'value)))
-                               (unless (member val '("true" "false")) val))
-                             dom-id))
+             for id = (let ((id (seq-some
+                                 (lambda (v) (unless (string-empty-p v) v))
+                                 (list (let ((val (dom-attr elem 'value)))
+                                         (unless (member val '("true" "false")) val))
+                                       dom-id))))
+                        (alist-get id biome-api-parse--fix-ids
+                                   id nil #'equal))
              if (and (member (dom-tag elem) '(input select))
                      (not (equal id dom-id)))
              do (push (cons dom-id id) field-id-mapping)
-             if (member id biome-api-parse--exclude-ids)
+             if (or (member id biome-api-parse--exclude-ids)
+                    (equal (dom-attr elem 'type) "hidden"))
              do (null nil)              ; how to do nothing? :D
              else if (member id biome-api-parse--float-ids)
              do (push (cons id '((:type . float))) fields)
@@ -195,11 +269,15 @@ SECTION is a DOM element.  Return a list of fields as defined by
              do (push
                  (cons id
                        `((:type . select)
-                         (:options . ,(mapcar
-                                       (lambda (opt) (cons (dom-attr opt 'value)
-                                                           (biome-api-parse--fix-string
-                                                            (dom-texts opt))))
-                                       (dom-by-tag elem 'option)))))
+                         (:options . ,(seq-filter
+                                       (lambda (item)
+                                         (not (equal (cdr item)
+                                                     "- (default)")))
+                                       (mapcar
+                                        (lambda (opt) (cons (dom-attr opt 'value)
+                                                            (biome-api-parse--fix-string
+                                                             (dom-texts opt))))
+                                        (dom-by-tag elem 'option))))))
                  fields)
              else if (eq (dom-tag elem) 'label)
              do (push (cons (or (cdr (assoc (dom-attr elem 'for) field-id-mapping))
@@ -256,6 +334,10 @@ Return a list of sections as defined by `biome-api-parse--page'."
        (push `((:name . ,item-name)
                (:children . ,(biome-api-parse--page-pills item)))
              res)
+       else if (dom-by-class item "table-responsive") do
+       (push `((:name . ,item-name)
+               (:children . ,(biome-api-parse--table-variables item)))
+             res)
        else do (push `((:name . ,item-name)
                        (:fields . ,(biome-api-parse--page-variables item)))
                      res))
@@ -267,6 +349,8 @@ Return a list of sections as defined by `biome-api-parse--page'."
 The return value is as defined by `biome-api-parse--page'."
   (or (when-let ((accordion (biome-api-parse--page-accordion section)))
         `((:children . ,accordion)))
+      (when-let ((table (biome-api-parse--table-variables section)))
+        `((:children . ,table)))
       (when-let ((variables (biome-api-parse--page-variables section)))
         `((:fields . ,variables)))))
 
@@ -318,29 +402,39 @@ NAME is the page name as given in `biome-api-parse--urls'."
                                     ,@data)))
   ;; Extract the model section from the hourly accordion and add it to
   ;; the root section.
-  (when-let ((models-data (biome-api-parse--postprocess-extract-section
-                           sections "models" t)))
+  (when-let* ((models-data (biome-api-parse--postprocess-extract-section
+                            sections "models" t))
+              (models-section (cdr models-data)))
     (setq sections (append (car models-data)
-                           (list (cdr models-data)))))
+                           (list models-section))))
+  ;; Likewise with the 15-minutely section.
+  (when-let* ((15-minutely-data (biome-api-parse--postprocess-extract-section
+                                 sections "15-minutely" t))
+              (15-minutely-section (cdr 15-minutely-data)))
+    (setq sections (append (car 15-minutely-data)
+                           (list 15-minutely-section))))
+
+  (when-let ((location-data (biome-api-parse--postprocess-extract-section
+                             sections "location and time" t)))
+    (setf (alist-get :name location-data)
+          "Select Coordinates and Time"))
+
   ;; Add settings
-  (when-let ((settings-data (biome-api-parse--postprocess-extract-section
-                             sections "settings")))
-    ;; Merge settings and "Location and Time"
-    (when-let ((location-data (biome-api-parse--postprocess-extract-section
-                               sections "location and time" t)))
-      (setf (alist-get :fields settings-data)
-            (append (alist-get :fields location-data)
-                    (alist-get :fields settings-data))))
-    (cl-loop for var in biome-api-parse--add-settings
-             if (member name (alist-get :pages var))
-             do (push (copy-tree (alist-get :param var))
-                      (alist-get :fields (cdr settings-data))))
-    ;; Fix forecast_days for Flood API
-    (when (equal name "Flood")
-      (let ((forecast-days (alist-get "forecast_days"
-                                      (alist-get :fields (cdr settings-data))
-                                      nil nil #'equal)))
-        (setf (alist-get :max forecast-days) 210))))
+  (cl-loop
+   for (section-name . add-vars) in biome-api-parse--add-settings
+   do (when-let ((settings-data (biome-api-parse--postprocess-extract-section
+                                 sections section-name)))
+        (cl-loop for var in add-vars
+                 if (member name (alist-get :pages var))
+                 do (setf (alist-get :fields (cdr settings-data))
+                          (cons (copy-tree (alist-get :param var))
+                                (alist-get :fields (cdr settings-data)))))
+        ;; Fix forecast_days for Flood API
+        (when (equal name "Flood")
+          (when-let ((forecast-days (alist-get "forecast_days"
+                                               (alist-get :fields (cdr settings-data))
+                                               nil nil #'equal)))
+            (setf (alist-get :max forecast-days) 210)))))
   ;; Add section-specific URL params
   ;; XXX I do not know why this doesn't work without returning
   ;; sections from the loop
@@ -468,7 +562,8 @@ them to biome-api-data.el."
   (let ((timezones (biome-api-parse--timezones)))
     (cl-loop for datum in biome-api-parse--urls
              do (biome-api-parse--datum datum))
-    (let ((buffer (generate-new-buffer "*biome-generated*")))
+    (let ((buffer (generate-new-buffer "*biome-generated*"))
+          (indent-tabs-mode nil))
       (with-current-buffer buffer
         (emacs-lisp-mode)
         (insert (pp-to-string

@@ -89,6 +89,9 @@ The format is: (name latitude longitude)."
   :type 'string
   :group 'biome)
 
+(defconst biome-query--max-sections-for-row 6
+  "Maximum number of sections to use for `transient-row'.")
+
 (defconst biome-query-groups '("daily" "hourly" "minutely_15" "hourly" "current")
   "Name of groups.
 
@@ -100,7 +103,9 @@ have to be displayed separately.")
 (defconst biome-query--split-items '(("timezone" . "time zone")
                                      ("timeformat" . "time format")
                                      ("weathercode" . "weather code")
-                                     ("iso8601" . "iso 8"))
+                                     ("iso8601" . "iso 8")
+                                     ;; I'm used to "c" for "coordinates"
+                                     ("current weather" . "urrent weather"))
   "Items to split into separate words for generating keys.")
 
 (defconst biome-query--ignore-items '("m" "cm")
@@ -850,7 +855,9 @@ the position of the current section in the `biome-api-data' tree."
          ,@(thread-last
              (append
               fields
-              (when (equal (alist-get :name (car parents)) "Select Coordinates or City")
+              (when (string-match-p
+                     (rx "Select Coordinates")
+                     (alist-get :name (car parents)))
                 '(coords)))
              (seq-map-indexed
               (lambda (field idx) (cons field (/ idx biome-query-max-fields-in-row))))
@@ -877,7 +884,9 @@ KEYS is the result of `biome-query--unique-keys'.  PARENTS is a
 list of parent sections."
   (when sections
     `(["Sections"
-       :class transient-row
+       :class ,(if (length> sections biome-query--max-sections-for-row)
+                   'transient-column
+                 'transient-row)
        ,@(mapcar
           (lambda (section)
             `(,(gethash (alist-get :name section) keys)

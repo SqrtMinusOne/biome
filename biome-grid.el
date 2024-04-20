@@ -499,6 +499,9 @@ column.
 
 ENTRIES is a list of values.  COL-KEY is the column key as given by
 the API.  UNIT is the unit of the column."
+  ;; Current weather is not a sequence.
+  (unless (sequencep entries)
+    (setq entries (list entries)))
   (let ((format-def (biome-grid--get-format-def col-key unit)))
     (mapcar
      (lambda (entry)
@@ -709,7 +712,8 @@ by `biome-api-get')."
 
 (defun biome-grid--maybe-highlight-current ()
   "Highlight current hour or day (if hour is not found)."
-  (when biome-grid-highlight-current
+  (when (and biome-grid-highlight-current
+             (length> tabulated-list-entries 1))
     (save-excursion
       (goto-char (point-min))
       (let ((needle-datetime
