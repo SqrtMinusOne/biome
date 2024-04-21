@@ -41,7 +41,8 @@
 
 ;; XXX Recursive imports T_T
 (declare-function biome-preset "biome")
-(declare-function biome-multi "biome")
+(declare-function biome-multi "biome-multi")
+(declare-function biome-multi-history "biome-multi")
 
 (defcustom biome-query-max-fields-in-row 20
   "Maximum number of fields in a row."
@@ -209,7 +210,7 @@ QUERY is a form as defined by `transient-define-prefix'."
         (setq lat (cdr item)))
        ((equal (car item) "longitude")
         (setq lon (cdr item)))
-       ((member (car item) '("end_date" "start_date"))
+       ((member (car item) '("end_date" "start_date" "day_of_year"))
         (push
          (format "%s: %s" (propertize
                            (biome-query--get-header (car item) var-names)
@@ -1027,18 +1028,27 @@ SECTION is a form as defined in `biome-api-parse--page'."
                            (:parents . ,parents))))
     (put 'biome-query-section 'transient--layout nil)))
 
+(defun biome-query--section-open-params (params)
+  "Open section defined by PARAMS in `biome-query--section'.
+
+PARAMS is a form as defiend by `biome-api-data'."
+  (setq biome-query--current-section params)
+  (when (and biome-query-current
+             (not (equal (alist-get :name params)
+                         (alist-get :name biome-query-current))))
+    (setq biome-query-current nil))
+  (unless biome-query-current
+    (biome-query--reset-report))
+  (funcall-interactively #'biome-query--section params))
+
 (defun biome-query--section-open (name)
   "Open section NAME in `biome-query--section'."
   (let ((params (alist-get name biome-api-data nil nil #'equal)))
-    (unless params
-      (error "No such section: %s" name))
-    (setq biome-query--current-section params)
-    (when (and biome-query-current
-               (not (equal name (alist-get :name biome-query-current))))
-      (setq biome-query-current nil))
-    (unless biome-query-current
-      (biome-query--reset-report))
-    (funcall-interactively #'biome-query--section params)))
+    (cond
+     ((equal name "Historical Weather (on this day)")
+      (biome-multi-history))
+     (params (biome-query--section-open-params params))
+     (t (error "No such section: %s" name)))))
 
 (transient-define-prefix biome-query (callback)
   ["Open Meteo Data"
@@ -1053,11 +1063,15 @@ SECTION is a form as defined in `biome-api-parse--page'."
                          (lambda () (interactive)
                            (biome-query--section-open ,name))
                          :transient transient--do-stack))))]
+  ["Aggregate Data"
+   :class transient-column
+   ("i" "Historical Weather (on this day)" biome-multi-history
+    :transient transient--do-stack)
+   ("u" "Join multiple queries" biome-multi :transient transient--do-stack)]
   ["Actions"
    :class transient-row
-   ("r" "Resume" biome-resume :transient transient--do-replace)
+   ("r" "Resume" biome-resume :transient transient--do-stack)
    ("p" "Preset" biome-preset :transient transient--do-stack)
-   ("u" "Join multiple queries" biome-multi :transient transient--do-stack)
    ("q" "Quit" transient-quit-one)]
   (interactive (list nil))
   (unless callback

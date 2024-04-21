@@ -29,6 +29,7 @@
 (require 'transient)
 
 (require 'biome-query)
+(require 'biome-api-parse)
 
 ;; XXX Recursive imports T_T
 (declare-function biome-preset "biome")
@@ -286,6 +287,109 @@ as it is necessary for `biome-grid'."
                                              vars-mapping))
                                    unit)))))
        (multi . ,(biome-multi--join-results queries query-names vars-mapping results))))))
+
+(defun biome-multi--history-section ()
+  "Create a section for `biome-multi-history'.
+
+This is based on the Historical Weather section."
+  (let* ((history-params
+          (copy-tree (alist-get "Historical Weather" biome-api-data
+                                nil nil #'equal)))
+         (time-section (biome-api-parse--postprocess-extract-section
+                        (alist-get :sections history-params)
+                        "coordinates and time"))
+         (current-year (decoded-time-year (decode-time))))
+    (push '("day_of_year" . ((:name . "Day of Year")
+                             (:type . date)))
+          (alist-get :fields time-section))
+    (push
+     `("end_year" . ((:name . "End year")
+                     (:type . number)
+                     (:min . 1940)
+                     (:max . ,current-year)))
+     (alist-get :fields time-section))
+    (push
+     `("start_year" . ((:name . "Start year")
+                       (:type . number)
+                       (:min . 1940)
+                       (:max . ,current-year)))
+     (alist-get :fields time-section))
+    (setf (alist-get :name history-params)
+          "Historical Weather (on this day)")
+    (setf (alist-get :fields time-section)
+          (seq-filter
+           (lambda (elem)
+             (not (member (car elem) '("start_date" "end_date"))))
+           (alist-get :fields time-section)))
+    history-params))
+
+(defun biome-multi-history--prepare-queries (query)
+  "Create queries for `biome-multi-history'.
+
+QUERY is a query as defined by `biome-query-current', prepared like
+for the normal Historical Weather section but with the following
+added fields:
+- start_year (number from 1940 to current)
+- end_year (number from 1940 to current)
+- day_of_year (timestamp)."
+  (let ((start-year (alist-get "start_year"
+                               (alist-get :params query)
+                               nil nil #'equal))
+        (end-year (alist-get "end_year"
+                             (alist-get :params query)
+                             nil nil #'equal))
+        (day-of-year (alist-get "day_of_year"
+                                (alist-get :params query)
+                                nil nil #'equal)))
+    (unless (and start-year end-year day-of-year)
+      (user-error "Set Start Year, End Year and Day of Year"))
+    (cl-loop with current-date = (decode-time (seconds-to-time day-of-year))
+             for year from start-year to end-year
+             for date = (copy-tree current-date)
+             do (setf (decoded-time-year date) year)
+             for time = (time-convert (encode-time date) 'integer)
+             for year-query = (copy-tree query)
+             do (setf (alist-get :params year-query)
+                      (seq-filter (lambda (elem)
+                                    (not
+                                     (member
+                                      (car elem)
+                                      '("day_of_year" "end_year" "start_year"))))
+                                  (alist-get :params year-query)))
+             do (push (cons "start_date" (- time (% time (* 60 60 24))))
+                      (alist-get :params year-query))
+             do (push (cons "end_date" (- time (% time (* 60 60 24))))
+                      (alist-get :params year-query))
+             collect year-query)))
+
+(defun biome-multi--history-query (callback)
+  "Get historical weather data on a particular day.
+
+CALLBACK is called with a list of queries, one per day."
+  (interactive (list nil))
+  (let ((params (biome-multi--history-section)))
+    (setq biome-query--callback
+          (lambda (query)
+            (let ((queries (biome-multi-history--prepare-queries query)))
+              (when (y-or-n-p (format "Send %s requests to the API?"
+                                      (length queries)))
+                (funcall callback queries)))))
+    (biome-query--section-open-params params)))
+
+(defun biome-multi--concat-results (queries results)
+  "Concat RESULTS from multiple Open Meteo responses.
+
+QUERIES is a list of forms as defined by `biome-query-current'.  Each
+query is assumed to have the same variables.  RESULTS is a list of
+responses from Open Meteo."
+  (let ((group (intern (alist-get :group (car queries)))))
+    (cl-loop for result in (cdr results)
+             do (cl-loop
+                 for (var . values) in (alist-get group result)
+                 do (setf (alist-get var (alist-get group (car results)))
+                          (vconcat (alist-get var (alist-get group (car results)))
+                                   values))))
+    (car results)))
 
 (provide 'biome-multi)
 ;;; biome-multi.el ends here

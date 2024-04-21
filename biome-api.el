@@ -40,6 +40,8 @@
     ("BOM (Australia)" . "https://api.open-meteo.com/v1/bom")
     ("CMA (China)" . "https://api.open-meteo.com/v1/cma")
     ("Historical Weather" . "https://archive-api.open-meteo.com/v1/archive")
+    ("Historical Weather (on this day)"
+     . "https://archive-api.open-meteo.com/v1/archive")
     ("Ensemble Models" . "https://ensemble-api.open-meteo.com/v1/ensemble")
     ("Previous Runs API" . "https://previous-runs-api.open-meteo.com/v1/forecast")
     ("Climate Change" . "https://climate-api.open-meteo.com/v1/climate")

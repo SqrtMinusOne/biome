@@ -106,6 +106,18 @@ preset definition\" in `biome' or `biome-multi'."
         (let ((merged (biome-multi--merge queries results)))
           (funcall biome-frontend (nth 0 merged) (nth 1 merged))))))))
 
+(defun biome-multi-history ()
+  "Get historical weather data on a particular day."
+  (interactive)
+  (funcall-interactively
+   #'biome-multi--history-query
+   (lambda (queries)
+     (biome-api-get-multiple
+      queries
+      (lambda (queries results)
+        (let ((concat-results (biome-multi--concat-results queries results)))
+          (funcall biome-frontend (car queries) concat-results)))))))
+
 (defmacro biome-def-preset (name params)
   "Declare a query preset.
 
