@@ -32,18 +32,37 @@
      (:description . "Seamless integration of high-resolution weather models with up 16 days forecast")
      (:key . "ww")
      (:sections
-      ((:name . "Select Coordinates or City")
+      ((:name . "Select Coordinates and Time")
        (:fields
+        ("end_date"
+         (:name . "End date")
+         (:type . date))
+        ("start_date"
+         (:name . "Start date")
+         (:type . date))
+        ("forecast_days"
+         (:name . "Forecast days")
+         (:type . number)
+         (:min . 0)
+         (:max . 16))
+        ("past_days"
+         (:name . "Past days")
+         (:type . number)
+         (:min . 0)
+         (:max . 92))
         ("latitude"
          (:name . "Latitude")
          (:type . float))
         ("longitude"
          (:name . "Longitude")
-         (:type . float))))
+         (:type . float))
+        ("timezone"
+         (:name . "Timezone")
+         (:type . timezone))))
       ((:param . "hourly")
        (:name . "Hourly Weather Variables")
        (:children
-        ((:name . "Additional Variables")
+        ((:name . "Additional Variables And Options")
          (:fields
           ("uv_index"
            (:name . "UV Index")
@@ -57,41 +76,72 @@
           ("cape"
            (:name . "CAPE")
            (:type . checkbox))
-          ("freezinglevel_height"
-           (:name . "Freezinglevel Height")
-           (:type . checkbox))))
+          ("freezing_level_height"
+           (:name . "Freezing Level Height")
+           (:type . checkbox))
+          ("sunshine_duration"
+           (:name . "Sunshine Duration")
+           (:type . checkbox))
+          ("forecast_hours"
+           (:name . "Forecast Hours")
+           (:type . select)
+           (:options
+            ("1" . "1 hour")
+            ("6" . "6 hours")
+            ("12" . "12 hours")
+            ("24" . "24 hours")))
+          ("past_hours"
+           (:name . "Past Hours")
+           (:type . select)
+           (:options
+            ("1" . "1 hour")
+            ("6" . "6 hours")
+            ("12" . "12 hours")
+            ("24" . "24 hours")))))
         ((:name . "Solar Radiation Variables")
          (:fields
           ("shortwave_radiation"
-           (:name . "Shortwave Solar Radiation")
+           (:name . "Shortwave Solar Radiation GHI")
            (:type . checkbox))
           ("direct_radiation"
            (:name . "Direct Solar Radiation")
            (:type . checkbox))
           ("diffuse_radiation"
-           (:name . "Diffuse Solar Radiation")
+           (:name . "Diffuse Solar Radiation DHI")
            (:type . checkbox))
           ("direct_normal_irradiance"
            (:name . "Direct Normal Irradiance DNI")
+           (:type . checkbox))
+          ("global_tilted_irradiance"
+           (:name . "Global Tilted Radiation GTI")
            (:type . checkbox))
           ("terrestrial_radiation"
            (:name . "Terrestrial Solar Radiation")
            (:type . checkbox))
           ("shortwave_radiation_instant"
-           (:name . "Shortwave Solar Radiation (Instant)")
+           (:name . "Shortwave Solar Radiation GHI (Instant)")
            (:type . checkbox))
           ("direct_radiation_instant"
            (:name . "Direct Solar Radiation (Instant)")
            (:type . checkbox))
           ("diffuse_radiation_instant"
-           (:name . "Diffuse Solar Radiation (Instant)")
+           (:name . "Diffuse Solar Radiation DHI (Instant)")
            (:type . checkbox))
           ("direct_normal_irradiance_instant"
            (:name . "Direct Normal Irradiance DNI (Instant)")
            (:type . checkbox))
+          ("global_tilted_irradiance_instant"
+           (:name . "Global Tilted Radiation GTI")
+           (:type . checkbox))
           ("terrestrial_radiation_instant"
            (:name . "Terrestrial Solar Radiation (Instant)")
-           (:type . checkbox))))
+           (:type . checkbox))
+          ("tilt"
+           (:name . "Panel Tilt (0° horizontal)")
+           (:type . number))
+          ("azimuth"
+           (:name . "Panel Azimuth (0° S, -90° E, 90° W)")
+           (:type . number))))
         ((:name . "Pressure Level Variables")
          (:children
           ((:name . "Temperature")
@@ -155,120 +205,120 @@
              (:type . checkbox))))
           ((:name . "Relative Humidity")
            (:fields
-            ("relativehumidity_1000hPa"
+            ("relative_humidity_1000hPa"
              (:name . "1000 hPa (110 m)")
              (:type . checkbox))
-            ("relativehumidity_975hPa"
+            ("relative_humidity_975hPa"
              (:name . "975 hPa (320 m)")
              (:type . checkbox))
-            ("relativehumidity_950hPa"
+            ("relative_humidity_950hPa"
              (:name . "950 hPa (500 m)")
              (:type . checkbox))
-            ("relativehumidity_925hPa"
+            ("relative_humidity_925hPa"
              (:name . "925 hPa (800 m)")
              (:type . checkbox))
-            ("relativehumidity_900hPa"
+            ("relative_humidity_900hPa"
              (:name . "900 hPa (1000 m)")
              (:type . checkbox))
-            ("relativehumidity_850hPa"
+            ("relative_humidity_850hPa"
              (:name . "850 hPa (1500 m)")
              (:type . checkbox))
-            ("relativehumidity_800hPa"
+            ("relative_humidity_800hPa"
              (:name . "800 hPa (1900 m)")
              (:type . checkbox))
-            ("relativehumidity_700hPa"
+            ("relative_humidity_700hPa"
              (:name . "700 hPa (3 km)")
              (:type . checkbox))
-            ("relativehumidity_600hPa"
+            ("relative_humidity_600hPa"
              (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
-            ("relativehumidity_500hPa"
+            ("relative_humidity_500hPa"
              (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
-            ("relativehumidity_400hPa"
+            ("relative_humidity_400hPa"
              (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
-            ("relativehumidity_300hPa"
+            ("relative_humidity_300hPa"
              (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
-            ("relativehumidity_250hPa"
+            ("relative_humidity_250hPa"
              (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
-            ("relativehumidity_200hPa"
+            ("relative_humidity_200hPa"
              (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
-            ("relativehumidity_150hPa"
+            ("relative_humidity_150hPa"
              (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
-            ("relativehumidity_100hPa"
+            ("relative_humidity_100hPa"
              (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
-            ("relativehumidity_70hPa"
+            ("relative_humidity_70hPa"
              (:name . "70 hPa (17.7 km)")
              (:type . checkbox))
-            ("relativehumidity_50hPa"
+            ("relative_humidity_50hPa"
              (:name . "50 hPa (19.3 km)")
              (:type . checkbox))
-            ("relativehumidity_30hPa"
+            ("relative_humidity_30hPa"
              (:name . "30 hPa (22 km)")
              (:type . checkbox))))
-          ((:name . "Cloudcover")
+          ((:name . "Cloud cover")
            (:fields
-            ("cloudcover_1000hPa"
+            ("cloud_cover_1000hPa"
              (:name . "1000 hPa (110 m)")
              (:type . checkbox))
-            ("cloudcover_975hPa"
+            ("cloud_cover_975hPa"
              (:name . "975 hPa (320 m)")
              (:type . checkbox))
-            ("cloudcover_950hPa"
+            ("cloud_cover_950hPa"
              (:name . "950 hPa (500 m)")
              (:type . checkbox))
-            ("cloudcover_925hPa"
+            ("cloud_cover_925hPa"
              (:name . "925 hPa (800 m)")
              (:type . checkbox))
-            ("cloudcover_900hPa"
+            ("cloud_cover_900hPa"
              (:name . "900 hPa (1000 m)")
              (:type . checkbox))
-            ("cloudcover_850hPa"
+            ("cloud_cover_850hPa"
              (:name . "850 hPa (1500 m)")
              (:type . checkbox))
-            ("cloudcover_800hPa"
+            ("cloud_cover_800hPa"
              (:name . "800 hPa (1900 m)")
              (:type . checkbox))
-            ("cloudcover_700hPa"
+            ("cloud_cover_700hPa"
              (:name . "700 hPa (3 km)")
              (:type . checkbox))
-            ("cloudcover_600hPa"
+            ("cloud_cover_600hPa"
              (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
-            ("cloudcover_500hPa"
+            ("cloud_cover_500hPa"
              (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
-            ("cloudcover_400hPa"
+            ("cloud_cover_400hPa"
              (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
-            ("cloudcover_300hPa"
+            ("cloud_cover_300hPa"
              (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
-            ("cloudcover_250hPa"
+            ("cloud_cover_250hPa"
              (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
-            ("cloudcover_200hPa"
+            ("cloud_cover_200hPa"
              (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
-            ("cloudcover_150hPa"
+            ("cloud_cover_150hPa"
              (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
-            ("cloudcover_100hPa"
+            ("cloud_cover_100hPa"
              (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
-            ("cloudcover_70hPa"
+            ("cloud_cover_70hPa"
              (:name . "70 hPa (17.7 km)")
              (:type . checkbox))
-            ("cloudcover_50hPa"
+            ("cloud_cover_50hPa"
              (:name . "50 hPa (19.3 km)")
              (:type . checkbox))
-            ("cloudcover_30hPa"
+            ("cloud_cover_30hPa"
              (:name . "30 hPa (22 km)")
              (:type . checkbox))))
           ((:name . "Wind Speed")
@@ -452,10 +502,10 @@
         ("temperature_2m"
          (:name . "Temperature (2 m)")
          (:type . checkbox))
-        ("relativehumidity_2m"
+        ("relative_humidity_2m"
          (:name . "Relative Humidity (2 m)")
          (:type . checkbox))
-        ("dewpoint_2m"
+        ("dew_point_2m"
          (:name . "Dewpoint (2 m)")
          (:type . checkbox))
         ("apparent_temperature"
@@ -479,8 +529,8 @@
         ("snow_depth"
          (:name . "Snow Depth")
          (:type . checkbox))
-        ("weathercode"
-         (:name . "Weathercode")
+        ("weather_code"
+         (:name . "Weather code")
          (:type . checkbox))
         ("pressure_msl"
          (:name . "Sealevel Pressure")
@@ -488,17 +538,17 @@
         ("surface_pressure"
          (:name . "Surface Pressure")
          (:type . checkbox))
-        ("cloudcover"
-         (:name . "Cloudcover Total")
+        ("cloud_cover"
+         (:name . "Cloud cover Total")
          (:type . checkbox))
-        ("cloudcover_low"
-         (:name . "Cloudcover Low")
+        ("cloud_cover_low"
+         (:name . "Cloud cover Low")
          (:type . checkbox))
-        ("cloudcover_mid"
-         (:name . "Cloudcover Mid")
+        ("cloud_cover_mid"
+         (:name . "Cloud cover Mid")
          (:type . checkbox))
-        ("cloudcover_high"
-         (:name . "Cloudcover High")
+        ("cloud_cover_high"
+         (:name . "Cloud cover High")
          (:type . checkbox))
         ("visibility"
          (:name . "Visibility")
@@ -509,34 +559,34 @@
         ("et0_fao_evapotranspiration"
          (:name . "Reference Evapotranspiration (ET₀)")
          (:type . checkbox))
-        ("vapor_pressure_deficit"
-         (:name . "Vapor Pressure Deficit")
+        ("vapour_pressure_deficit"
+         (:name . "Vapour Pressure Deficit")
          (:type . checkbox))
-        ("windspeed_10m"
+        ("wind_speed_10m"
          (:name . "Wind Speed (10 m)")
          (:type . checkbox))
-        ("windspeed_80m"
+        ("wind_speed_80m"
          (:name . "Wind Speed (80 m)")
          (:type . checkbox))
-        ("windspeed_120m"
+        ("wind_speed_120m"
          (:name . "Wind Speed (120 m)")
          (:type . checkbox))
-        ("windspeed_180m"
+        ("wind_speed_180m"
          (:name . "Wind Speed (180 m)")
          (:type . checkbox))
-        ("winddirection_10m"
+        ("wind_direction_10m"
          (:name . "Wind Direction (10 m)")
          (:type . checkbox))
-        ("winddirection_80m"
+        ("wind_direction_80m"
          (:name . "Wind Direction (80 m)")
          (:type . checkbox))
-        ("winddirection_120m"
+        ("wind_direction_120m"
          (:name . "Wind Direction (120 m)")
          (:type . checkbox))
-        ("winddirection_180m"
+        ("wind_direction_180m"
          (:name . "Wind Direction (180 m)")
          (:type . checkbox))
-        ("windgusts_10m"
+        ("wind_gusts_10m"
          (:name . "Wind Gusts (10 m)")
          (:type . checkbox))
         ("temperature_80m"
@@ -560,26 +610,26 @@
         ("soil_temperature_54cm"
          (:name . "Soil Temperature (54 cm)")
          (:type . checkbox))
-        ("soil_moisture_0_1cm"
+        ("soil_moisture_0_to_1cm"
          (:name . "Soil Moisture (0-1 cm)")
          (:type . checkbox))
-        ("soil_moisture_1_3cm"
+        ("soil_moisture_1_to_3cm"
          (:name . "Soil Moisture (1-3 cm)")
          (:type . checkbox))
-        ("soil_moisture_3_9cm"
+        ("soil_moisture_3_to_9cm"
          (:name . "Soil Moisture (3-9 cm)")
          (:type . checkbox))
-        ("soil_moisture_9_27cm"
+        ("soil_moisture_9_to_27cm"
          (:name . "Soil Moisture (9-27 cm)")
          (:type . checkbox))
-        ("soil_moisture_27_81cm"
+        ("soil_moisture_27_to_81cm"
          (:name . "Soil Moisture (27-81 cm)")
          (:type . checkbox))))
       ((:param . "daily")
        (:name . "Daily Weather Variables")
        (:fields
-        ("weathercode"
-         (:name . "Weathercode")
+        ("weather_code"
+         (:name . "Weather code")
          (:type . checkbox))
         ("temperature_2m_max"
          (:name . "Maximum Temperature (2 m)")
@@ -598,6 +648,12 @@
          (:type . checkbox))
         ("sunset"
          (:name . "Sunset")
+         (:type . checkbox))
+        ("daylight_duration"
+         (:name . "Daylight Duration")
+         (:type . checkbox))
+        ("sunshine_duration"
+         (:name . "Sunshine Duration")
          (:type . checkbox))
         ("uv_index_max"
          (:name . "UV Index")
@@ -623,13 +679,13 @@
         ("precipitation_probability_max"
          (:name . "Precipitation Probability Max")
          (:type . checkbox))
-        ("windspeed_10m_max"
+        ("wind_speed_10m_max"
          (:name . "Maximum Wind Speed (10 m)")
          (:type . checkbox))
-        ("windgusts_10m_max"
+        ("wind_gusts_10m_max"
          (:name . "Maximum Wind Gusts (10 m)")
          (:type . checkbox))
-        ("winddirection_10m_dominant"
+        ("wind_direction_10m_dominant"
          (:name . "Dominant Wind Direction (10 m)")
          (:type . checkbox))
         ("shortwave_radiation_sum"
@@ -637,6 +693,169 @@
          (:type . checkbox))
         ("et0_fao_evapotranspiration"
          (:name . "Reference Evapotranspiration (ET₀)")
+         (:type . checkbox))))
+      ((:param . "minutely_15")
+       (:name . "15-Minutely Weather Variables")
+       (:fields
+        ("temperature_2m"
+         (:name . "Temperature (2 m)")
+         (:type . checkbox))
+        ("relative_humidity_2m"
+         (:name . "Relative Humidity (2 m)")
+         (:type . checkbox))
+        ("dew_point_2m"
+         (:name . "Dewpoint (2 m)")
+         (:type . checkbox))
+        ("apparent_temperature"
+         (:name . "Apparent Temperature")
+         (:type . checkbox))
+        ("precipitation"
+         (:name . "Precipitation (rain + showers + snow)")
+         (:type . checkbox))
+        ("rain"
+         (:name . "Rain")
+         (:type . checkbox))
+        ("snowfall"
+         (:name . "Snowfall")
+         (:type . checkbox))
+        ("snowfall_height"
+         (:name . "Snowfall Height")
+         (:type . checkbox))
+        ("freezing_level_height"
+         (:name . "Freezing Level Height")
+         (:type . checkbox))
+        ("sunshine_duration"
+         (:name . "Sunshine Duration")
+         (:type . checkbox))
+        ("weather_code"
+         (:name . "Weather code")
+         (:type . checkbox))
+        ("wind_speed_10m"
+         (:name . "Wind Speed (10 m)")
+         (:type . checkbox))
+        ("wind_speed_80m"
+         (:name . "Wind Speed (80 m)")
+         (:type . checkbox))
+        ("wind_direction_10m"
+         (:name . "Wind Direction (10 m)")
+         (:type . checkbox))
+        ("wind_direction_80m"
+         (:name . "Wind Direction (80 m)")
+         (:type . checkbox))
+        ("wind_gusts_10m"
+         (:name . "Wind Gusts (10 m)")
+         (:type . checkbox))
+        ("visibility"
+         (:name . "Visibility")
+         (:type . checkbox))
+        ("cape"
+         (:name . "CAPE")
+         (:type . checkbox))
+        ("lightning_potential"
+         (:name . "Lightning Potential Index LPI")
+         (:type . checkbox))
+        ("is_day"
+         (:name . "Is Day or Night")
+         (:type . checkbox))
+        ("shortwave_radiation"
+         (:name . "Shortwave Solar Radiation GHI")
+         (:type . checkbox))
+        ("direct_radiation"
+         (:name . "Direct Solar Radiation")
+         (:type . checkbox))
+        ("diffuse_radiation"
+         (:name . "Diffuse Solar Radiation DHI")
+         (:type . checkbox))
+        ("direct_normal_irradiance"
+         (:name . "Direct Normal Irradiance DNI")
+         (:type . checkbox))
+        ("global_tilted_irradiance"
+         (:name . "Global Tilted Radiation GTI")
+         (:type . checkbox))
+        ("terrestrial_radiation"
+         (:name . "Terrestrial Solar Radiation")
+         (:type . checkbox))
+        ("shortwave_radiation_instant"
+         (:name . "Shortwave Solar Radiation GHI (Instant)")
+         (:type . checkbox))
+        ("direct_radiation_instant"
+         (:name . "Direct Solar Radiation (Instant)")
+         (:type . checkbox))
+        ("diffuse_radiation_instant"
+         (:name . "Diffuse Solar Radiation DHI (Instant)")
+         (:type . checkbox))
+        ("direct_normal_irradiance_instant"
+         (:name . "Direct Normal Irradiance DNI (Instant)")
+         (:type . checkbox))
+        ("global_tilted_irradiance_instant"
+         (:name . "Global Tilted Radiation GTI")
+         (:type . checkbox))
+        ("terrestrial_radiation_instant"
+         (:name . "Terrestrial Solar Radiation (Instant)")
+         (:type . checkbox))
+        ("forecast_minutely_15"
+         (:name . "Forecast Minutely 15")
+         (:type . select)
+         (:options
+          ("4" . "1 hour")
+          ("24" . "6 hours")
+          ("48" . "12 hours")
+          ("96" . "24 hours")))
+        ("past_minutely_15"
+         (:name . "Past Minutely 15")
+         (:type . select)
+         (:options
+          ("1" . "1 hour")
+          ("6" . "6 hours")
+          ("12" . "12 hours")
+          ("24" . "24 hours")))))
+      ((:param . "current")
+       (:name . "Current Weather")
+       (:fields
+        ("temperature_2m"
+         (:name . "Temperature (2 m)")
+         (:type . checkbox))
+        ("relative_humidity_2m"
+         (:name . "Relative Humidity (2 m)")
+         (:type . checkbox))
+        ("apparent_temperature"
+         (:name . "Apparent Temperature")
+         (:type . checkbox))
+        ("is_day"
+         (:name . "Is Day or Night")
+         (:type . checkbox))
+        ("precipitation"
+         (:name . "Precipitation")
+         (:type . checkbox))
+        ("rain"
+         (:name . "Rain")
+         (:type . checkbox))
+        ("showers"
+         (:name . "Showers")
+         (:type . checkbox))
+        ("snowfall"
+         (:name . "Snowfall")
+         (:type . checkbox))
+        ("weather_code"
+         (:name . "Weather code")
+         (:type . checkbox))
+        ("cloud_cover"
+         (:name . "Cloud cover Total")
+         (:type . checkbox))
+        ("pressure_msl"
+         (:name . "Sealevel Pressure")
+         (:type . checkbox))
+        ("surface_pressure"
+         (:name . "Surface Pressure")
+         (:type . checkbox))
+        ("wind_speed_10m"
+         (:name . "Wind Speed (10 m)")
+         (:type . checkbox))
+        ("wind_direction_10m"
+         (:name . "Wind Direction (10 m)")
+         (:type . checkbox))
+        ("wind_gusts_10m"
+         (:name . "Wind Gusts (10 m)")
          (:type . checkbox))))
       ((:name . "Settings")
        (:fields
@@ -649,7 +868,7 @@
          (:options
           ("celsius" . "Celsius °C")
           ("fahrenheit" . "Fahrenheit °F")))
-        ("windspeed_unit"
+        ("wind_speed_unit"
          (:name . "Wind Speed Unit")
          (:type . select)
          (:options
@@ -668,26 +887,7 @@
          (:type . select)
          (:options
           ("iso8601" . "ISO 8601 (e.g. 2022-12-31)")
-          ("unixtime" . "Unix timestamp")))
-        ("past_days"
-         (:name . "Past days")
-         (:type . number)
-         (:min . 0)
-         (:max . 92))
-        ("forecast_days"
-         (:name . "Forecast days")
-         (:type . number)
-         (:min . 0)
-         (:max . 16))
-        ("start_date"
-         (:name . "Start date")
-         (:type . date))
-        ("end_date"
-         (:name . "End date")
-         (:type . date))
-        ("timezone"
-         (:name . "Timezone")
-         (:type . timezone))))
+          ("unixtime" . "Unix timestamp")))))
       ((:param . "models")
        (:name . "Weather models")
        (:fields
@@ -695,7 +895,19 @@
          (:name . "Best match")
          (:type . checkbox))
         ("ecmwf_ifs04"
-         (:name . "ECMWF IFS")
+         (:name . "ECMWF IFS 0.4°")
+         (:type . checkbox))
+        ("ecmwf_ifs025"
+         (:name . "ECMWF IFS 0.25°")
+         (:type . checkbox))
+        ("ecmwf_aifs025"
+         (:name . "ECMWF AIFS 0.25°")
+         (:type . checkbox))
+        ("cma_grapes_global"
+         (:name . "CMA GRAPES Global")
+         (:type . checkbox))
+        ("bom_access_global"
+         (:name . "BOM ACCESS Global")
          (:type . checkbox))
         ("metno_nordic"
          (:name . "MET Norway Nordic")
@@ -709,6 +921,9 @@
         ("gfs_hrrr"
          (:name . "GFS HRRR")
          (:type . checkbox))
+        ("gfs_graphcast025"
+         (:name . "GFS GraphCast")
+         (:type . checkbox))
         ("jma_seamless"
          (:name . "JMA Seamless")
          (:type . checkbox))
@@ -719,16 +934,16 @@
          (:name . "JMA GSM")
          (:type . checkbox))
         ("icon_seamless"
-         (:name . "DWD Icon Seamless")
+         (:name . "DWD ICON Seamless")
          (:type . checkbox))
         ("icon_global"
-         (:name . "DWD Icon Global")
+         (:name . "DWD ICON Global")
          (:type . checkbox))
         ("icon_eu"
-         (:name . "DWD Icon EU")
+         (:name . "DWD ICON EU")
          (:type . checkbox))
         ("icon_d2"
-         (:name . "DWD Icon D2")
+         (:name . "DWD ICON D2")
          (:type . checkbox))
         ("gem_seamless"
          (:name . "GEM Seamless")
@@ -743,38 +958,69 @@
          (:name . "GEM HRDPS Continental")
          (:type . checkbox))
         ("meteofrance_seamless"
-         (:name . "MeteoFrance Seamless")
+         (:name . "Météo-France Seamless")
          (:type . checkbox))
         ("meteofrance_arpege_world"
-         (:name . "MeteoFrance Arpege World")
+         (:name . "Météo-France ARPEGE World")
          (:type . checkbox))
         ("meteofrance_arpege_europe"
-         (:name . "MeteoFrance Arpege Europe")
+         (:name . "Météo-France ARPEGE Europe")
          (:type . checkbox))
         ("meteofrance_arome_france"
-         (:name . "MeteoFrance Arome France")
+         (:name . "Météo-France AROME France")
          (:type . checkbox))
         ("meteofrance_arome_france_hd"
-         (:name . "MeteoFrance Arome France HD")
+         (:name . "Météo-France AROME France HD")
+         (:type . checkbox))
+        ("arpae_cosmo_seamless"
+         (:name . "ARPAE Seamless")
+         (:type . checkbox))
+        ("arpae_cosmo_2i"
+         (:name . "ARPAE COSMO 2I")
+         (:type . checkbox))
+        ("arpae_cosmo_2i_ruc"
+         (:name . "ARPAE COSMO 2I RUC")
+         (:type . checkbox))
+        ("arpae_cosmo_5m"
+         (:name . "ARPAE COSMO 5M")
          (:type . checkbox))))))
-    ("DWD ICON"
-     (:name . "DWD ICON")
+    ("DWD ICON (Germany)"
+     (:name . "DWD ICON (Germany)")
      (:url . "https://open-meteo.com/en/docs/dwd-api")
      (:description . "German Weather Service ICON model. 15-minutely data for Central Europe")
      (:key . "wd")
      (:sections
-      ((:name . "Select Coordinates or City")
+      ((:name . "Select Coordinates and Time")
        (:fields
+        ("end_date"
+         (:name . "End date")
+         (:type . date))
+        ("start_date"
+         (:name . "Start date")
+         (:type . date))
+        ("forecast_days"
+         (:name . "Forecast days")
+         (:type . number)
+         (:min . 0)
+         (:max . 16))
+        ("past_days"
+         (:name . "Past days")
+         (:type . number)
+         (:min . 0)
+         (:max . 92))
         ("latitude"
          (:name . "Latitude")
          (:type . float))
         ("longitude"
          (:name . "Longitude")
-         (:type . float))))
+         (:type . float))
+        ("timezone"
+         (:name . "Timezone")
+         (:type . timezone))))
       ((:param . "hourly")
        (:name . "Hourly Weather Variables")
        (:children
-        ((:name . "Additional Variables")
+        ((:name . "Additional Variables And Options")
          (:fields
           ("is_day"
            (:name . "Is Day or Night")
@@ -788,44 +1034,75 @@
           ("cape"
            (:name . "CAPE")
            (:type . checkbox))
-          ("freezinglevel_height"
-           (:name . "Freezinglevel Height")
+          ("freezing_level_height"
+           (:name . "Freezing Level Height")
            (:type . checkbox))
           ("snowfall_height"
            (:name . "Snowfall Height (1)")
-           (:type . checkbox))))
+           (:type . checkbox))
+          ("sunshine_duration"
+           (:name . "Sunshine Duration")
+           (:type . checkbox))
+          ("forecast_hours"
+           (:name . "Forecast Hours")
+           (:type . select)
+           (:options
+            ("1" . "1 hour")
+            ("6" . "6 hours")
+            ("12" . "12 hours")
+            ("24" . "24 hours")))
+          ("past_hours"
+           (:name . "Past Hours")
+           (:type . select)
+           (:options
+            ("1" . "1 hour")
+            ("6" . "6 hours")
+            ("12" . "12 hours")
+            ("24" . "24 hours")))))
         ((:name . "Solar Radiation Variables")
          (:fields
           ("shortwave_radiation"
-           (:name . "Shortwave Solar Radiation")
+           (:name . "Shortwave Solar Radiation GHI")
            (:type . checkbox))
           ("direct_radiation"
            (:name . "Direct Solar Radiation")
            (:type . checkbox))
           ("diffuse_radiation"
-           (:name . "Diffuse Solar Radiation")
+           (:name . "Diffuse Solar Radiation DHI")
            (:type . checkbox))
           ("direct_normal_irradiance"
            (:name . "Direct Normal Irradiance DNI")
+           (:type . checkbox))
+          ("global_tilted_irradiance"
+           (:name . "Global Tilted Radiation GTI")
            (:type . checkbox))
           ("terrestrial_radiation"
            (:name . "Terrestrial Solar Radiation")
            (:type . checkbox))
           ("shortwave_radiation_instant"
-           (:name . "Shortwave Solar Radiation (Instant)")
+           (:name . "Shortwave Solar Radiation GHI (Instant)")
            (:type . checkbox))
           ("direct_radiation_instant"
            (:name . "Direct Solar Radiation (Instant)")
            (:type . checkbox))
           ("diffuse_radiation_instant"
-           (:name . "Diffuse Solar Radiation (Instant)")
+           (:name . "Diffuse Solar Radiation DHI (Instant)")
            (:type . checkbox))
           ("direct_normal_irradiance_instant"
            (:name . "Direct Normal Irradiance DNI (Instant)")
            (:type . checkbox))
+          ("global_tilted_irradiance_instant"
+           (:name . "Global Tilted Radiation GTI")
+           (:type . checkbox))
           ("terrestrial_radiation_instant"
            (:name . "Terrestrial Solar Radiation (Instant)")
-           (:type . checkbox))))
+           (:type . checkbox))
+          ("tilt"
+           (:name . "Panel Tilt (0° horizontal)")
+           (:type . number))
+          ("azimuth"
+           (:name . "Panel Azimuth (0° S, -90° E, 90° W)")
+           (:type . number))))
         ((:name . "Pressure Level Variables")
          (:children
           ((:name . "Temperature")
@@ -889,120 +1166,120 @@
              (:type . checkbox))))
           ((:name . "Relative Humidity")
            (:fields
-            ("relativehumidity_1000hPa"
+            ("relative_humidity_1000hPa"
              (:name . "1000 hPa (110 m)")
              (:type . checkbox))
-            ("relativehumidity_975hPa"
+            ("relative_humidity_975hPa"
              (:name . "975 hPa (320 m)")
              (:type . checkbox))
-            ("relativehumidity_950hPa"
+            ("relative_humidity_950hPa"
              (:name . "950 hPa (500 m)")
              (:type . checkbox))
-            ("relativehumidity_925hPa"
+            ("relative_humidity_925hPa"
              (:name . "925 hPa (800 m)")
              (:type . checkbox))
-            ("relativehumidity_900hPa"
+            ("relative_humidity_900hPa"
              (:name . "900 hPa (1000 m)")
              (:type . checkbox))
-            ("relativehumidity_850hPa"
+            ("relative_humidity_850hPa"
              (:name . "850 hPa (1500 m)")
              (:type . checkbox))
-            ("relativehumidity_800hPa"
+            ("relative_humidity_800hPa"
              (:name . "800 hPa (1900 m)")
              (:type . checkbox))
-            ("relativehumidity_700hPa"
+            ("relative_humidity_700hPa"
              (:name . "700 hPa (3 km)")
              (:type . checkbox))
-            ("relativehumidity_600hPa"
+            ("relative_humidity_600hPa"
              (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
-            ("relativehumidity_500hPa"
+            ("relative_humidity_500hPa"
              (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
-            ("relativehumidity_400hPa"
+            ("relative_humidity_400hPa"
              (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
-            ("relativehumidity_300hPa"
+            ("relative_humidity_300hPa"
              (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
-            ("relativehumidity_250hPa"
+            ("relative_humidity_250hPa"
              (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
-            ("relativehumidity_200hPa"
+            ("relative_humidity_200hPa"
              (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
-            ("relativehumidity_150hPa"
+            ("relative_humidity_150hPa"
              (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
-            ("relativehumidity_100hPa"
+            ("relative_humidity_100hPa"
              (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
-            ("relativehumidity_70hPa"
+            ("relative_humidity_70hPa"
              (:name . "70 hPa (17.7 km)")
              (:type . checkbox))
-            ("relativehumidity_50hPa"
+            ("relative_humidity_50hPa"
              (:name . "50 hPa (19.3 km)")
              (:type . checkbox))
-            ("relativehumidity_30hPa"
+            ("relative_humidity_30hPa"
              (:name . "30 hPa (22 km)")
              (:type . checkbox))))
-          ((:name . "Cloudcover")
+          ((:name . "Cloud cover")
            (:fields
-            ("cloudcover_1000hPa"
+            ("cloud_cover_1000hPa"
              (:name . "1000 hPa (110 m)")
              (:type . checkbox))
-            ("cloudcover_975hPa"
+            ("cloud_cover_975hPa"
              (:name . "975 hPa (320 m)")
              (:type . checkbox))
-            ("cloudcover_950hPa"
+            ("cloud_cover_950hPa"
              (:name . "950 hPa (500 m)")
              (:type . checkbox))
-            ("cloudcover_925hPa"
+            ("cloud_cover_925hPa"
              (:name . "925 hPa (800 m)")
              (:type . checkbox))
-            ("cloudcover_900hPa"
+            ("cloud_cover_900hPa"
              (:name . "900 hPa (1000 m)")
              (:type . checkbox))
-            ("cloudcover_850hPa"
+            ("cloud_cover_850hPa"
              (:name . "850 hPa (1500 m)")
              (:type . checkbox))
-            ("cloudcover_800hPa"
+            ("cloud_cover_800hPa"
              (:name . "800 hPa (1900 m)")
              (:type . checkbox))
-            ("cloudcover_700hPa"
+            ("cloud_cover_700hPa"
              (:name . "700 hPa (3 km)")
              (:type . checkbox))
-            ("cloudcover_600hPa"
+            ("cloud_cover_600hPa"
              (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
-            ("cloudcover_500hPa"
+            ("cloud_cover_500hPa"
              (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
-            ("cloudcover_400hPa"
+            ("cloud_cover_400hPa"
              (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
-            ("cloudcover_300hPa"
+            ("cloud_cover_300hPa"
              (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
-            ("cloudcover_250hPa"
+            ("cloud_cover_250hPa"
              (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
-            ("cloudcover_200hPa"
+            ("cloud_cover_200hPa"
              (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
-            ("cloudcover_150hPa"
+            ("cloud_cover_150hPa"
              (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
-            ("cloudcover_100hPa"
+            ("cloud_cover_100hPa"
              (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
-            ("cloudcover_70hPa"
+            ("cloud_cover_70hPa"
              (:name . "70 hPa (17.7 km)")
              (:type . checkbox))
-            ("cloudcover_50hPa"
+            ("cloud_cover_50hPa"
              (:name . "50 hPa (19.3 km)")
              (:type . checkbox))
-            ("cloudcover_30hPa"
+            ("cloud_cover_30hPa"
              (:name . "30 hPa (22 km)")
              (:type . checkbox))))
           ((:name . "Wind Speed")
@@ -1186,10 +1463,10 @@
         ("temperature_2m"
          (:name . "Temperature (2 m)")
          (:type . checkbox))
-        ("relativehumidity_2m"
+        ("relative_humidity_2m"
          (:name . "Relative Humidity (2 m)")
          (:type . checkbox))
-        ("dewpoint_2m"
+        ("dew_point_2m"
          (:name . "Dewpoint (2 m)")
          (:type . checkbox))
         ("apparent_temperature"
@@ -1210,8 +1487,8 @@
         ("snow_depth"
          (:name . "Snow Depth")
          (:type . checkbox))
-        ("weathercode"
-         (:name . "Weathercode")
+        ("weather_code"
+         (:name . "Weather code")
          (:type . checkbox))
         ("pressure_msl"
          (:name . "Sealevel Pressure")
@@ -1219,17 +1496,17 @@
         ("surface_pressure"
          (:name . "Surface Pressure")
          (:type . checkbox))
-        ("cloudcover"
-         (:name . "Cloudcover Total")
+        ("cloud_cover"
+         (:name . "Cloud cover Total")
          (:type . checkbox))
-        ("cloudcover_low"
-         (:name . "Cloudcover Low")
+        ("cloud_cover_low"
+         (:name . "Cloud cover Low")
          (:type . checkbox))
-        ("cloudcover_mid"
-         (:name . "Cloudcover Mid")
+        ("cloud_cover_mid"
+         (:name . "Cloud cover Mid")
          (:type . checkbox))
-        ("cloudcover_high"
-         (:name . "Cloudcover High")
+        ("cloud_cover_high"
+         (:name . "Cloud cover High")
          (:type . checkbox))
         ("evapotranspiration"
          (:name . "Evapotranspiration")
@@ -1237,34 +1514,34 @@
         ("et0_fao_evapotranspiration"
          (:name . "Reference Evapotranspiration (ET₀)")
          (:type . checkbox))
-        ("vapor_pressure_deficit"
-         (:name . "Vapor Pressure Deficit")
+        ("vapour_pressure_deficit"
+         (:name . "Vapour Pressure Deficit")
          (:type . checkbox))
-        ("windspeed_10m"
+        ("wind_speed_10m"
          (:name . "Wind Speed (10 m)")
          (:type . checkbox))
-        ("windspeed_80m"
+        ("wind_speed_80m"
          (:name . "Wind Speed (80 m)")
          (:type . checkbox))
-        ("windspeed_120m"
+        ("wind_speed_120m"
          (:name . "Wind Speed (120 m)")
          (:type . checkbox))
-        ("windspeed_180m"
+        ("wind_speed_180m"
          (:name . "Wind Speed (180 m)")
          (:type . checkbox))
-        ("winddirection_10m"
+        ("wind_direction_10m"
          (:name . "Wind Direction (10 m)")
          (:type . checkbox))
-        ("winddirection_80m"
+        ("wind_direction_80m"
          (:name . "Wind Direction (80 m)")
          (:type . checkbox))
-        ("winddirection_120m"
+        ("wind_direction_120m"
          (:name . "Wind Direction (120 m)")
          (:type . checkbox))
-        ("winddirection_180m"
+        ("wind_direction_180m"
          (:name . "Wind Direction (180 m)")
          (:type . checkbox))
-        ("windgusts_10m"
+        ("wind_gusts_10m"
          (:name . "Wind Gusts (10 m)")
          (:type . checkbox))
         ("temperature_80m"
@@ -1288,83 +1565,26 @@
         ("soil_temperature_54cm"
          (:name . "Soil Temperature (54 cm)")
          (:type . checkbox))
-        ("soil_moisture_0_1cm"
+        ("soil_moisture_0_to_1cm"
          (:name . "Soil Moisture (0-1 cm)")
          (:type . checkbox))
-        ("soil_moisture_1_3cm"
+        ("soil_moisture_1_to_3cm"
          (:name . "Soil Moisture (1-3 cm)")
          (:type . checkbox))
-        ("soil_moisture_3_9cm"
+        ("soil_moisture_3_to_9cm"
          (:name . "Soil Moisture (3-9 cm)")
          (:type . checkbox))
-        ("soil_moisture_9_27cm"
+        ("soil_moisture_9_to_27cm"
          (:name . "Soil Moisture (9-27 cm)")
          (:type . checkbox))
-        ("soil_moisture_27_81cm"
+        ("soil_moisture_27_to_81cm"
          (:name . "Soil Moisture (27-81 cm)")
-         (:type . checkbox))))
-      ((:param . "minutely_15")
-       (:name . "15-Minutely Weather Variables")
-       (:children
-        ((:name . "Solar Radiation Variables")
-         (:fields
-          ("shortwave_radiation"
-           (:name . "Shortwave Solar Radiation")
-           (:type . checkbox))
-          ("direct_radiation"
-           (:name . "Direct Solar Radiation")
-           (:type . checkbox))
-          ("diffuse_radiation"
-           (:name . "Diffuse Solar Radiation")
-           (:type . checkbox))
-          ("direct_normal_irradiance"
-           (:name . "Direct Normal Irradiance DNI")
-           (:type . checkbox))
-          ("terrestrial_radiation"
-           (:name . "Terrestrial Solar Radiation")
-           (:type . checkbox))
-          ("shortwave_radiation_instant"
-           (:name . "Shortwave Solar Radiation (Instant)")
-           (:type . checkbox))
-          ("direct_radiation_instant"
-           (:name . "Direct Solar Radiation (Instant)")
-           (:type . checkbox))
-          ("diffuse_radiation_instant"
-           (:name . "Diffuse Solar Radiation (Instant)")
-           (:type . checkbox))
-          ("direct_normal_irradiance_instant"
-           (:name . "Direct Normal Irradiance DNI (Instant)")
-           (:type . checkbox))
-          ("terrestrial_radiation_instant"
-           (:name . "Terrestrial Solar Radiation (Instant)")
-           (:type . checkbox)))))
-       (:fields
-        ("precipitation"
-         (:name . "Precipitation (rain + showers + snow)")
-         (:type . checkbox))
-        ("rain"
-         (:name . "Rain")
-         (:type . checkbox))
-        ("snowfall"
-         (:name . "Snowfall")
-         (:type . checkbox))
-        ("snowfall_height"
-         (:name . "Snowfall Height")
-         (:type . checkbox))
-        ("freezinglevel_height"
-         (:name . "Freezinglevel Height")
-         (:type . checkbox))
-        ("cape"
-         (:name . "CAPE")
-         (:type . checkbox))
-        ("lightning_potential"
-         (:name . "Lightning Potential Index LPI")
          (:type . checkbox))))
       ((:param . "daily")
        (:name . "Daily Weather Variables")
        (:fields
-        ("weathercode"
-         (:name . "Weathercode")
+        ("weather_code"
+         (:name . "Weather code")
          (:type . checkbox))
         ("temperature_2m_max"
          (:name . "Maximum Temperature (2 m)")
@@ -1384,6 +1604,12 @@
         ("sunset"
          (:name . "Sunset")
          (:type . checkbox))
+        ("daylight_duration"
+         (:name . "Daylight Duration")
+         (:type . checkbox))
+        ("sunshine_duration"
+         (:name . "Sunshine Duration")
+         (:type . checkbox))
         ("precipitation_sum"
          (:name . "Precipitation Sum")
          (:type . checkbox))
@@ -1402,13 +1628,13 @@
         ("precipitation_probability_max"
          (:name . "Precipitation Probability Max")
          (:type . checkbox))
-        ("windspeed_10m_max"
+        ("wind_speed_10m_max"
          (:name . "Maximum Wind Speed (10 m)")
          (:type . checkbox))
-        ("windgusts_10m_max"
+        ("wind_gusts_10m_max"
          (:name . "Maximum Wind Gusts (10 m)")
          (:type . checkbox))
-        ("winddirection_10m_dominant"
+        ("wind_direction_10m_dominant"
          (:name . "Dominant Wind Direction (10 m)")
          (:type . checkbox))
         ("shortwave_radiation_sum"
@@ -1416,6 +1642,136 @@
          (:type . checkbox))
         ("et0_fao_evapotranspiration"
          (:name . "Reference Evapotranspiration (ET₀)")
+         (:type . checkbox))))
+      ((:param . "minutely_15")
+       (:name . "15-Minutely Weather Variables")
+       (:fields
+        ("precipitation"
+         (:name . "Precipitation (rain + showers + snow)")
+         (:type . checkbox))
+        ("rain"
+         (:name . "Rain")
+         (:type . checkbox))
+        ("snowfall"
+         (:name . "Snowfall")
+         (:type . checkbox))
+        ("snowfall_height"
+         (:name . "Snowfall Height")
+         (:type . checkbox))
+        ("freezing_level_height"
+         (:name . "Freezing Level Height")
+         (:type . checkbox))
+        ("cape"
+         (:name . "CAPE")
+         (:type . checkbox))
+        ("lightning_potential"
+         (:name . "Lightning Potential Index LPI")
+         (:type . checkbox))
+        ("is_day"
+         (:name . "Is Day or Night")
+         (:type . checkbox))
+        ("sunshine_duration"
+         (:name . "Sunshine Duration")
+         (:type . checkbox))
+        ("shortwave_radiation"
+         (:name . "Shortwave Solar Radiation GHI")
+         (:type . checkbox))
+        ("direct_radiation"
+         (:name . "Direct Solar Radiation")
+         (:type . checkbox))
+        ("diffuse_radiation"
+         (:name . "Diffuse Solar Radiation DHI")
+         (:type . checkbox))
+        ("direct_normal_irradiance"
+         (:name . "Direct Normal Irradiance DNI")
+         (:type . checkbox))
+        ("global_tilted_irradiance"
+         (:name . "Global Tilted Radiation GTI")
+         (:type . checkbox))
+        ("terrestrial_radiation"
+         (:name . "Terrestrial Solar Radiation")
+         (:type . checkbox))
+        ("shortwave_radiation_instant"
+         (:name . "Shortwave Solar Radiation GHI (Instant)")
+         (:type . checkbox))
+        ("direct_radiation_instant"
+         (:name . "Direct Solar Radiation (Instant)")
+         (:type . checkbox))
+        ("diffuse_radiation_instant"
+         (:name . "Diffuse Solar Radiation DHI (Instant)")
+         (:type . checkbox))
+        ("direct_normal_irradiance_instant"
+         (:name . "Direct Normal Irradiance DNI (Instant)")
+         (:type . checkbox))
+        ("global_tilted_irradiance_instant"
+         (:name . "Global Tilted Radiation GTI")
+         (:type . checkbox))
+        ("terrestrial_radiation_instant"
+         (:name . "Terrestrial Solar Radiation (Instant)")
+         (:type . checkbox))
+        ("forecast_minutely_15"
+         (:name . "Forecast Minutely 15")
+         (:type . select)
+         (:options
+          ("4" . "1 hour")
+          ("24" . "6 hours")
+          ("48" . "12 hours")
+          ("96" . "24 hours")))
+        ("past_minutely_15"
+         (:name . "Past Minutely 15")
+         (:type . select)
+         (:options
+          ("1" . "1 hour")
+          ("6" . "6 hours")
+          ("12" . "12 hours")
+          ("24" . "24 hours")))))
+      ((:param . "current")
+       (:name . "Current Weather")
+       (:fields
+        ("temperature_2m"
+         (:name . "Temperature (2 m)")
+         (:type . checkbox))
+        ("relative_humidity_2m"
+         (:name . "Relative Humidity (2 m)")
+         (:type . checkbox))
+        ("apparent_temperature"
+         (:name . "Apparent Temperature")
+         (:type . checkbox))
+        ("is_day"
+         (:name . "Is Day or Night")
+         (:type . checkbox))
+        ("precipitation"
+         (:name . "Precipitation")
+         (:type . checkbox))
+        ("rain"
+         (:name . "Rain")
+         (:type . checkbox))
+        ("showers"
+         (:name . "Showers")
+         (:type . checkbox))
+        ("snowfall"
+         (:name . "Snowfall")
+         (:type . checkbox))
+        ("weather_code"
+         (:name . "Weather code")
+         (:type . checkbox))
+        ("cloud_cover"
+         (:name . "Cloud cover Total")
+         (:type . checkbox))
+        ("pressure_msl"
+         (:name . "Sealevel Pressure")
+         (:type . checkbox))
+        ("surface_pressure"
+         (:name . "Surface Pressure")
+         (:type . checkbox))
+        ("wind_speed_10m"
+         (:name . "Wind Speed (10 m)")
+         (:type . checkbox))
+        ("wind_direction_10m"
+         (:name . "Wind Direction (10 m)")
+         (:type . checkbox))
+        ("wind_gusts_10m"
+         (:name . "Wind Gusts (10 m)")
          (:type . checkbox))))
       ((:name . "Settings")
        (:fields
@@ -1428,7 +1784,7 @@
          (:options
           ("celsius" . "Celsius °C")
           ("fahrenheit" . "Fahrenheit °F")))
-        ("windspeed_unit"
+        ("wind_speed_unit"
          (:name . "Wind Speed Unit")
          (:type . select)
          (:options
@@ -1447,39 +1803,59 @@
          (:type . select)
          (:options
           ("iso8601" . "ISO 8601 (e.g. 2022-12-31)")
-          ("unixtime" . "Unix timestamp")))
-        ("timezone"
-         (:name . "Timezone")
-         (:type . timezone))
+          ("unixtime" . "Unix timestamp")))))
+      ((:param . "models")
+       (:name . "Weather models")
+       (:fields
+        ("icon_seamless"
+         (:name . "DWD ICON Seamless")
+         (:type . checkbox))
+        ("icon_global"
+         (:name . "DWD ICON Global")
+         (:type . checkbox))
+        ("icon_eu"
+         (:name . "DWD ICON EU")
+         (:type . checkbox))
+        ("icon_d2"
+         (:name . "DWD ICON D2")
+         (:type . checkbox))))))
+    ("NOAA GFS & HRRR (U.S.)"
+     (:name . "NOAA GFS & HRRR (U.S.)")
+     (:url . "https://open-meteo.com/en/docs/gfs-api")
+     (:description . "Forecasts tailored for the US region")
+     (:key . "wu")
+     (:sections
+      ((:name . "Select Coordinates and Time")
+       (:fields
+        ("end_date"
+         (:name . "End date")
+         (:type . date))
+        ("start_date"
+         (:name . "Start date")
+         (:type . date))
+        ("forecast_days"
+         (:name . "Forecast days")
+         (:type . number)
+         (:min . 0)
+         (:max . 16))
         ("past_days"
          (:name . "Past days")
          (:type . number)
          (:min . 0)
          (:max . 92))
-        ("start_date"
-         (:name . "Start date")
-         (:type . date))
-        ("end_date"
-         (:name . "End date")
-         (:type . date))))))
-    ("NOAA GFS & HRRR"
-     (:name . "NOAA GFS & HRRR")
-     (:url . "https://open-meteo.com/en/docs/gfs-api")
-     (:description . "Forecasts tailored for the US region")
-     (:key . "wu")
-     (:sections
-      ((:name . "Select Coordinates or City")
-       (:fields
         ("latitude"
          (:name . "Latitude")
          (:type . float))
         ("longitude"
          (:name . "Longitude")
-         (:type . float))))
+         (:type . float))
+        ("timezone"
+         (:name . "Timezone")
+         (:type . timezone))))
       ((:param . "hourly")
        (:name . "Hourly Weather Variables")
        (:children
-        ((:name . "Additional Variables")
+        ((:name . "Additional Variables And Options")
          (:fields
           ("uv_index"
            (:name . "UV Index")
@@ -1490,47 +1866,81 @@
           ("is_day"
            (:name . "Is Day or Night")
            (:type . checkbox))
+          ("sunshine_duration"
+           (:name . "Sunshine Duration")
+           (:type . checkbox))
           ("cape"
            (:name . "CAPE")
            (:type . checkbox))
           ("lifted_index"
            (:name . "Lifted Index")
            (:type . checkbox))
-          ("freezinglevel_height"
-           (:name . "Freezinglevel Height")
-           (:type . checkbox))))
+          ("convective_inhibition"
+           (:name . "Convective Inhibition")
+           (:type . checkbox))
+          ("freezing_level_height"
+           (:name . "Freezing Level Height")
+           (:type . checkbox))
+          ("forecast_hours"
+           (:name . "Forecast Hours")
+           (:type . select)
+           (:options
+            ("1" . "1 hour")
+            ("6" . "6 hours")
+            ("12" . "12 hours")
+            ("24" . "24 hours")))
+          ("past_hours"
+           (:name . "Past Hours")
+           (:type . select)
+           (:options
+            ("1" . "1 hour")
+            ("6" . "6 hours")
+            ("12" . "12 hours")
+            ("24" . "24 hours")))))
         ((:name . "Solar Radiation Variables")
          (:fields
           ("shortwave_radiation"
-           (:name . "Shortwave Solar Radiation")
+           (:name . "Shortwave Solar Radiation GHI")
            (:type . checkbox))
           ("direct_radiation"
            (:name . "Direct Solar Radiation")
            (:type . checkbox))
           ("diffuse_radiation"
-           (:name . "Diffuse Solar Radiation")
+           (:name . "Diffuse Solar Radiation DHI")
            (:type . checkbox))
           ("direct_normal_irradiance"
            (:name . "Direct Normal Irradiance DNI")
+           (:type . checkbox))
+          ("global_tilted_irradiance"
+           (:name . "Global Tilted Radiation GTI")
            (:type . checkbox))
           ("terrestrial_radiation"
            (:name . "Terrestrial Solar Radiation")
            (:type . checkbox))
           ("shortwave_radiation_instant"
-           (:name . "Shortwave Solar Radiation (Instant)")
+           (:name . "Shortwave Solar Radiation GHI (Instant)")
            (:type . checkbox))
           ("direct_radiation_instant"
            (:name . "Direct Solar Radiation (Instant)")
            (:type . checkbox))
           ("diffuse_radiation_instant"
-           (:name . "Diffuse Solar Radiation (Instant)")
+           (:name . "Diffuse Solar Radiation DHI (Instant)")
            (:type . checkbox))
           ("direct_normal_irradiance_instant"
            (:name . "Direct Normal Irradiance DNI (Instant)")
            (:type . checkbox))
+          ("global_tilted_irradiance_instant"
+           (:name . "Global Tilted Radiation GTI")
+           (:type . checkbox))
           ("terrestrial_radiation_instant"
            (:name . "Terrestrial Solar Radiation (Instant)")
-           (:type . checkbox))))
+           (:type . checkbox))
+          ("tilt"
+           (:name . "Panel Tilt (0° horizontal)")
+           (:type . number))
+          ("azimuth"
+           (:name . "Panel Azimuth (0° S, -90° E, 90° W)")
+           (:type . number))))
         ((:name . "Pressure Level Variables")
          (:children
           ((:name . "Temperature")
@@ -1550,50 +1960,98 @@
             ("temperature_900hPa"
              (:name . "900 hPa (1000 m)")
              (:type . checkbox))
+            ("temperature_875hPa"
+             (:name . "875 hPa (1200 m)")
+             (:type . checkbox))
             ("temperature_850hPa"
              (:name . "850 hPa (1500 m)")
+             (:type . checkbox))
+            ("temperature_825hPa"
+             (:name . "825 hPa (1700 m)")
              (:type . checkbox))
             ("temperature_800hPa"
              (:name . "800 hPa (1900 m)")
              (:type . checkbox))
+            ("temperature_775hPa"
+             (:name . "775 hPa (2.2 km)")
+             (:type . checkbox))
             ("temperature_750hPa"
              (:name . "750 hPa (2.5 km)")
+             (:type . checkbox))
+            ("temperature_725hPa"
+             (:name . "725 hPa (2.7 km)")
              (:type . checkbox))
             ("temperature_700hPa"
              (:name . "700 hPa (3 km)")
              (:type . checkbox))
+            ("temperature_675hPa"
+             (:name . "675 hPa (3.3 km)")
+             (:type . checkbox))
             ("temperature_650hPa"
              (:name . "650 hPa (3.6 km)")
+             (:type . checkbox))
+            ("temperature_625hPa"
+             (:name . "625 hPa (3.9 km)")
              (:type . checkbox))
             ("temperature_600hPa"
              (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
+            ("temperature_575hPa"
+             (:name . "575 hPa (4.5 km)")
+             (:type . checkbox))
             ("temperature_550hPa"
              (:name . "550 hPa (4.9 km)")
+             (:type . checkbox))
+            ("temperature_525hPa"
+             (:name . "525 hPa (5.2 km)")
              (:type . checkbox))
             ("temperature_500hPa"
              (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
+            ("temperature_475hPa"
+             (:name . "475 hPa (6 km)")
+             (:type . checkbox))
             ("temperature_450hPa"
              (:name . "450 hPa (6.3 km)")
+             (:type . checkbox))
+            ("temperature_425hPa"
+             (:name . "425 hPa (6.8 km)")
              (:type . checkbox))
             ("temperature_400hPa"
              (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
+            ("temperature_375hPa"
+             (:name . "375 hPa (7.6 km)")
+             (:type . checkbox))
             ("temperature_350hPa"
              (:name . "350 hPa (8.1 km)")
+             (:type . checkbox))
+            ("temperature_325hPa"
+             (:name . "325 hPa (8.6 km)")
              (:type . checkbox))
             ("temperature_300hPa"
              (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
+            ("temperature_275hPa"
+             (:name . "275 hPa (9.7 km)")
+             (:type . checkbox))
             ("temperature_250hPa"
              (:name . "250 hPa (10.4 km)")
+             (:type . checkbox))
+            ("temperature_225hPa"
+             (:name . "225 hPa (11 km)")
              (:type . checkbox))
             ("temperature_200hPa"
              (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
+            ("temperature_175hPa"
+             (:name . "175 hPa (12.6 km)")
+             (:type . checkbox))
             ("temperature_150hPa"
              (:name . "150 hPa (13.5 km)")
+             (:type . checkbox))
+            ("temperature_125hPa"
+             (:name . "125 hPa (14.6 km)")
              (:type . checkbox))
             ("temperature_100hPa"
              (:name . "100 hPa (15.8 km)")
@@ -1621,260 +2079,404 @@
              (:type . checkbox))))
           ((:name . "Dewpoint")
            (:fields
-            ("dewpoint_1000hPa"
+            ("dew_point_1000hPa"
              (:name . "1000 hPa (110 m)")
              (:type . checkbox))
-            ("dewpoint_975hPa"
+            ("dew_point_975hPa"
              (:name . "975 hPa (320 m)")
              (:type . checkbox))
-            ("dewpoint_950hPa"
+            ("dew_point_950hPa"
              (:name . "950 hPa (500 m)")
              (:type . checkbox))
-            ("dewpoint_925hPa"
+            ("dew_point_925hPa"
              (:name . "925 hPa (800 m)")
              (:type . checkbox))
-            ("dewpoint_900hPa"
+            ("dew_point_900hPa"
              (:name . "900 hPa (1000 m)")
              (:type . checkbox))
-            ("dewpoint_850hPa"
+            ("dew_point_875hPa"
+             (:name . "875 hPa (1200 m)")
+             (:type . checkbox))
+            ("dew_point_850hPa"
              (:name . "850 hPa (1500 m)")
              (:type . checkbox))
-            ("dewpoint_800hPa"
+            ("dew_point_825hPa"
+             (:name . "825 hPa (1700 m)")
+             (:type . checkbox))
+            ("dew_point_800hPa"
              (:name . "800 hPa (1900 m)")
              (:type . checkbox))
-            ("dewpoint_750hPa"
+            ("dew_point_775hPa"
+             (:name . "775 hPa (2.2 km)")
+             (:type . checkbox))
+            ("dew_point_750hPa"
              (:name . "750 hPa (2.5 km)")
              (:type . checkbox))
-            ("dewpoint_700hPa"
+            ("dew_point_725hPa"
+             (:name . "725 hPa (2.7 km)")
+             (:type . checkbox))
+            ("dew_point_700hPa"
              (:name . "700 hPa (3 km)")
              (:type . checkbox))
-            ("dewpoint_650hPa"
+            ("dew_point_675hPa"
+             (:name . "675 hPa (3.3 km)")
+             (:type . checkbox))
+            ("dew_point_650hPa"
              (:name . "650 hPa (3.6 km)")
              (:type . checkbox))
-            ("dewpoint_600hPa"
+            ("dew_point_625hPa"
+             (:name . "625 hPa (3.9 km)")
+             (:type . checkbox))
+            ("dew_point_600hPa"
              (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
-            ("dewpoint_550hPa"
+            ("dew_point_575hPa"
+             (:name . "575 hPa (4.5 km)")
+             (:type . checkbox))
+            ("dew_point_550hPa"
              (:name . "550 hPa (4.9 km)")
              (:type . checkbox))
-            ("dewpoint_500hPa"
+            ("dew_point_525hPa"
+             (:name . "525 hPa (5.2 km)")
+             (:type . checkbox))
+            ("dew_point_500hPa"
              (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
-            ("dewpoint_450hPa"
+            ("dew_point_475hPa"
+             (:name . "475 hPa (6 km)")
+             (:type . checkbox))
+            ("dew_point_450hPa"
              (:name . "450 hPa (6.3 km)")
              (:type . checkbox))
-            ("dewpoint_400hPa"
+            ("dew_point_425hPa"
+             (:name . "425 hPa (6.8 km)")
+             (:type . checkbox))
+            ("dew_point_400hPa"
              (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
-            ("dewpoint_350hPa"
+            ("dew_point_375hPa"
+             (:name . "375 hPa (7.6 km)")
+             (:type . checkbox))
+            ("dew_point_350hPa"
              (:name . "350 hPa (8.1 km)")
              (:type . checkbox))
-            ("dewpoint_300hPa"
+            ("dew_point_325hPa"
+             (:name . "325 hPa (8.6 km)")
+             (:type . checkbox))
+            ("dew_point_300hPa"
              (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
-            ("dewpoint_250hPa"
+            ("dew_point_275hPa"
+             (:name . "275 hPa (9.7 km)")
+             (:type . checkbox))
+            ("dew_point_250hPa"
              (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
-            ("dewpoint_200hPa"
+            ("dew_point_225hPa"
+             (:name . "225 hPa (11 km)")
+             (:type . checkbox))
+            ("dew_point_200hPa"
              (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
-            ("dewpoint_150hPa"
+            ("dew_point_175hPa"
+             (:name . "175 hPa (12.6 km)")
+             (:type . checkbox))
+            ("dew_point_150hPa"
              (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
-            ("dewpoint_100hPa"
+            ("dew_point_125hPa"
+             (:name . "125 hPa (14.6 km)")
+             (:type . checkbox))
+            ("dew_point_100hPa"
              (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
-            ("dewpoint_70hPa"
+            ("dew_point_70hPa"
              (:name . "70 hPa (17.7 km)")
              (:type . checkbox))
-            ("dewpoint_50hPa"
+            ("dew_point_50hPa"
              (:name . "50 hPa (19.3 km)")
              (:type . checkbox))
-            ("dewpoint_40hPa"
+            ("dew_point_40hPa"
              (:name . "40 hPa (20 km)")
              (:type . checkbox))
-            ("dewpoint_30hPa"
+            ("dew_point_30hPa"
              (:name . "30 hPa (22 km)")
              (:type . checkbox))
-            ("dewpoint_20hPa"
+            ("dew_point_20hPa"
              (:name . "20 hPa (23 km)")
              (:type . checkbox))
-            ("dewpoint_15hPa"
+            ("dew_point_15hPa"
              (:name . "15 hPa (24 km)")
              (:type . checkbox))
-            ("dewpoint_10hPa"
+            ("dew_point_10hPa"
              (:name . "10 hPa (26 km)")
              (:type . checkbox))))
           ((:name . "Relative Humidity")
            (:fields
-            ("relativehumidity_1000hPa"
+            ("relative_humidity_1000hPa"
              (:name . "1000 hPa (110 m)")
              (:type . checkbox))
-            ("relativehumidity_975hPa"
+            ("relative_humidity_975hPa"
              (:name . "975 hPa (320 m)")
              (:type . checkbox))
-            ("relativehumidity_950hPa"
+            ("relative_humidity_950hPa"
              (:name . "950 hPa (500 m)")
              (:type . checkbox))
-            ("relativehumidity_925hPa"
+            ("relative_humidity_925hPa"
              (:name . "925 hPa (800 m)")
              (:type . checkbox))
-            ("relativehumidity_900hPa"
+            ("relative_humidity_900hPa"
              (:name . "900 hPa (1000 m)")
              (:type . checkbox))
-            ("relativehumidity_850hPa"
+            ("relative_humidity_875hPa"
+             (:name . "875 hPa (1200 m)")
+             (:type . checkbox))
+            ("relative_humidity_850hPa"
              (:name . "850 hPa (1500 m)")
              (:type . checkbox))
-            ("relativehumidity_800hPa"
+            ("relative_humidity_825hPa"
+             (:name . "825 hPa (1700 m)")
+             (:type . checkbox))
+            ("relative_humidity_800hPa"
              (:name . "800 hPa (1900 m)")
              (:type . checkbox))
-            ("relativehumidity_750hPa"
+            ("relative_humidity_775hPa"
+             (:name . "775 hPa (2.2 km)")
+             (:type . checkbox))
+            ("relative_humidity_750hPa"
              (:name . "750 hPa (2.5 km)")
              (:type . checkbox))
-            ("relativehumidity_700hPa"
+            ("relative_humidity_725hPa"
+             (:name . "725 hPa (2.7 km)")
+             (:type . checkbox))
+            ("relative_humidity_700hPa"
              (:name . "700 hPa (3 km)")
              (:type . checkbox))
-            ("relativehumidity_650hPa"
+            ("relative_humidity_675hPa"
+             (:name . "675 hPa (3.3 km)")
+             (:type . checkbox))
+            ("relative_humidity_650hPa"
              (:name . "650 hPa (3.6 km)")
              (:type . checkbox))
-            ("relativehumidity_600hPa"
+            ("relative_humidity_625hPa"
+             (:name . "625 hPa (3.9 km)")
+             (:type . checkbox))
+            ("relative_humidity_600hPa"
              (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
-            ("relativehumidity_550hPa"
+            ("relative_humidity_575hPa"
+             (:name . "575 hPa (4.5 km)")
+             (:type . checkbox))
+            ("relative_humidity_550hPa"
              (:name . "550 hPa (4.9 km)")
              (:type . checkbox))
-            ("relativehumidity_500hPa"
+            ("relative_humidity_525hPa"
+             (:name . "525 hPa (5.2 km)")
+             (:type . checkbox))
+            ("relative_humidity_500hPa"
              (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
-            ("relativehumidity_450hPa"
+            ("relative_humidity_475hPa"
+             (:name . "475 hPa (6 km)")
+             (:type . checkbox))
+            ("relative_humidity_450hPa"
              (:name . "450 hPa (6.3 km)")
              (:type . checkbox))
-            ("relativehumidity_400hPa"
+            ("relative_humidity_425hPa"
+             (:name . "425 hPa (6.8 km)")
+             (:type . checkbox))
+            ("relative_humidity_400hPa"
              (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
-            ("relativehumidity_350hPa"
+            ("relative_humidity_375hPa"
+             (:name . "375 hPa (7.6 km)")
+             (:type . checkbox))
+            ("relative_humidity_350hPa"
              (:name . "350 hPa (8.1 km)")
              (:type . checkbox))
-            ("relativehumidity_300hPa"
+            ("relative_humidity_325hPa"
+             (:name . "325 hPa (8.6 km)")
+             (:type . checkbox))
+            ("relative_humidity_300hPa"
              (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
-            ("relativehumidity_250hPa"
+            ("relative_humidity_275hPa"
+             (:name . "275 hPa (9.7 km)")
+             (:type . checkbox))
+            ("relative_humidity_250hPa"
              (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
-            ("relativehumidity_200hPa"
+            ("relative_humidity_225hPa"
+             (:name . "225 hPa (11 km)")
+             (:type . checkbox))
+            ("relative_humidity_200hPa"
              (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
-            ("relativehumidity_150hPa"
+            ("relative_humidity_175hPa"
+             (:name . "175 hPa (12.6 km)")
+             (:type . checkbox))
+            ("relative_humidity_150hPa"
              (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
-            ("relativehumidity_100hPa"
+            ("relative_humidity_125hPa"
+             (:name . "125 hPa (14.6 km)")
+             (:type . checkbox))
+            ("relative_humidity_100hPa"
              (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
-            ("relativehumidity_70hPa"
+            ("relative_humidity_70hPa"
              (:name . "70 hPa (17.7 km)")
              (:type . checkbox))
-            ("relativehumidity_50hPa"
+            ("relative_humidity_50hPa"
              (:name . "50 hPa (19.3 km)")
              (:type . checkbox))
-            ("relativehumidity_40hPa"
+            ("relative_humidity_40hPa"
              (:name . "40 hPa (20 km)")
              (:type . checkbox))
-            ("relativehumidity_30hPa"
+            ("relative_humidity_30hPa"
              (:name . "30 hPa (22 km)")
              (:type . checkbox))
-            ("relativehumidity_20hPa"
+            ("relative_humidity_20hPa"
              (:name . "20 hPa (23 km)")
              (:type . checkbox))
-            ("relativehumidity_15hPa"
+            ("relative_humidity_15hPa"
              (:name . "15 hPa (24 km)")
              (:type . checkbox))
-            ("relativehumidity_10hPa"
+            ("relative_humidity_10hPa"
              (:name . "10 hPa (26 km)")
              (:type . checkbox))))
-          ((:name . "Cloudcover")
+          ((:name . "Cloud cover")
            (:fields
-            ("cloudcover_1000hPa"
+            ("cloud_cover_1000hPa"
              (:name . "1000 hPa (110 m)")
              (:type . checkbox))
-            ("cloudcover_975hPa"
+            ("cloud_cover_975hPa"
              (:name . "975 hPa (320 m)")
              (:type . checkbox))
-            ("cloudcover_950hPa"
+            ("cloud_cover_950hPa"
              (:name . "950 hPa (500 m)")
              (:type . checkbox))
-            ("cloudcover_925hPa"
+            ("cloud_cover_925hPa"
              (:name . "925 hPa (800 m)")
              (:type . checkbox))
-            ("cloudcover_900hPa"
+            ("cloud_cover_900hPa"
              (:name . "900 hPa (1000 m)")
              (:type . checkbox))
-            ("cloudcover_850hPa"
+            ("cloud_cover_875hPa"
+             (:name . "875 hPa (1200 m)")
+             (:type . checkbox))
+            ("cloud_cover_850hPa"
              (:name . "850 hPa (1500 m)")
              (:type . checkbox))
-            ("cloudcover_800hPa"
+            ("cloud_cover_825hPa"
+             (:name . "825 hPa (1700 m)")
+             (:type . checkbox))
+            ("cloud_cover_800hPa"
              (:name . "800 hPa (1900 m)")
              (:type . checkbox))
-            ("cloudcover_750hPa"
+            ("cloud_cover_775hPa"
+             (:name . "775 hPa (2.2 km)")
+             (:type . checkbox))
+            ("cloud_cover_750hPa"
              (:name . "750 hPa (2.5 km)")
              (:type . checkbox))
-            ("cloudcover_700hPa"
+            ("cloud_cover_725hPa"
+             (:name . "725 hPa (2.7 km)")
+             (:type . checkbox))
+            ("cloud_cover_700hPa"
              (:name . "700 hPa (3 km)")
              (:type . checkbox))
-            ("cloudcover_650hPa"
+            ("cloud_cover_675hPa"
+             (:name . "675 hPa (3.3 km)")
+             (:type . checkbox))
+            ("cloud_cover_650hPa"
              (:name . "650 hPa (3.6 km)")
              (:type . checkbox))
-            ("cloudcover_600hPa"
+            ("cloud_cover_625hPa"
+             (:name . "625 hPa (3.9 km)")
+             (:type . checkbox))
+            ("cloud_cover_600hPa"
              (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
-            ("cloudcover_550hPa"
+            ("cloud_cover_575hPa"
+             (:name . "575 hPa (4.5 km)")
+             (:type . checkbox))
+            ("cloud_cover_550hPa"
              (:name . "550 hPa (4.9 km)")
              (:type . checkbox))
-            ("cloudcover_500hPa"
+            ("cloud_cover_525hPa"
+             (:name . "525 hPa (5.2 km)")
+             (:type . checkbox))
+            ("cloud_cover_500hPa"
              (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
-            ("cloudcover_450hPa"
+            ("cloud_cover_475hPa"
+             (:name . "475 hPa (6 km)")
+             (:type . checkbox))
+            ("cloud_cover_450hPa"
              (:name . "450 hPa (6.3 km)")
              (:type . checkbox))
-            ("cloudcover_400hPa"
+            ("cloud_cover_425hPa"
+             (:name . "425 hPa (6.8 km)")
+             (:type . checkbox))
+            ("cloud_cover_400hPa"
              (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
-            ("cloudcover_350hPa"
+            ("cloud_cover_375hPa"
+             (:name . "375 hPa (7.6 km)")
+             (:type . checkbox))
+            ("cloud_cover_350hPa"
              (:name . "350 hPa (8.1 km)")
              (:type . checkbox))
-            ("cloudcover_300hPa"
+            ("cloud_cover_325hPa"
+             (:name . "325 hPa (8.6 km)")
+             (:type . checkbox))
+            ("cloud_cover_300hPa"
              (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
-            ("cloudcover_250hPa"
+            ("cloud_cover_275hPa"
+             (:name . "275 hPa (9.7 km)")
+             (:type . checkbox))
+            ("cloud_cover_250hPa"
              (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
-            ("cloudcover_200hPa"
+            ("cloud_cover_225hPa"
+             (:name . "225 hPa (11 km)")
+             (:type . checkbox))
+            ("cloud_cover_200hPa"
              (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
-            ("cloudcover_150hPa"
+            ("cloud_cover_175hPa"
+             (:name . "175 hPa (12.6 km)")
+             (:type . checkbox))
+            ("cloud_cover_150hPa"
              (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
-            ("cloudcover_100hPa"
+            ("cloud_cover_125hPa"
+             (:name . "125 hPa (14.6 km)")
+             (:type . checkbox))
+            ("cloud_cover_100hPa"
              (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
-            ("cloudcover_70hPa"
+            ("cloud_cover_70hPa"
              (:name . "70 hPa (17.7 km)")
              (:type . checkbox))
-            ("cloudcover_50hPa"
+            ("cloud_cover_50hPa"
              (:name . "50 hPa (19.3 km)")
              (:type . checkbox))
-            ("cloudcover_40hPa"
+            ("cloud_cover_40hPa"
              (:name . "40 hPa (20 km)")
              (:type . checkbox))
-            ("cloudcover_30hPa"
+            ("cloud_cover_30hPa"
              (:name . "30 hPa (22 km)")
              (:type . checkbox))
-            ("cloudcover_20hPa"
+            ("cloud_cover_20hPa"
              (:name . "20 hPa (23 km)")
              (:type . checkbox))
-            ("cloudcover_15hPa"
+            ("cloud_cover_15hPa"
              (:name . "15 hPa (24 km)")
              (:type . checkbox))
-            ("cloudcover_10hPa"
+            ("cloud_cover_10hPa"
              (:name . "10 hPa (26 km)")
              (:type . checkbox))))
           ((:name . "Wind Speed")
@@ -1894,50 +2496,98 @@
             ("windspeed_900hPa"
              (:name . "900 hPa (1000 m)")
              (:type . checkbox))
+            ("windspeed_875hPa"
+             (:name . "875 hPa (1200 m)")
+             (:type . checkbox))
             ("windspeed_850hPa"
              (:name . "850 hPa (1500 m)")
+             (:type . checkbox))
+            ("windspeed_825hPa"
+             (:name . "825 hPa (1700 m)")
              (:type . checkbox))
             ("windspeed_800hPa"
              (:name . "800 hPa (1900 m)")
              (:type . checkbox))
+            ("windspeed_775hPa"
+             (:name . "775 hPa (2.2 km)")
+             (:type . checkbox))
             ("windspeed_750hPa"
              (:name . "750 hPa (2.5 km)")
+             (:type . checkbox))
+            ("windspeed_725hPa"
+             (:name . "725 hPa (2.7 km)")
              (:type . checkbox))
             ("windspeed_700hPa"
              (:name . "700 hPa (3 km)")
              (:type . checkbox))
+            ("windspeed_675hPa"
+             (:name . "675 hPa (3.3 km)")
+             (:type . checkbox))
             ("windspeed_650hPa"
              (:name . "650 hPa (3.6 km)")
+             (:type . checkbox))
+            ("windspeed_625hPa"
+             (:name . "625 hPa (3.9 km)")
              (:type . checkbox))
             ("windspeed_600hPa"
              (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
+            ("windspeed_575hPa"
+             (:name . "575 hPa (4.5 km)")
+             (:type . checkbox))
             ("windspeed_550hPa"
              (:name . "550 hPa (4.9 km)")
+             (:type . checkbox))
+            ("windspeed_525hPa"
+             (:name . "525 hPa (5.2 km)")
              (:type . checkbox))
             ("windspeed_500hPa"
              (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
+            ("windspeed_475hPa"
+             (:name . "475 hPa (6 km)")
+             (:type . checkbox))
             ("windspeed_450hPa"
              (:name . "450 hPa (6.3 km)")
+             (:type . checkbox))
+            ("windspeed_425hPa"
+             (:name . "425 hPa (6.8 km)")
              (:type . checkbox))
             ("windspeed_400hPa"
              (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
+            ("windspeed_375hPa"
+             (:name . "375 hPa (7.6 km)")
+             (:type . checkbox))
             ("windspeed_350hPa"
              (:name . "350 hPa (8.1 km)")
+             (:type . checkbox))
+            ("windspeed_325hPa"
+             (:name . "325 hPa (8.6 km)")
              (:type . checkbox))
             ("windspeed_300hPa"
              (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
+            ("windspeed_275hPa"
+             (:name . "275 hPa (9.7 km)")
+             (:type . checkbox))
             ("windspeed_250hPa"
              (:name . "250 hPa (10.4 km)")
+             (:type . checkbox))
+            ("windspeed_225hPa"
+             (:name . "225 hPa (11 km)")
              (:type . checkbox))
             ("windspeed_200hPa"
              (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
+            ("windspeed_175hPa"
+             (:name . "175 hPa (12.6 km)")
+             (:type . checkbox))
             ("windspeed_150hPa"
              (:name . "150 hPa (13.5 km)")
+             (:type . checkbox))
+            ("windspeed_125hPa"
+             (:name . "125 hPa (14.6 km)")
              (:type . checkbox))
             ("windspeed_100hPa"
              (:name . "100 hPa (15.8 km)")
@@ -1980,50 +2630,98 @@
             ("winddirection_900hPa"
              (:name . "900 hPa (1000 m)")
              (:type . checkbox))
+            ("winddirection_875hPa"
+             (:name . "875 hPa (1200 m)")
+             (:type . checkbox))
             ("winddirection_850hPa"
              (:name . "850 hPa (1500 m)")
+             (:type . checkbox))
+            ("winddirection_825hPa"
+             (:name . "825 hPa (1700 m)")
              (:type . checkbox))
             ("winddirection_800hPa"
              (:name . "800 hPa (1900 m)")
              (:type . checkbox))
+            ("winddirection_775hPa"
+             (:name . "775 hPa (2.2 km)")
+             (:type . checkbox))
             ("winddirection_750hPa"
              (:name . "750 hPa (2.5 km)")
+             (:type . checkbox))
+            ("winddirection_725hPa"
+             (:name . "725 hPa (2.7 km)")
              (:type . checkbox))
             ("winddirection_700hPa"
              (:name . "700 hPa (3 km)")
              (:type . checkbox))
+            ("winddirection_675hPa"
+             (:name . "675 hPa (3.3 km)")
+             (:type . checkbox))
             ("winddirection_650hPa"
              (:name . "650 hPa (3.6 km)")
+             (:type . checkbox))
+            ("winddirection_625hPa"
+             (:name . "625 hPa (3.9 km)")
              (:type . checkbox))
             ("winddirection_600hPa"
              (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
+            ("winddirection_575hPa"
+             (:name . "575 hPa (4.5 km)")
+             (:type . checkbox))
             ("winddirection_550hPa"
              (:name . "550 hPa (4.9 km)")
+             (:type . checkbox))
+            ("winddirection_525hPa"
+             (:name . "525 hPa (5.2 km)")
              (:type . checkbox))
             ("winddirection_500hPa"
              (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
+            ("winddirection_475hPa"
+             (:name . "475 hPa (6 km)")
+             (:type . checkbox))
             ("winddirection_450hPa"
              (:name . "450 hPa (6.3 km)")
+             (:type . checkbox))
+            ("winddirection_425hPa"
+             (:name . "425 hPa (6.8 km)")
              (:type . checkbox))
             ("winddirection_400hPa"
              (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
+            ("winddirection_375hPa"
+             (:name . "375 hPa (7.6 km)")
+             (:type . checkbox))
             ("winddirection_350hPa"
              (:name . "350 hPa (8.1 km)")
+             (:type . checkbox))
+            ("winddirection_325hPa"
+             (:name . "325 hPa (8.6 km)")
              (:type . checkbox))
             ("winddirection_300hPa"
              (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
+            ("winddirection_275hPa"
+             (:name . "275 hPa (9.7 km)")
+             (:type . checkbox))
             ("winddirection_250hPa"
              (:name . "250 hPa (10.4 km)")
+             (:type . checkbox))
+            ("winddirection_225hPa"
+             (:name . "225 hPa (11 km)")
              (:type . checkbox))
             ("winddirection_200hPa"
              (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
+            ("winddirection_175hPa"
+             (:name . "175 hPa (12.6 km)")
+             (:type . checkbox))
             ("winddirection_150hPa"
              (:name . "150 hPa (13.5 km)")
+             (:type . checkbox))
+            ("winddirection_125hPa"
+             (:name . "125 hPa (14.6 km)")
              (:type . checkbox))
             ("winddirection_100hPa"
              (:name . "100 hPa (15.8 km)")
@@ -2066,50 +2764,98 @@
             ("vertical_velocity_900hPa"
              (:name . "900 hPa (1000 m)")
              (:type . checkbox))
+            ("vertical_velocity_875hPa"
+             (:name . "875 hPa (1200 m)")
+             (:type . checkbox))
             ("vertical_velocity_850hPa"
              (:name . "850 hPa (1500 m)")
+             (:type . checkbox))
+            ("vertical_velocity_825hPa"
+             (:name . "825 hPa (1700 m)")
              (:type . checkbox))
             ("vertical_velocity_800hPa"
              (:name . "800 hPa (1900 m)")
              (:type . checkbox))
+            ("vertical_velocity_775hPa"
+             (:name . "775 hPa (2.2 km)")
+             (:type . checkbox))
             ("vertical_velocity_750hPa"
              (:name . "750 hPa (2.5 km)")
+             (:type . checkbox))
+            ("vertical_velocity_725hPa"
+             (:name . "725 hPa (2.7 km)")
              (:type . checkbox))
             ("vertical_velocity_700hPa"
              (:name . "700 hPa (3 km)")
              (:type . checkbox))
+            ("vertical_velocity_675hPa"
+             (:name . "675 hPa (3.3 km)")
+             (:type . checkbox))
             ("vertical_velocity_650hPa"
              (:name . "650 hPa (3.6 km)")
+             (:type . checkbox))
+            ("vertical_velocity_625hPa"
+             (:name . "625 hPa (3.9 km)")
              (:type . checkbox))
             ("vertical_velocity_600hPa"
              (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
+            ("vertical_velocity_575hPa"
+             (:name . "575 hPa (4.5 km)")
+             (:type . checkbox))
             ("vertical_velocity_550hPa"
              (:name . "550 hPa (4.9 km)")
+             (:type . checkbox))
+            ("vertical_velocity_525hPa"
+             (:name . "525 hPa (5.2 km)")
              (:type . checkbox))
             ("vertical_velocity_500hPa"
              (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
+            ("vertical_velocity_475hPa"
+             (:name . "475 hPa (6 km)")
+             (:type . checkbox))
             ("vertical_velocity_450hPa"
              (:name . "450 hPa (6.3 km)")
+             (:type . checkbox))
+            ("vertical_velocity_425hPa"
+             (:name . "425 hPa (6.8 km)")
              (:type . checkbox))
             ("vertical_velocity_400hPa"
              (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
+            ("vertical_velocity_375hPa"
+             (:name . "375 hPa (7.6 km)")
+             (:type . checkbox))
             ("vertical_velocity_350hPa"
              (:name . "350 hPa (8.1 km)")
+             (:type . checkbox))
+            ("vertical_velocity_325hPa"
+             (:name . "325 hPa (8.6 km)")
              (:type . checkbox))
             ("vertical_velocity_300hPa"
              (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
+            ("vertical_velocity_275hPa"
+             (:name . "275 hPa (9.7 km)")
+             (:type . checkbox))
             ("vertical_velocity_250hPa"
              (:name . "250 hPa (10.4 km)")
+             (:type . checkbox))
+            ("vertical_velocity_225hPa"
+             (:name . "225 hPa (11 km)")
              (:type . checkbox))
             ("vertical_velocity_200hPa"
              (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
+            ("vertical_velocity_175hPa"
+             (:name . "175 hPa (12.6 km)")
+             (:type . checkbox))
             ("vertical_velocity_150hPa"
              (:name . "150 hPa (13.5 km)")
+             (:type . checkbox))
+            ("vertical_velocity_125hPa"
+             (:name . "125 hPa (14.6 km)")
              (:type . checkbox))
             ("vertical_velocity_100hPa"
              (:name . "100 hPa (15.8 km)")
@@ -2152,50 +2898,98 @@
             ("geopotential_height_900hPa"
              (:name . "900 hPa (1000 m)")
              (:type . checkbox))
+            ("geopotential_height_875hPa"
+             (:name . "875 hPa (1200 m)")
+             (:type . checkbox))
             ("geopotential_height_850hPa"
              (:name . "850 hPa (1500 m)")
+             (:type . checkbox))
+            ("geopotential_height_825hPa"
+             (:name . "825 hPa (1700 m)")
              (:type . checkbox))
             ("geopotential_height_800hPa"
              (:name . "800 hPa (1900 m)")
              (:type . checkbox))
+            ("geopotential_height_775hPa"
+             (:name . "775 hPa (2.2 km)")
+             (:type . checkbox))
             ("geopotential_height_750hPa"
              (:name . "750 hPa (2.5 km)")
+             (:type . checkbox))
+            ("geopotential_height_725hPa"
+             (:name . "725 hPa (2.7 km)")
              (:type . checkbox))
             ("geopotential_height_700hPa"
              (:name . "700 hPa (3 km)")
              (:type . checkbox))
+            ("geopotential_height_675hPa"
+             (:name . "675 hPa (3.3 km)")
+             (:type . checkbox))
             ("geopotential_height_650hPa"
              (:name . "650 hPa (3.6 km)")
+             (:type . checkbox))
+            ("geopotential_height_625hPa"
+             (:name . "625 hPa (3.9 km)")
              (:type . checkbox))
             ("geopotential_height_600hPa"
              (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
+            ("geopotential_height_575hPa"
+             (:name . "575 hPa (4.5 km)")
+             (:type . checkbox))
             ("geopotential_height_550hPa"
              (:name . "550 hPa (4.9 km)")
+             (:type . checkbox))
+            ("geopotential_height_525hPa"
+             (:name . "525 hPa (5.2 km)")
              (:type . checkbox))
             ("geopotential_height_500hPa"
              (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
+            ("geopotential_height_475hPa"
+             (:name . "475 hPa (6 km)")
+             (:type . checkbox))
             ("geopotential_height_450hPa"
              (:name . "450 hPa (6.3 km)")
+             (:type . checkbox))
+            ("geopotential_height_425hPa"
+             (:name . "425 hPa (6.8 km)")
              (:type . checkbox))
             ("geopotential_height_400hPa"
              (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
+            ("geopotential_height_375hPa"
+             (:name . "375 hPa (7.6 km)")
+             (:type . checkbox))
             ("geopotential_height_350hPa"
              (:name . "350 hPa (8.1 km)")
+             (:type . checkbox))
+            ("geopotential_height_325hPa"
+             (:name . "325 hPa (8.6 km)")
              (:type . checkbox))
             ("geopotential_height_300hPa"
              (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
+            ("geopotential_height_275hPa"
+             (:name . "275 hPa (9.7 km)")
+             (:type . checkbox))
             ("geopotential_height_250hPa"
              (:name . "250 hPa (10.4 km)")
+             (:type . checkbox))
+            ("geopotential_height_225hPa"
+             (:name . "225 hPa (11 km)")
              (:type . checkbox))
             ("geopotential_height_200hPa"
              (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
+            ("geopotential_height_175hPa"
+             (:name . "175 hPa (12.6 km)")
+             (:type . checkbox))
             ("geopotential_height_150hPa"
              (:name . "150 hPa (13.5 km)")
+             (:type . checkbox))
+            ("geopotential_height_125hPa"
+             (:name . "125 hPa (14.6 km)")
              (:type . checkbox))
             ("geopotential_height_100hPa"
              (:name . "100 hPa (15.8 km)")
@@ -2225,10 +3019,10 @@
         ("temperature_2m"
          (:name . "Temperature (2 m)")
          (:type . checkbox))
-        ("relativehumidity_2m"
+        ("relative_humidity_2m"
          (:name . "Relative Humidity (2 m)")
          (:type . checkbox))
-        ("dewpoint_2m"
+        ("dew_point_2m"
          (:name . "Dewpoint (2 m)")
          (:type . checkbox))
         ("apparent_temperature"
@@ -2252,8 +3046,8 @@
         ("snow_depth"
          (:name . "Snow Depth")
          (:type . checkbox))
-        ("weathercode"
-         (:name . "Weathercode")
+        ("weather_code"
+         (:name . "Weather code")
          (:type . checkbox))
         ("pressure_msl"
          (:name . "Sealevel Pressure")
@@ -2261,17 +3055,17 @@
         ("surface_pressure"
          (:name . "Surface Pressure")
          (:type . checkbox))
-        ("cloudcover"
-         (:name . "Cloudcover Total")
+        ("cloud_cover"
+         (:name . "Cloud cover Total")
          (:type . checkbox))
-        ("cloudcover_low"
-         (:name . "Cloudcover Low")
+        ("cloud_cover_low"
+         (:name . "Cloud cover Low")
          (:type . checkbox))
-        ("cloudcover_mid"
-         (:name . "Cloudcover Mid")
+        ("cloud_cover_mid"
+         (:name . "Cloud cover Mid")
          (:type . checkbox))
-        ("cloudcover_high"
-         (:name . "Cloudcover High")
+        ("cloud_cover_high"
+         (:name . "Cloud cover High")
          (:type . checkbox))
         ("visibility"
          (:name . "Visibility")
@@ -2282,22 +3076,22 @@
         ("et0_fao_evapotranspiration"
          (:name . "Reference Evapotranspiration (ET₀)")
          (:type . checkbox))
-        ("vapor_pressure_deficit"
-         (:name . "Vapor Pressure Deficit")
+        ("vapour_pressure_deficit"
+         (:name . "Vapour Pressure Deficit")
          (:type . checkbox))
-        ("windspeed_10m"
+        ("wind_speed_10m"
          (:name . "Wind Speed (10 m)")
          (:type . checkbox))
-        ("windspeed_80m"
+        ("wind_speed_80m"
          (:name . "Wind Speed (80 m)")
          (:type . checkbox))
-        ("winddirection_10m"
+        ("wind_direction_10m"
          (:name . "Wind Direction (10 m)")
          (:type . checkbox))
-        ("winddirection_80m"
+        ("wind_direction_80m"
          (:name . "Wind Direction (80 m)")
          (:type . checkbox))
-        ("windgusts_10m"
+        ("wind_gusts_10m"
          (:name . "Wind Gusts (10 m)")
          (:type . checkbox))
         ("temperature_80m"
@@ -2333,8 +3127,8 @@
       ((:param . "daily")
        (:name . "Daily Weather Variables")
        (:fields
-        ("weathercode"
-         (:name . "Weathercode")
+        ("weather_code"
+         (:name . "Weather code")
          (:type . checkbox))
         ("temperature_2m_max"
          (:name . "Maximum Temperature (2 m)")
@@ -2353,6 +3147,12 @@
          (:type . checkbox))
         ("sunset"
          (:name . "Sunset")
+         (:type . checkbox))
+        ("daylight_duration"
+         (:name . "Daylight Duration")
+         (:type . checkbox))
+        ("sunshine_duration"
+         (:name . "Sunshine Duration")
          (:type . checkbox))
         ("uv_index_max"
          (:name . "UV Index")
@@ -2378,13 +3178,13 @@
         ("precipitation_probability_max"
          (:name . "Precipitation Probability Max")
          (:type . checkbox))
-        ("windspeed_10m_max"
+        ("wind_speed_10m_max"
          (:name . "Maximum Wind Speed (10 m)")
          (:type . checkbox))
-        ("windgusts_10m_max"
+        ("wind_gusts_10m_max"
          (:name . "Maximum Wind Gusts (10 m)")
          (:type . checkbox))
-        ("winddirection_10m_dominant"
+        ("wind_direction_10m_dominant"
          (:name . "Dominant Wind Direction (10 m)")
          (:type . checkbox))
         ("shortwave_radiation_sum"
@@ -2392,6 +3192,160 @@
          (:type . checkbox))
         ("et0_fao_evapotranspiration"
          (:name . "Reference Evapotranspiration (ET₀)")
+         (:type . checkbox))))
+      ((:param . "minutely_15")
+       (:name . "15-Minutely Weather Variables")
+       (:fields
+        ("temperature_2m"
+         (:name . "Temperature (2 m)")
+         (:type . checkbox))
+        ("relative_humidity_2m"
+         (:name . "Relative Humidity (2 m)")
+         (:type . checkbox))
+        ("dew_point_2m"
+         (:name . "Dewpoint (2 m)")
+         (:type . checkbox))
+        ("apparent_temperature"
+         (:name . "Apparent Temperature")
+         (:type . checkbox))
+        ("precipitation"
+         (:name . "Precipitation (rain + showers + snow)")
+         (:type . checkbox))
+        ("rain"
+         (:name . "Rain")
+         (:type . checkbox))
+        ("snowfall"
+         (:name . "Snowfall")
+         (:type . checkbox))
+        ("sunshine_duration"
+         (:name . "Sunshine Duration")
+         (:type . checkbox))
+        ("weather_code"
+         (:name . "Weather code")
+         (:type . checkbox))
+        ("wind_speed_10m"
+         (:name . "Wind Speed (10 m)")
+         (:type . checkbox))
+        ("wind_speed_80m"
+         (:name . "Wind Speed (80 m)")
+         (:type . checkbox))
+        ("wind_direction_10m"
+         (:name . "Wind Direction (10 m)")
+         (:type . checkbox))
+        ("wind_direction_80m"
+         (:name . "Wind Direction (80 m)")
+         (:type . checkbox))
+        ("wind_gusts_10m"
+         (:name . "Wind Gusts (10 m)")
+         (:type . checkbox))
+        ("visibility"
+         (:name . "Visibility")
+         (:type . checkbox))
+        ("cape"
+         (:name . "CAPE")
+         (:type . checkbox))
+        ("is_day"
+         (:name . "Is Day or Night")
+         (:type . checkbox))
+        ("shortwave_radiation"
+         (:name . "Shortwave Solar Radiation GHI")
+         (:type . checkbox))
+        ("direct_radiation"
+         (:name . "Direct Solar Radiation")
+         (:type . checkbox))
+        ("diffuse_radiation"
+         (:name . "Diffuse Solar Radiation DHI")
+         (:type . checkbox))
+        ("direct_normal_irradiance"
+         (:name . "Direct Normal Irradiance DNI")
+         (:type . checkbox))
+        ("global_tilted_irradiance"
+         (:name . "Global Tilted Radiation GTI")
+         (:type . checkbox))
+        ("terrestrial_radiation"
+         (:name . "Terrestrial Solar Radiation")
+         (:type . checkbox))
+        ("shortwave_radiation_instant"
+         (:name . "Shortwave Solar Radiation GHI (Instant)")
+         (:type . checkbox))
+        ("direct_radiation_instant"
+         (:name . "Direct Solar Radiation (Instant)")
+         (:type . checkbox))
+        ("diffuse_radiation_instant"
+         (:name . "Diffuse Solar Radiation DHI (Instant)")
+         (:type . checkbox))
+        ("direct_normal_irradiance_instant"
+         (:name . "Direct Normal Irradiance DNI (Instant)")
+         (:type . checkbox))
+        ("global_tilted_irradiance_instant"
+         (:name . "Global Tilted Radiation GTI")
+         (:type . checkbox))
+        ("terrestrial_radiation_instant"
+         (:name . "Terrestrial Solar Radiation (Instant)")
+         (:type . checkbox))
+        ("forecast_minutely_15"
+         (:name . "Forecast Minutely 15")
+         (:type . select)
+         (:options
+          ("4" . "1 hour")
+          ("24" . "6 hours")
+          ("48" . "12 hours")
+          ("96" . "24 hours")))
+        ("past_minutely_15"
+         (:name . "Past Minutely 15")
+         (:type . select)
+         (:options
+          ("1" . "1 hour")
+          ("6" . "6 hours")
+          ("12" . "12 hours")
+          ("24" . "24 hours")))))
+      ((:param . "current")
+       (:name . "Current Weather")
+       (:fields
+        ("temperature_2m"
+         (:name . "Temperature (2 m)")
+         (:type . checkbox))
+        ("relative_humidity_2m"
+         (:name . "Relative Humidity (2 m)")
+         (:type . checkbox))
+        ("apparent_temperature"
+         (:name . "Apparent Temperature")
+         (:type . checkbox))
+        ("is_day"
+         (:name . "Is Day or Night")
+         (:type . checkbox))
+        ("precipitation"
+         (:name . "Precipitation")
+         (:type . checkbox))
+        ("rain"
+         (:name . "Rain")
+         (:type . checkbox))
+        ("showers"
+         (:name . "Showers")
+         (:type . checkbox))
+        ("snowfall"
+         (:name . "Snowfall")
+         (:type . checkbox))
+        ("weather_code"
+         (:name . "Weather code")
+         (:type . checkbox))
+        ("cloud_cover"
+         (:name . "Cloud cover Total")
+         (:type . checkbox))
+        ("pressure_msl"
+         (:name . "Sealevel Pressure")
+         (:type . checkbox))
+        ("surface_pressure"
+         (:name . "Surface Pressure")
+         (:type . checkbox))
+        ("wind_speed_10m"
+         (:name . "Wind Speed (10 m)")
+         (:type . checkbox))
+        ("wind_direction_10m"
+         (:name . "Wind Direction (10 m)")
+         (:type . checkbox))
+        ("wind_gusts_10m"
+         (:name . "Wind Gusts (10 m)")
          (:type . checkbox))))
       ((:name . "Settings")
        (:fields
@@ -2404,7 +3358,7 @@
          (:options
           ("celsius" . "Celsius °C")
           ("fahrenheit" . "Fahrenheit °F")))
-        ("windspeed_unit"
+        ("wind_speed_unit"
          (:name . "Wind Speed Unit")
          (:type . select)
          (:options
@@ -2423,83 +3377,129 @@
          (:type . select)
          (:options
           ("iso8601" . "ISO 8601 (e.g. 2022-12-31)")
-          ("unixtime" . "Unix timestamp")))
-        ("past_days"
-         (:name . "Past days")
-         (:type . number)
-         (:min . 0)
-         (:max . 92))
-        ("forecast_days"
-         (:name . "Forecast days")
-         (:type . number)
-         (:min . 0)
-         (:max . 16))
-        ("start_date"
-         (:name . "Start date")
-         (:type . date))
-        ("end_date"
-         (:name . "End date")
-         (:type . date))
-        ("timezone"
-         (:name . "Timezone")
-         (:type . timezone))))))
+          ("unixtime" . "Unix timestamp")))))
+      ((:param . "models")
+       (:name . "Weather models")
+       (:fields
+        ("gfs_seamless"
+         (:name . "GFS Seamless")
+         (:type . checkbox))
+        ("gfs_global"
+         (:name . "GFS Global")
+         (:type . checkbox))
+        ("gfs_hrrr"
+         (:name . "GFS HRRR")
+         (:type . checkbox))
+        ("gfs_graphcast025"
+         (:name . "GFS GraphCast")
+         (:type . checkbox))))))
     ("MeteoFrance"
      (:name . "MeteoFrance")
      (:url . "https://open-meteo.com/en/docs/meteofrance-api")
      (:description . "Forecasts tailored for Central Europe and France")
      (:key . "wf")
      (:sections
-      ((:name . "Select Coordinates or City")
+      ((:name . "Select Coordinates and Time")
        (:fields
+        ("end_date"
+         (:name . "End date")
+         (:type . date))
+        ("start_date"
+         (:name . "Start date")
+         (:type . date))
+        ("forecast_days"
+         (:name . "Forecast days")
+         (:type . number)
+         (:min . 0)
+         (:max . 16))
+        ("past_days"
+         (:name . "Past days")
+         (:type . number)
+         (:min . 0)
+         (:max . 92))
         ("latitude"
          (:name . "Latitude")
          (:type . float))
         ("longitude"
          (:name . "Longitude")
-         (:type . float))))
+         (:type . float))
+        ("timezone"
+         (:name . "Timezone")
+         (:type . timezone))))
       ((:param . "hourly")
        (:name . "Hourly Weather Variables")
        (:children
-        ((:name . "Additional Variables")
+        ((:name . "Additional Variables And Options")
          (:fields
           ("is_day"
            (:name . "Is Day or Night")
            (:type . checkbox))
+          ("sunshine_duration"
+           (:name . "Sunshine Duration")
+           (:type . checkbox))
           ("cape"
            (:name . "CAPE")
-           (:type . checkbox))))
+           (:type . checkbox))
+          ("forecast_hours"
+           (:name . "Forecast Hours")
+           (:type . select)
+           (:options
+            ("1" . "1 hour")
+            ("6" . "6 hours")
+            ("12" . "12 hours")
+            ("24" . "24 hours")))
+          ("past_hours"
+           (:name . "Past Hours")
+           (:type . select)
+           (:options
+            ("1" . "1 hour")
+            ("6" . "6 hours")
+            ("12" . "12 hours")
+            ("24" . "24 hours")))))
         ((:name . "Solar Radiation Variables")
          (:fields
           ("shortwave_radiation"
-           (:name . "Shortwave Solar Radiation")
+           (:name . "Shortwave Solar Radiation GHI")
            (:type . checkbox))
           ("direct_radiation"
            (:name . "Direct Solar Radiation")
            (:type . checkbox))
           ("diffuse_radiation"
-           (:name . "Diffuse Solar Radiation")
+           (:name . "Diffuse Solar Radiation DHI")
            (:type . checkbox))
           ("direct_normal_irradiance"
            (:name . "Direct Normal Irradiance DNI")
+           (:type . checkbox))
+          ("global_tilted_irradiance"
+           (:name . "Global Tilted Radiation GTI")
            (:type . checkbox))
           ("terrestrial_radiation"
            (:name . "Terrestrial Solar Radiation")
            (:type . checkbox))
           ("shortwave_radiation_instant"
-           (:name . "Shortwave Solar Radiation (Instant)")
+           (:name . "Shortwave Solar Radiation GHI (Instant)")
            (:type . checkbox))
           ("direct_radiation_instant"
            (:name . "Direct Solar Radiation (Instant)")
            (:type . checkbox))
           ("diffuse_radiation_instant"
-           (:name . "Diffuse Solar Radiation (Instant)")
+           (:name . "Diffuse Solar Radiation DHI (Instant)")
            (:type . checkbox))
           ("direct_normal_irradiance_instant"
            (:name . "Direct Normal Irradiance DNI (Instant)")
            (:type . checkbox))
+          ("global_tilted_irradiance_instant"
+           (:name . "Global Tilted Radiation GTI")
+           (:type . checkbox))
           ("terrestrial_radiation_instant"
            (:name . "Terrestrial Solar Radiation (Instant)")
-           (:type . checkbox))))
+           (:type . checkbox))
+          ("tilt"
+           (:name . "Panel Tilt (0° horizontal)")
+           (:type . number))
+          ("azimuth"
+           (:name . "Panel Azimuth (0° S, -90° E, 90° W)")
+           (:type . number))))
         ((:name . "Pressure Level Variables")
          (:children
           ((:name . "Temperature")
@@ -2593,269 +3593,269 @@
              (:type . checkbox))))
           ((:name . "Dewpoint")
            (:fields
-            ("dewpoint_1000hPa"
+            ("dew_point_1000hPa"
              (:name . "1000 hPa (110 m)")
              (:type . checkbox))
-            ("dewpoint_950hPa"
+            ("dew_point_950hPa"
              (:name . "950 hPa (500 m)")
              (:type . checkbox))
-            ("dewpoint_925hPa"
+            ("dew_point_925hPa"
              (:name . "925 hPa (800 m)")
              (:type . checkbox))
-            ("dewpoint_900hPa"
+            ("dew_point_900hPa"
              (:name . "900 hPa (1000 m)")
              (:type . checkbox))
-            ("dewpoint_850hPa"
+            ("dew_point_850hPa"
              (:name . "850 hPa (1500 m)")
              (:type . checkbox))
-            ("dewpoint_800hPa"
+            ("dew_point_800hPa"
              (:name . "800 hPa (1900 m)")
              (:type . checkbox))
-            ("dewpoint_750hPa"
+            ("dew_point_750hPa"
              (:name . "750 hPa (2.5 km)")
              (:type . checkbox))
-            ("dewpoint_700hPa"
+            ("dew_point_700hPa"
              (:name . "700 hPa (3 km)")
              (:type . checkbox))
-            ("dewpoint_650hPa"
+            ("dew_point_650hPa"
              (:name . "650 hPa (3.6 km)")
              (:type . checkbox))
-            ("dewpoint_600hPa"
+            ("dew_point_600hPa"
              (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
-            ("dewpoint_550hPa"
+            ("dew_point_550hPa"
              (:name . "550 hPa (4.9 km)")
              (:type . checkbox))
-            ("dewpoint_500hPa"
+            ("dew_point_500hPa"
              (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
-            ("dewpoint_450hPa"
+            ("dew_point_450hPa"
              (:name . "450 hPa (6.3 km)")
              (:type . checkbox))
-            ("dewpoint_400hPa"
+            ("dew_point_400hPa"
              (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
-            ("dewpoint_350hPa"
+            ("dew_point_350hPa"
              (:name . "350 hPa (8.1 km)")
              (:type . checkbox))
-            ("dewpoint_300hPa"
+            ("dew_point_300hPa"
              (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
-            ("dewpoint_275hPa"
+            ("dew_point_275hPa"
              (:name . "275 hPa (9.7 km)")
              (:type . checkbox))
-            ("dewpoint_250hPa"
+            ("dew_point_250hPa"
              (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
-            ("dewpoint_225hPa"
+            ("dew_point_225hPa"
              (:name . "225 hPa (11 km)")
              (:type . checkbox))
-            ("dewpoint_200hPa"
+            ("dew_point_200hPa"
              (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
-            ("dewpoint_175hPa"
+            ("dew_point_175hPa"
              (:name . "175 hPa (12.6 km)")
              (:type . checkbox))
-            ("dewpoint_150hPa"
+            ("dew_point_150hPa"
              (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
-            ("dewpoint_125hPa"
+            ("dew_point_125hPa"
              (:name . "125 hPa (14.6 km)")
              (:type . checkbox))
-            ("dewpoint_100hPa"
+            ("dew_point_100hPa"
              (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
-            ("dewpoint_70hPa"
+            ("dew_point_70hPa"
              (:name . "70 hPa (17.7 km)")
              (:type . checkbox))
-            ("dewpoint_50hPa"
+            ("dew_point_50hPa"
              (:name . "50 hPa (19.3 km)")
              (:type . checkbox))
-            ("dewpoint_30hPa"
+            ("dew_point_30hPa"
              (:name . "30 hPa (22 km)")
              (:type . checkbox))
-            ("dewpoint_20hPa"
+            ("dew_point_20hPa"
              (:name . "20 hPa (23 km)")
              (:type . checkbox))
-            ("dewpoint_10hPa"
+            ("dew_point_10hPa"
              (:name . "10 hPa (26 km)")
              (:type . checkbox))))
           ((:name . "Relative Humidity")
            (:fields
-            ("relativehumidity_1000hPa"
+            ("relative_humidity_1000hPa"
              (:name . "1000 hPa (110 m)")
              (:type . checkbox))
-            ("relativehumidity_950hPa"
+            ("relative_humidity_950hPa"
              (:name . "950 hPa (500 m)")
              (:type . checkbox))
-            ("relativehumidity_925hPa"
+            ("relative_humidity_925hPa"
              (:name . "925 hPa (800 m)")
              (:type . checkbox))
-            ("relativehumidity_900hPa"
+            ("relative_humidity_900hPa"
              (:name . "900 hPa (1000 m)")
              (:type . checkbox))
-            ("relativehumidity_850hPa"
+            ("relative_humidity_850hPa"
              (:name . "850 hPa (1500 m)")
              (:type . checkbox))
-            ("relativehumidity_800hPa"
+            ("relative_humidity_800hPa"
              (:name . "800 hPa (1900 m)")
              (:type . checkbox))
-            ("relativehumidity_750hPa"
+            ("relative_humidity_750hPa"
              (:name . "750 hPa (2.5 km)")
              (:type . checkbox))
-            ("relativehumidity_700hPa"
+            ("relative_humidity_700hPa"
              (:name . "700 hPa (3 km)")
              (:type . checkbox))
-            ("relativehumidity_650hPa"
+            ("relative_humidity_650hPa"
              (:name . "650 hPa (3.6 km)")
              (:type . checkbox))
-            ("relativehumidity_600hPa"
+            ("relative_humidity_600hPa"
              (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
-            ("relativehumidity_550hPa"
+            ("relative_humidity_550hPa"
              (:name . "550 hPa (4.9 km)")
              (:type . checkbox))
-            ("relativehumidity_500hPa"
+            ("relative_humidity_500hPa"
              (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
-            ("relativehumidity_450hPa"
+            ("relative_humidity_450hPa"
              (:name . "450 hPa (6.3 km)")
              (:type . checkbox))
-            ("relativehumidity_400hPa"
+            ("relative_humidity_400hPa"
              (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
-            ("relativehumidity_350hPa"
+            ("relative_humidity_350hPa"
              (:name . "350 hPa (8.1 km)")
              (:type . checkbox))
-            ("relativehumidity_300hPa"
+            ("relative_humidity_300hPa"
              (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
-            ("relativehumidity_275hPa"
+            ("relative_humidity_275hPa"
              (:name . "275 hPa (9.7 km)")
              (:type . checkbox))
-            ("relativehumidity_250hPa"
+            ("relative_humidity_250hPa"
              (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
-            ("relativehumidity_225hPa"
+            ("relative_humidity_225hPa"
              (:name . "225 hPa (11 km)")
              (:type . checkbox))
-            ("relativehumidity_200hPa"
+            ("relative_humidity_200hPa"
              (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
-            ("relativehumidity_175hPa"
+            ("relative_humidity_175hPa"
              (:name . "175 hPa (12.6 km)")
              (:type . checkbox))
-            ("relativehumidity_150hPa"
+            ("relative_humidity_150hPa"
              (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
-            ("relativehumidity_125hPa"
+            ("relative_humidity_125hPa"
              (:name . "125 hPa (14.6 km)")
              (:type . checkbox))
-            ("relativehumidity_100hPa"
+            ("relative_humidity_100hPa"
              (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
-            ("relativehumidity_70hPa"
+            ("relative_humidity_70hPa"
              (:name . "70 hPa (17.7 km)")
              (:type . checkbox))
-            ("relativehumidity_50hPa"
+            ("relative_humidity_50hPa"
              (:name . "50 hPa (19.3 km)")
              (:type . checkbox))
-            ("relativehumidity_30hPa"
+            ("relative_humidity_30hPa"
              (:name . "30 hPa (22 km)")
              (:type . checkbox))
-            ("relativehumidity_20hPa"
+            ("relative_humidity_20hPa"
              (:name . "20 hPa (23 km)")
              (:type . checkbox))
-            ("relativehumidity_10hPa"
+            ("relative_humidity_10hPa"
              (:name . "10 hPa (26 km)")
              (:type . checkbox))))
-          ((:name . "Cloudcover")
+          ((:name . "Cloud cover")
            (:fields
-            ("cloudcover_1000hPa"
+            ("cloud_cover_1000hPa"
              (:name . "1000 hPa (110 m)")
              (:type . checkbox))
-            ("cloudcover_950hPa"
+            ("cloud_cover_950hPa"
              (:name . "950 hPa (500 m)")
              (:type . checkbox))
-            ("cloudcover_925hPa"
+            ("cloud_cover_925hPa"
              (:name . "925 hPa (800 m)")
              (:type . checkbox))
-            ("cloudcover_900hPa"
+            ("cloud_cover_900hPa"
              (:name . "900 hPa (1000 m)")
              (:type . checkbox))
-            ("cloudcover_850hPa"
+            ("cloud_cover_850hPa"
              (:name . "850 hPa (1500 m)")
              (:type . checkbox))
-            ("cloudcover_800hPa"
+            ("cloud_cover_800hPa"
              (:name . "800 hPa (1900 m)")
              (:type . checkbox))
-            ("cloudcover_750hPa"
+            ("cloud_cover_750hPa"
              (:name . "750 hPa (2.5 km)")
              (:type . checkbox))
-            ("cloudcover_700hPa"
+            ("cloud_cover_700hPa"
              (:name . "700 hPa (3 km)")
              (:type . checkbox))
-            ("cloudcover_650hPa"
+            ("cloud_cover_650hPa"
              (:name . "650 hPa (3.6 km)")
              (:type . checkbox))
-            ("cloudcover_600hPa"
+            ("cloud_cover_600hPa"
              (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
-            ("cloudcover_550hPa"
+            ("cloud_cover_550hPa"
              (:name . "550 hPa (4.9 km)")
              (:type . checkbox))
-            ("cloudcover_500hPa"
+            ("cloud_cover_500hPa"
              (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
-            ("cloudcover_450hPa"
+            ("cloud_cover_450hPa"
              (:name . "450 hPa (6.3 km)")
              (:type . checkbox))
-            ("cloudcover_400hPa"
+            ("cloud_cover_400hPa"
              (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
-            ("cloudcover_350hPa"
+            ("cloud_cover_350hPa"
              (:name . "350 hPa (8.1 km)")
              (:type . checkbox))
-            ("cloudcover_300hPa"
+            ("cloud_cover_300hPa"
              (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
-            ("cloudcover_275hPa"
+            ("cloud_cover_275hPa"
              (:name . "275 hPa (9.7 km)")
              (:type . checkbox))
-            ("cloudcover_250hPa"
+            ("cloud_cover_250hPa"
              (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
-            ("cloudcover_225hPa"
+            ("cloud_cover_225hPa"
              (:name . "225 hPa (11 km)")
              (:type . checkbox))
-            ("cloudcover_200hPa"
+            ("cloud_cover_200hPa"
              (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
-            ("cloudcover_175hPa"
+            ("cloud_cover_175hPa"
              (:name . "175 hPa (12.6 km)")
              (:type . checkbox))
-            ("cloudcover_150hPa"
+            ("cloud_cover_150hPa"
              (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
-            ("cloudcover_125hPa"
+            ("cloud_cover_125hPa"
              (:name . "125 hPa (14.6 km)")
              (:type . checkbox))
-            ("cloudcover_100hPa"
+            ("cloud_cover_100hPa"
              (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
-            ("cloudcover_70hPa"
+            ("cloud_cover_70hPa"
              (:name . "70 hPa (17.7 km)")
              (:type . checkbox))
-            ("cloudcover_50hPa"
+            ("cloud_cover_50hPa"
              (:name . "50 hPa (19.3 km)")
              (:type . checkbox))
-            ("cloudcover_30hPa"
+            ("cloud_cover_30hPa"
              (:name . "30 hPa (22 km)")
              (:type . checkbox))
-            ("cloudcover_20hPa"
+            ("cloud_cover_20hPa"
              (:name . "20 hPa (23 km)")
              (:type . checkbox))
-            ("cloudcover_10hPa"
+            ("cloud_cover_10hPa"
              (:name . "10 hPa (26 km)")
              (:type . checkbox))))
           ((:name . "Wind Speed")
@@ -3129,10 +4129,10 @@
         ("temperature_2m"
          (:name . "Temperature (2 m)")
          (:type . checkbox))
-        ("relativehumidity_2m"
+        ("relative_humidity_2m"
          (:name . "Relative Humidity (2 m)")
          (:type . checkbox))
-        ("dewpoint_2m"
+        ("dew_point_2m"
          (:name . "Dewpoint (2 m)")
          (:type . checkbox))
         ("apparent_temperature"
@@ -3147,8 +4147,8 @@
         ("snowfall"
          (:name . "Snowfall")
          (:type . checkbox))
-        ("weathercode"
-         (:name . "Weathercode")
+        ("weather_code"
+         (:name . "Weather code")
          (:type . checkbox))
         ("pressure_msl"
          (:name . "Sealevel Pressure")
@@ -3156,61 +4156,61 @@
         ("surface_pressure"
          (:name . "Surface Pressure")
          (:type . checkbox))
-        ("cloudcover"
-         (:name . "Cloudcover Total")
+        ("cloud_cover"
+         (:name . "Cloud cover Total")
          (:type . checkbox))
-        ("cloudcover_low"
-         (:name . "Cloudcover Low")
+        ("cloud_cover_low"
+         (:name . "Cloud cover Low")
          (:type . checkbox))
-        ("cloudcover_mid"
-         (:name . "Cloudcover Mid")
+        ("cloud_cover_mid"
+         (:name . "Cloud cover Mid")
          (:type . checkbox))
-        ("cloudcover_high"
-         (:name . "Cloudcover High")
+        ("cloud_cover_high"
+         (:name . "Cloud cover High")
          (:type . checkbox))
         ("et0_fao_evapotranspiration"
          (:name . "Reference Evapotranspiration (ET₀)")
          (:type . checkbox))
-        ("vapor_pressure_deficit"
-         (:name . "Vapor Pressure Deficit")
+        ("vapour_pressure_deficit"
+         (:name . "Vapour Pressure Deficit")
          (:type . checkbox))
-        ("windspeed_10m"
+        ("wind_speed_10m"
          (:name . "Wind Speed (10 m)")
          (:type . checkbox))
-        ("windspeed_20m"
+        ("wind_speed_20m"
          (:name . "Wind Speed (20 m)")
          (:type . checkbox))
-        ("windspeed_50m"
+        ("wind_speed_50m"
          (:name . "Wind Speed (50 m)")
          (:type . checkbox))
-        ("windspeed_100m"
+        ("wind_speed_100m"
          (:name . "Wind Speed (100 m)")
          (:type . checkbox))
-        ("windspeed_150m"
+        ("wind_speed_150m"
          (:name . "Wind Speed (150 m)")
          (:type . checkbox))
-        ("windspeed_200m"
+        ("wind_speed_200m"
          (:name . "Wind Speed (200 m)")
          (:type . checkbox))
-        ("winddirection_10m"
+        ("wind_direction_10m"
          (:name . "Wind Direction (10 m)")
          (:type . checkbox))
-        ("winddirection_20m"
+        ("wind_direction_20m"
          (:name . "Wind Direction (20 m)")
          (:type . checkbox))
-        ("winddirection_50m"
+        ("wind_direction_50m"
          (:name . "Wind Direction (50 m)")
          (:type . checkbox))
-        ("winddirection_100m"
+        ("wind_direction_100m"
          (:name . "Wind Direction (100 m)")
          (:type . checkbox))
-        ("winddirection_150m"
+        ("wind_direction_150m"
          (:name . "Wind Direction (150 m)")
          (:type . checkbox))
-        ("winddirection_200m"
+        ("wind_direction_200m"
          (:name . "Wind Direction (200 m)")
          (:type . checkbox))
-        ("windgusts_10m"
+        ("wind_gusts_10m"
          (:name . "Wind Gusts (10 m)")
          (:type . checkbox))
         ("temperature_20m"
@@ -3220,8 +4220,8 @@
          (:name . "Temperature (50 m)")
          (:type . checkbox))
         ("temperature_100m"
-         (:type . checkbox)
-         (:name . "Temperature (100 m)"))
+         (:name . "Temperature (100 m)")
+         (:type . checkbox))
         ("temperature_150m"
          (:name . "Temperature (150 m)")
          (:type . checkbox))
@@ -3231,8 +4231,8 @@
       ((:param . "daily")
        (:name . "Daily Weather Variables")
        (:fields
-        ("weathercode"
-         (:name . "Weathercode")
+        ("weather_code"
+         (:name . "Weather code")
          (:type . checkbox))
         ("temperature_2m_max"
          (:name . "Maximum Temperature (2 m)")
@@ -3251,6 +4251,12 @@
          (:type . checkbox))
         ("sunset"
          (:name . "Sunset")
+         (:type . checkbox))
+        ("daylight_duration"
+         (:name . "Daylight Duration")
+         (:type . checkbox))
+        ("sunshine_duration"
+         (:name . "Sunshine Duration")
          (:type . checkbox))
         ("uv_index_max"
          (:name . "UV Index")
@@ -3276,13 +4282,13 @@
         ("precipitation_probability_max"
          (:name . "Precipitation Probability Max")
          (:type . checkbox))
-        ("windspeed_10m_max"
+        ("wind_speed_10m_max"
          (:name . "Maximum Wind Speed (10 m)")
          (:type . checkbox))
-        ("windgusts_10m_max"
+        ("wind_gusts_10m_max"
          (:name . "Maximum Wind Gusts (10 m)")
          (:type . checkbox))
-        ("winddirection_10m_dominant"
+        ("wind_direction_10m_dominant"
          (:name . "Dominant Wind Direction (10 m)")
          (:type . checkbox))
         ("shortwave_radiation_sum"
@@ -3290,6 +4296,124 @@
          (:type . checkbox))
         ("et0_fao_evapotranspiration"
          (:name . "Reference Evapotranspiration (ET₀)")
+         (:type . checkbox))))
+      ((:param . "minutely_15")
+       (:name . "15-Minutely Weather Variables")
+       (:fields
+        ("temperature_2m"
+         (:name . "Temperature (2 m)")
+         (:type . checkbox))
+        ("relative_humidity_2m"
+         (:name . "Relative Humidity (2 m)")
+         (:type . checkbox))
+        ("dew_point_2m"
+         (:name . "Dewpoint (2 m)")
+         (:type . checkbox))
+        ("apparent_temperature"
+         (:name . "Apparent Temperature")
+         (:type . checkbox))
+        ("precipitation"
+         (:name . "Precipitation (rain + showers + snow)")
+         (:type . checkbox))
+        ("rain"
+         (:name . "Rain")
+         (:type . checkbox))
+        ("snowfall"
+         (:name . "Snowfall")
+         (:type . checkbox))
+        ("wind_speed_10m"
+         (:name . "Wind Speed (10 m)")
+         (:type . checkbox))
+        ("wind_speed_20m"
+         (:name . "Wind Speed (20 m)")
+         (:type . checkbox))
+        ("wind_speed_50m"
+         (:name . "Wind Speed (50 m)")
+         (:type . checkbox))
+        ("wind_speed_100m"
+         (:name . "Wind Speed (100 m)")
+         (:type . checkbox))
+        ("wind_direction_10m"
+         (:name . "Wind Direction (10 m)")
+         (:type . checkbox))
+        ("wind_direction_20m"
+         (:name . "Wind Direction (20 m)")
+         (:type . checkbox))
+        ("wind_direction_50m"
+         (:name . "Wind Direction (50 m)")
+         (:type . checkbox))
+        ("wind_direction_100m"
+         (:name . "Wind Direction (100 m)")
+         (:type . checkbox))
+        ("cape"
+         (:name . "CAPE")
+         (:type . checkbox))
+        ("is_day"
+         (:name . "Is Day or Night")
+         (:type . checkbox))
+        ("forecast_minutely_15"
+         (:name . "Forecast Minutely 15")
+         (:type . select)
+         (:options
+          ("4" . "1 hour")
+          ("24" . "6 hours")
+          ("48" . "12 hours")
+          ("96" . "24 hours")))
+        ("past_minutely_15"
+         (:name . "Past Minutely 15")
+         (:type . select)
+         (:options
+          ("1" . "1 hour")
+          ("6" . "6 hours")
+          ("12" . "12 hours")
+          ("24" . "24 hours")))))
+      ((:param . "current")
+       (:name . "Current Weather")
+       (:fields
+        ("temperature_2m"
+         (:name . "Temperature (2 m)")
+         (:type . checkbox))
+        ("relative_humidity_2m"
+         (:name . "Relative Humidity (2 m)")
+         (:type . checkbox))
+        ("apparent_temperature"
+         (:name . "Apparent Temperature")
+         (:type . checkbox))
+        ("is_day"
+         (:name . "Is Day or Night")
+         (:type . checkbox))
+        ("precipitation"
+         (:name . "Precipitation")
+         (:type . checkbox))
+        ("rain"
+         (:name . "Rain")
+         (:type . checkbox))
+        ("showers"
+         (:name . "Showers")
+         (:type . checkbox))
+        ("snowfall"
+         (:name . "Snowfall")
+         (:type . checkbox))
+        ("weather_code"
+         (:name . "Weather code")
+         (:type . checkbox))
+        ("cloud_cover"
+         (:name . "Cloud cover Total")
+         (:type . checkbox))
+        ("pressure_msl"
+         (:name . "Sealevel Pressure")
+         (:type . checkbox))
+        ("surface_pressure"
+         (:name . "Surface Pressure")
+         (:type . checkbox))
+        ("wind_speed_10m"
+         (:name . "Wind Speed (10 m)")
+         (:type . checkbox))
+        ("wind_direction_10m"
+         (:name . "Wind Direction (10 m)")
+         (:type . checkbox))
+        ("wind_gusts_10m"
+         (:name . "Wind Gusts (10 m)")
          (:type . checkbox))))
       ((:name . "Settings")
        (:fields
@@ -3302,7 +4426,7 @@
          (:options
           ("celsius" . "Celsius °C")
           ("fahrenheit" . "Fahrenheit °F")))
-        ("windspeed_unit"
+        ("wind_speed_unit"
          (:name . "Wind Speed Unit")
          (:type . select)
          (:options
@@ -3321,21 +4445,7 @@
          (:type . select)
          (:options
           ("iso8601" . "ISO 8601 (e.g. 2022-12-31)")
-          ("unixtime" . "Unix timestamp")))
-        ("timezone"
-         (:name . "Timezone")
-         (:type . timezone))
-        ("past_days"
-         (:name . "Past days")
-         (:type . number)
-         (:min . 0)
-         (:max . 92))
-        ("start_date"
-         (:name . "Start date")
-         (:type . date))
-        ("end_date"
-         (:name . "End date")
-         (:type . date))))
+          ("unixtime" . "Unix timestamp")))))
       ((:param . "models")
        (:name . "Weather models")
        (:fields
@@ -3343,22 +4453,22 @@
          (:name . "Best match")
          (:type . checkbox))
         ("arpege_seamless"
-         (:name . "Arpege Seamless")
+         (:name . "ARPEGE Seamless")
          (:type . checkbox))
         ("arpege_world"
-         (:name . "Arpege World")
+         (:name . "ARPEGE World")
          (:type . checkbox))
         ("arpege_europe"
-         (:name . "Arpege Europe")
+         (:name . "ARPEGE Europe")
          (:type . checkbox))
         ("arome_seamless"
-         (:name . "Arome Seamless")
+         (:name . "AROME Seamless")
          (:type . checkbox))
         ("arome_france"
-         (:name . "Arome France")
+         (:name . "AROME France")
          (:type . checkbox))
         ("arome_france_hd"
-         (:name . "Arome France HD")
+         (:name . "AROME France HD")
          (:type . checkbox))))))
     ("ECMWF"
      (:name . "ECMWF")
@@ -3366,16 +4476,35 @@
      (:description . "Open-data forecasts by ECMWF")
      (:key . "we")
      (:sections
-      ((:name . "Select Coordinates or City")
+      ((:name . "Select Coordinates and Time")
        (:fields
+        ("end_date"
+         (:name . "End date")
+         (:type . date))
+        ("start_date"
+         (:name . "Start date")
+         (:type . date))
+        ("forecast_days"
+         (:name . "Forecast days")
+         (:type . number)
+         (:min . 0)
+         (:max . 16))
+        ("past_days"
+         (:name . "Past days")
+         (:type . number)
+         (:min . 0)
+         (:max . 92))
         ("latitude"
          (:name . "Latitude")
          (:type . float))
         ("longitude"
          (:name . "Longitude")
-         (:type . float))))
+         (:type . float))
+        ("timezone"
+         (:name . "Timezone")
+         (:type . timezone))))
       ((:param . "hourly")
-       (:name . "3-Hourly Weather Variables")
+       (:name . "Hourly Weather Variables")
        (:children
         ((:name . "Pressure Level Variables")
          (:children
@@ -3393,8 +4522,14 @@
             ("temperature_700hPa"
              (:name . "700 hPa (3 km)")
              (:type . checkbox))
+            ("temperature_600hPa"
+             (:name . "600 hPa (4.2 km)")
+             (:type . checkbox))
             ("temperature_500hPa"
              (:name . "500 hPa (5.6 km)")
+             (:type . checkbox))
+            ("temperature_400hPa"
+             (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
             ("temperature_300hPa"
              (:name . "300 hPa (9.2 km)")
@@ -3404,6 +4539,12 @@
              (:type . checkbox))
             ("temperature_200hPa"
              (:name . "200 hPa (11.8 km)")
+             (:type . checkbox))
+            ("temperature_150hPa"
+             (:name . "150 hPa (13.5 km)")
+             (:type . checkbox))
+            ("temperature_100hPa"
+             (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
             ("temperature_50hPa"
              (:name . "50 hPa (19.3 km)")
@@ -3422,8 +4563,14 @@
             ("relative_humidity_700hPa"
              (:name . "700 hPa (3 km)")
              (:type . checkbox))
+            ("relative_humidity_600hPa"
+             (:name . "600 hPa (4.2 km)")
+             (:type . checkbox))
             ("relative_humidity_500hPa"
              (:name . "500 hPa (5.6 km)")
+             (:type . checkbox))
+            ("relative_humidity_400hPa"
+             (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
             ("relative_humidity_300hPa"
              (:name . "300 hPa (9.2 km)")
@@ -3434,65 +4581,54 @@
             ("relative_humidity_200hPa"
              (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
+            ("relative_humidity_150hPa"
+             (:name . "150 hPa (13.5 km)")
+             (:type . checkbox))
+            ("relative_humidity_100hPa"
+             (:name . "100 hPa (15.8 km)")
+             (:type . checkbox))
             ("relative_humidity_50hPa"
              (:name . "50 hPa (19.3 km)")
              (:type . checkbox))))
-          ((:name . "Specific Humidity")
+          ((:name . "Cloud cover")
            (:fields
-            ("specific_humidity_1000hPa"
+            ("cloud_cover_1000hPa"
              (:name . "1000 hPa (110 m)")
              (:type . checkbox))
-            ("specific_humidity_925hPa"
+            ("cloud_cover_925hPa"
              (:name . "925 hPa (800 m)")
              (:type . checkbox))
-            ("specific_humidity_850hPa"
+            ("cloud_cover_850hPa"
              (:name . "850 hPa (1500 m)")
              (:type . checkbox))
-            ("specific_humidity_700hPa"
+            ("cloud_cover_700hPa"
              (:name . "700 hPa (3 km)")
              (:type . checkbox))
-            ("specific_humidity_500hPa"
+            ("cloud_cover_600hPa"
+             (:name . "600 hPa (4.2 km)")
+             (:type . checkbox))
+            ("cloud_cover_500hPa"
              (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
-            ("specific_humidity_300hPa"
+            ("cloud_cover_400hPa"
+             (:name . "400 hPa (7.2 km)")
+             (:type . checkbox))
+            ("cloud_cover_300hPa"
              (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
-            ("specific_humidity_250hPa"
+            ("cloud_cover_250hPa"
              (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
-            ("specific_humidity_200hPa"
+            ("cloud_cover_200hPa"
              (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
-            ("specific_humidity_50hPa"
-             (:name . "50 hPa (19.3 km)")
-             (:type . checkbox))))
-          ((:name . "Cloudcover")
-           (:fields
-            ("cloudcover_1000hPa"
-             (:name . "1000 hPa (110 m)")
+            ("cloud_cover_150hPa"
+             (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
-            ("cloudcover_925hPa"
-             (:name . "925 hPa (800 m)")
+            ("cloud_cover_100hPa"
+             (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
-            ("cloudcover_850hPa"
-             (:name . "850 hPa (1500 m)")
-             (:type . checkbox))
-            ("cloudcover_700hPa"
-             (:name . "700 hPa (3 km)")
-             (:type . checkbox))
-            ("cloudcover_500hPa"
-             (:name . "500 hPa (5.6 km)")
-             (:type . checkbox))
-            ("cloudcover_300hPa"
-             (:name . "300 hPa (9.2 km)")
-             (:type . checkbox))
-            ("cloudcover_250hPa"
-             (:name . "250 hPa (10.4 km)")
-             (:type . checkbox))
-            ("cloudcover_200hPa"
-             (:name . "200 hPa (11.8 km)")
-             (:type . checkbox))
-            ("cloudcover_50hPa"
+            ("cloud_cover_50hPa"
              (:name . "50 hPa (19.3 km)")
              (:type . checkbox))))
           ((:name . "Wind Speed")
@@ -3509,8 +4645,14 @@
             ("windspeed_700hPa"
              (:name . "700 hPa (3 km)")
              (:type . checkbox))
+            ("windspeed_600hPa"
+             (:name . "600 hPa (4.2 km)")
+             (:type . checkbox))
             ("windspeed_500hPa"
              (:name . "500 hPa (5.6 km)")
+             (:type . checkbox))
+            ("windspeed_400hPa"
+             (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
             ("windspeed_300hPa"
              (:name . "300 hPa (9.2 km)")
@@ -3520,6 +4662,12 @@
              (:type . checkbox))
             ("windspeed_200hPa"
              (:name . "200 hPa (11.8 km)")
+             (:type . checkbox))
+            ("windspeed_150hPa"
+             (:name . "150 hPa (13.5 km)")
+             (:type . checkbox))
+            ("windspeed_100hPa"
+             (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
             ("windspeed_50hPa"
              (:name . "50 hPa (19.3 km)")
@@ -3538,8 +4686,14 @@
             ("winddirection_700hPa"
              (:name . "700 hPa (3 km)")
              (:type . checkbox))
+            ("winddirection_600hPa"
+             (:name . "600 hPa (4.2 km)")
+             (:type . checkbox))
             ("winddirection_500hPa"
              (:name . "500 hPa (5.6 km)")
+             (:type . checkbox))
+            ("winddirection_400hPa"
+             (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
             ("winddirection_300hPa"
              (:name . "300 hPa (9.2 km)")
@@ -3549,6 +4703,12 @@
              (:type . checkbox))
             ("winddirection_200hPa"
              (:name . "200 hPa (11.8 km)")
+             (:type . checkbox))
+            ("winddirection_150hPa"
+             (:name . "150 hPa (13.5 km)")
+             (:type . checkbox))
+            ("winddirection_100hPa"
+             (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
             ("winddirection_50hPa"
              (:name . "50 hPa (19.3 km)")
@@ -3567,8 +4727,14 @@
             ("geopotential_height_700hPa"
              (:name . "700 hPa (3 km)")
              (:type . checkbox))
+            ("geopotential_height_600hPa"
+             (:name . "600 hPa (4.2 km)")
+             (:type . checkbox))
             ("geopotential_height_500hPa"
              (:name . "500 hPa (5.6 km)")
+             (:type . checkbox))
+            ("geopotential_height_400hPa"
+             (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
             ("geopotential_height_300hPa"
              (:name . "300 hPa (9.2 km)")
@@ -3579,75 +4745,67 @@
             ("geopotential_height_200hPa"
              (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
+            ("geopotential_height_150hPa"
+             (:name . "150 hPa (13.5 km)")
+             (:type . checkbox))
+            ("geopotential_height_100hPa"
+             (:name . "100 hPa (15.8 km)")
+             (:type . checkbox))
             ("geopotential_height_50hPa"
              (:name . "50 hPa (19.3 km)")
-             (:type . checkbox))))
-          ((:name . "Relative Vorticity")
-           (:fields
-            ("atmosphere_relative_vorticity_1000hPa"
-             (:name . "1000 hPa (110 m)")
-             (:type . checkbox))
-            ("atmosphere_relative_vorticity_925hPa"
-             (:name . "925 hPa (800 m)")
-             (:type . checkbox))
-            ("atmosphere_relative_vorticity_850hPa"
-             (:name . "850 hPa (1500 m)")
-             (:type . checkbox))
-            ("atmosphere_relative_vorticity_700hPa"
-             (:name . "700 hPa (3 km)")
-             (:type . checkbox))
-            ("atmosphere_relative_vorticity_500hPa"
-             (:name . "500 hPa (5.6 km)")
-             (:type . checkbox))
-            ("atmosphere_relative_vorticity_300hPa"
-             (:name . "300 hPa (9.2 km)")
-             (:type . checkbox))
-            ("atmosphere_relative_vorticity_250hPa"
-             (:name . "250 hPa (10.4 km)")
-             (:type . checkbox))
-            ("atmosphere_relative_vorticity_200hPa"
-             (:name . "200 hPa (11.8 km)")
-             (:type . checkbox))
-            ("atmosphere_relative_vorticity_50hPa"
-             (:name . "50 hPa (19.3 km)")
-             (:type . checkbox))))
-          ((:name . "Divergence of Wind")
-           (:fields
-            ("divergence_of_wind_1000hPa"
-             (:name . "1000 hPa (110 m)")
-             (:type . checkbox))
-            ("divergence_of_wind_925hPa"
-             (:name . "925 hPa (800 m)")
-             (:type . checkbox))
-            ("divergence_of_wind_850hPa"
-             (:name . "850 hPa (1500 m)")
-             (:type . checkbox))
-            ("divergence_of_wind_700hPa"
-             (:name . "700 hPa (3 km)")
-             (:type . checkbox))
-            ("divergence_of_wind_500hPa"
-             (:name . "500 hPa (5.6 km)")
-             (:type . checkbox))
-            ("divergence_of_wind_300hPa"
-             (:name . "300 hPa (9.2 km)")
-             (:type . checkbox))
-            ("divergence_of_wind_250hPa"
-             (:name . "250 hPa (10.4 km)")
-             (:type . checkbox))
-            ("divergence_of_wind_200hPa"
-             (:name . "200 hPa (11.8 km)")
-             (:type . checkbox))
-            ("divergence_of_wind_50hPa"
-             (:name . "50 hPa (19.3 km)")
-             (:type . checkbox)))))))
+             (:type . checkbox))))))
+        ((:name . "Solar Radiation Variables")
+         (:fields
+          ("shortwave_radiation"
+           (:name . "Shortwave Solar Radiation GHI")
+           (:type . checkbox))
+          ("direct_radiation"
+           (:name . "Direct Solar Radiation")
+           (:type . checkbox))
+          ("diffuse_radiation"
+           (:name . "Diffuse Solar Radiation DHI")
+           (:type . checkbox))
+          ("direct_normal_irradiance"
+           (:name . "Direct Normal Irradiance DNI")
+           (:type . checkbox))
+          ("global_tilted_irradiance"
+           (:name . "Global Tilted Radiation GTI")
+           (:type . checkbox))
+          ("terrestrial_radiation"
+           (:name . "Terrestrial Solar Radiation")
+           (:type . checkbox))
+          ("shortwave_radiation_instant"
+           (:name . "Shortwave Solar Radiation GHI (Instant)")
+           (:type . checkbox))
+          ("direct_radiation_instant"
+           (:name . "Direct Solar Radiation (Instant)")
+           (:type . checkbox))
+          ("diffuse_radiation_instant"
+           (:name . "Diffuse Solar Radiation DHI (Instant)")
+           (:type . checkbox))
+          ("direct_normal_irradiance_instant"
+           (:name . "Direct Normal Irradiance DNI (Instant)")
+           (:type . checkbox))
+          ("global_tilted_irradiance_instant"
+           (:name . "Global Tilted Radiation GTI")
+           (:type . checkbox))
+          ("terrestrial_radiation_instant"
+           (:name . "Terrestrial Solar Radiation (Instant)")
+           (:type . checkbox))
+          ("tilt"
+           (:name . "Panel Tilt (0° horizontal)")
+           (:type . number))
+          ("azimuth"
+           (:name . "Panel Azimuth (0° S, -90° E, 90° W)")
+           (:type . number)))))
        (:fields
         ("temperature_2m"
          (:name . "Temperature (2 m)")
          (:type . checkbox))
-        ("relativehumidity_2m"
+        ("relative_humidity_2m"
          (:name . "Relative Humidity (2 m)")
          (:type . checkbox))
-        ("dewpoint_2m"
+        ("dew_point_2m"
          (:name . "Dewpoint (2 m)")
          (:type . checkbox))
         ("apparent_temperature"
@@ -3662,8 +4820,8 @@
         ("snowfall"
          (:name . "Snowfall")
          (:type . checkbox))
-        ("weathercode"
-         (:name . "Weathercode")
+        ("weather_code"
+         (:name . "Weather code")
          (:type . checkbox))
         ("pressure_msl"
          (:name . "Sealevel Pressure")
@@ -3671,38 +4829,50 @@
         ("surface_pressure"
          (:name . "Surface Pressure")
          (:type . checkbox))
-        ("cloudcover"
-         (:name . "Cloudcover Total")
+        ("cloud_cover"
+         (:name . "Cloud cover Total")
          (:type . checkbox))
-        ("cloudcover_low"
-         (:name . "Cloudcover Low")
+        ("cloud_cover_low"
+         (:name . "Cloud cover Low")
          (:type . checkbox))
-        ("cloudcover_mid"
-         (:name . "Cloudcover Mid")
+        ("cloud_cover_mid"
+         (:name . "Cloud cover Mid")
          (:type . checkbox))
-        ("cloudcover_high"
-         (:name . "Cloudcover High")
+        ("cloud_cover_high"
+         (:name . "Cloud cover High")
          (:type . checkbox))
-        ("vapor_pressure_deficit"
-         (:name . "Vapor Pressure Deficit")
+        ("vapour_pressure_deficit"
+         (:name . "Vapour Pressure Deficit")
          (:type . checkbox))
-        ("windspeed_10m"
+        ("wind_speed_10m"
          (:name . "Wind Speed (10 m)")
          (:type . checkbox))
-        ("winddirection_10m"
+        ("wind_speed_100m"
+         (:name . "Wind Speed (100 m)")
+         (:type . checkbox))
+        ("wind_direction_10m"
          (:name . "Wind Direction (10 m)")
          (:type . checkbox))
-        ("windgusts_10m"
-         (:name . "Wind Gusts (10 m)")
+        ("wind_direction_100m"
+         (:name . "Wind Direction (100 m)")
          (:type . checkbox))
         ("surface_temperature"
          (:name . "Surface temperature")
          (:type . checkbox))
-        ("soil_temperature_0_to_7_cm"
+        ("soil_temperature_0_to_7cm"
          (:name . "Soil Temperature (0-7 cm)")
+         (:type . checkbox))
+        ("soil_moisture_0_to_7cm"
+         (:name . "Soil Moisture (0-7 cm)")
+         (:type . checkbox))
+        ("soil_moisture_7_to_28cm"
+         (:name . "Soil Moisture (7-28 cm)")
          (:type . checkbox))
         ("runoff"
          (:name . "Surface Water Runoff")
+         (:type . checkbox))
+        ("cape"
+         (:name . "CAPE")
          (:type . checkbox))
         ("total_column_integrated_water_vapour"
          (:name . "Total Column Integrated Water Vapour")
@@ -3718,7 +4888,7 @@
          (:options
           ("celsius" . "Celsius °C")
           ("fahrenheit" . "Fahrenheit °F")))
-        ("windspeed_unit"
+        ("wind_speed_unit"
          (:name . "Wind Speed Unit")
          (:type . select)
          (:options
@@ -3737,72 +4907,123 @@
          (:type . select)
          (:options
           ("iso8601" . "ISO 8601 (e.g. 2022-12-31)")
-          ("unixtime" . "Unix timestamp")))
+          ("unixtime" . "Unix timestamp")))))
+      ((:param . "models")
+       (:name . "Weather models")
+       (:fields
+        ("ecmwf_ifs04"
+         (:name . "ECMWF IFS 0.4°")
+         (:type . checkbox))
+        ("ecmwf_ifs025"
+         (:name . "ECMWF IFS 0.25°")
+         (:type . checkbox))
+        ("ecmwf_aifs025"
+         (:name . "ECMWF AIFS 0.25°")
+         (:type . checkbox))))))
+    ("JMA (Japan)"
+     (:name . "JMA (Japan)")
+     (:url . "https://open-meteo.com/en/docs/jma-api")
+     (:description . "Forecasts tailored for Japan")
+     (:key . "wj")
+     (:sections
+      ((:name . "Select Coordinates and Time")
+       (:fields
+        ("end_date"
+         (:name . "End date")
+         (:type . date))
+        ("start_date"
+         (:name . "Start date")
+         (:type . date))
+        ("forecast_days"
+         (:name . "Forecast days")
+         (:type . number)
+         (:min . 0)
+         (:max . 16))
         ("past_days"
          (:name . "Past days")
          (:type . number)
          (:min . 0)
          (:max . 92))
-        ("start_date"
-         (:name . "Start date")
-         (:type . date))
-        ("end_date"
-         (:name . "End date")
-         (:type . date))))))
-    ("JMA"
-     (:name . "JMA")
-     (:url . "https://open-meteo.com/en/docs/jma-api")
-     (:description . "Forecasts tailored for Japan")
-     (:key . "wj")
-     (:sections
-      ((:name . "Select Coordinates or City")
-       (:fields
         ("latitude"
          (:name . "Latitude")
          (:type . float))
         ("longitude"
          (:name . "Longitude")
-         (:type . float))))
+         (:type . float))
+        ("timezone"
+         (:name . "Timezone")
+         (:type . timezone))))
       ((:param . "hourly")
        (:name . "Hourly Weather Variables")
        (:children
-        ((:name . "Additional Variables")
+        ((:name . "Additional Variables And Options")
          (:fields
           ("is_day"
            (:name . "Is Day or Night")
-           (:type . checkbox))))
+           (:type . checkbox))
+          ("sunshine_duration"
+           (:name . "Sunshine Duration")
+           (:type . checkbox))
+          ("forecast_hours"
+           (:name . "Forecast Hours")
+           (:type . select)
+           (:options
+            ("1" . "1 hour")
+            ("6" . "6 hours")
+            ("12" . "12 hours")
+            ("24" . "24 hours")))
+          ("past_hours"
+           (:name . "Past Hours")
+           (:type . select)
+           (:options
+            ("1" . "1 hour")
+            ("6" . "6 hours")
+            ("12" . "12 hours")
+            ("24" . "24 hours")))))
         ((:name . "Solar Radiation Variables (Only available for Japan)")
          (:fields
           ("shortwave_radiation"
-           (:name . "Shortwave Solar Radiation")
+           (:name . "Shortwave Solar Radiation GHI")
            (:type . checkbox))
           ("direct_radiation"
            (:name . "Direct Solar Radiation")
            (:type . checkbox))
           ("diffuse_radiation"
-           (:name . "Diffuse Solar Radiation")
+           (:name . "Diffuse Solar Radiation DHI")
            (:type . checkbox))
           ("direct_normal_irradiance"
            (:name . "Direct Normal Irradiance DNI")
+           (:type . checkbox))
+          ("global_tilted_irradiance"
+           (:name . "Global Tilted Radiation GTI")
            (:type . checkbox))
           ("terrestrial_radiation"
            (:name . "Terrestrial Solar Radiation")
            (:type . checkbox))
           ("shortwave_radiation_instant"
-           (:name . "Shortwave Solar Radiation (Instant)")
+           (:name . "Shortwave Solar Radiation GHI (Instant)")
            (:type . checkbox))
           ("direct_radiation_instant"
            (:name . "Direct Solar Radiation (Instant)")
            (:type . checkbox))
           ("diffuse_radiation_instant"
-           (:name . "Diffuse Solar Radiation (Instant)")
+           (:name . "Diffuse Solar Radiation DHI (Instant)")
            (:type . checkbox))
           ("direct_normal_irradiance_instant"
            (:name . "Direct Normal Irradiance DNI (Instant)")
            (:type . checkbox))
+          ("global_tilted_irradiance_instant"
+           (:name . "Global Tilted Radiation GTI")
+           (:type . checkbox))
           ("terrestrial_radiation_instant"
            (:name . "Terrestrial Solar Radiation (Instant)")
-           (:type . checkbox))))
+           (:type . checkbox))
+          ("tilt"
+           (:name . "Panel Tilt (0° horizontal)")
+           (:type . number))
+          ("azimuth"
+           (:name . "Panel Azimuth (0° S, -90° E, 90° W)")
+           (:type . number))))
         ((:name . "Pressure Level Variables")
          (:children
           ((:name . "Temperature")
@@ -3842,107 +5063,107 @@
              (:type . checkbox))))
           ((:name . "Dewpoint")
            (:fields
-            ("dewpoint_1000hPa"
+            ("dew_point_1000hPa"
              (:name . "1000 hPa (110 m)")
              (:type . checkbox))
-            ("dewpoint_925hPa"
+            ("dew_point_925hPa"
              (:name . "925 hPa (800 m)")
              (:type . checkbox))
-            ("dewpoint_850hPa"
+            ("dew_point_850hPa"
              (:name . "850 hPa (1500 m)")
              (:type . checkbox))
-            ("dewpoint_700hPa"
+            ("dew_point_700hPa"
              (:name . "700 hPa (3 km)")
              (:type . checkbox))
-            ("dewpoint_500hPa"
+            ("dew_point_500hPa"
              (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
-            ("dewpoint_400hPa"
+            ("dew_point_400hPa"
              (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
-            ("dewpoint_300hPa"
+            ("dew_point_300hPa"
              (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
-            ("dewpoint_250hPa"
+            ("dew_point_250hPa"
              (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
-            ("dewpoint_200hPa"
+            ("dew_point_200hPa"
              (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
-            ("dewpoint_150hPa"
+            ("dew_point_150hPa"
              (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
-            ("dewpoint_100hPa"
+            ("dew_point_100hPa"
              (:name . "100 hPa (15.8 km)")
              (:type . checkbox))))
           ((:name . "Relative Humidity")
            (:fields
-            ("relativehumidity_1000hPa"
+            ("relative_humidity_1000hPa"
              (:name . "1000 hPa (110 m)")
              (:type . checkbox))
-            ("relativehumidity_925hPa"
+            ("relative_humidity_925hPa"
              (:name . "925 hPa (800 m)")
              (:type . checkbox))
-            ("relativehumidity_850hPa"
+            ("relative_humidity_850hPa"
              (:name . "850 hPa (1500 m)")
              (:type . checkbox))
-            ("relativehumidity_700hPa"
+            ("relative_humidity_700hPa"
              (:name . "700 hPa (3 km)")
              (:type . checkbox))
-            ("relativehumidity_500hPa"
+            ("relative_humidity_500hPa"
              (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
-            ("relativehumidity_400hPa"
+            ("relative_humidity_400hPa"
              (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
-            ("relativehumidity_300hPa"
+            ("relative_humidity_300hPa"
              (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
-            ("relativehumidity_250hPa"
+            ("relative_humidity_250hPa"
              (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
-            ("relativehumidity_200hPa"
+            ("relative_humidity_200hPa"
              (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
-            ("relativehumidity_150hPa"
+            ("relative_humidity_150hPa"
              (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
-            ("relativehumidity_100hPa"
+            ("relative_humidity_100hPa"
              (:name . "100 hPa (15.8 km)")
              (:type . checkbox))))
-          ((:name . "Cloudcover")
+          ((:name . "Cloud cover")
            (:fields
-            ("cloudcover_1000hPa"
+            ("cloud_cover_1000hPa"
              (:name . "1000 hPa (110 m)")
              (:type . checkbox))
-            ("cloudcover_925hPa"
+            ("cloud_cover_925hPa"
              (:name . "925 hPa (800 m)")
              (:type . checkbox))
-            ("cloudcover_850hPa"
+            ("cloud_cover_850hPa"
              (:name . "850 hPa (1500 m)")
              (:type . checkbox))
-            ("cloudcover_700hPa"
+            ("cloud_cover_700hPa"
              (:name . "700 hPa (3 km)")
              (:type . checkbox))
-            ("cloudcover_500hPa"
+            ("cloud_cover_500hPa"
              (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
-            ("cloudcover_400hPa"
+            ("cloud_cover_400hPa"
              (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
-            ("cloudcover_300hPa"
+            ("cloud_cover_300hPa"
              (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
-            ("cloudcover_250hPa"
+            ("cloud_cover_250hPa"
              (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
-            ("cloudcover_200hPa"
+            ("cloud_cover_200hPa"
              (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
-            ("cloudcover_150hPa"
+            ("cloud_cover_150hPa"
              (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
-            ("cloudcover_100hPa"
+            ("cloud_cover_100hPa"
              (:name . "100 hPa (15.8 km)")
              (:type . checkbox))))
           ((:name . "Wind Speed")
@@ -4054,10 +5275,10 @@
         ("temperature_2m"
          (:name . "Temperature (2 m)")
          (:type . checkbox))
-        ("relativehumidity_2m"
+        ("relative_humidity_2m"
          (:name . "Relative Humidity (2 m)")
          (:type . checkbox))
-        ("dewpoint_2m"
+        ("dew_point_2m"
          (:name . "Dewpoint (2 m)")
          (:type . checkbox))
         ("apparent_temperature"
@@ -4072,8 +5293,8 @@
         ("snowfall"
          (:name . "Snowfall")
          (:type . checkbox))
-        ("weathercode"
-         (:name . "Weathercode")
+        ("weather_code"
+         (:name . "Weather code")
          (:type . checkbox))
         ("pressure_msl"
          (:name . "Sealevel Pressure")
@@ -4081,35 +5302,35 @@
         ("surface_pressure"
          (:name . "Surface Pressure")
          (:type . checkbox))
-        ("cloudcover"
-         (:name . "Cloudcover Total")
+        ("cloud_cover"
+         (:name . "Cloud cover Total")
          (:type . checkbox))
-        ("cloudcover_low"
-         (:name . "Cloudcover Low")
+        ("cloud_cover_low"
+         (:name . "Cloud cover Low")
          (:type . checkbox))
-        ("cloudcover_mid"
-         (:name . "Cloudcover Mid")
+        ("cloud_cover_mid"
+         (:name . "Cloud cover Mid")
          (:type . checkbox))
-        ("cloudcover_high"
-         (:name . "Cloudcover High")
+        ("cloud_cover_high"
+         (:name . "Cloud cover High")
          (:type . checkbox))
         ("et0_fao_evapotranspiration"
          (:name . "Reference Evapotranspiration (ET₀)")
          (:type . checkbox))
-        ("vapor_pressure_deficit"
-         (:name . "Vapor Pressure Deficit")
+        ("vapour_pressure_deficit"
+         (:name . "Vapour Pressure Deficit")
          (:type . checkbox))
-        ("windspeed_10m"
+        ("wind_speed_10m"
          (:name . "Wind Speed (10 m)")
          (:type . checkbox))
-        ("winddirection_10m"
+        ("wind_direction_10m"
          (:name . "Wind Direction (10 m)")
          (:type . checkbox))))
       ((:param . "daily")
        (:name . "Daily Weather Variables")
        (:fields
-        ("weathercode"
-         (:name . "Weathercode")
+        ("weather_code"
+         (:name . "Weather code")
          (:type . checkbox))
         ("temperature_2m_max"
          (:name . "Maximum Temperature (2 m)")
@@ -4129,6 +5350,12 @@
         ("sunset"
          (:name . "Sunset")
          (:type . checkbox))
+        ("daylight_duration"
+         (:name . "Daylight Duration")
+         (:type . checkbox))
+        ("sunshine_duration"
+         (:name . "Sunshine Duration")
+         (:type . checkbox))
         ("precipitation_sum"
          (:name . "Precipitation Sum")
          (:type . checkbox))
@@ -4141,13 +5368,13 @@
         ("precipitation_hours"
          (:name . "Precipitation Hours")
          (:type . checkbox))
-        ("windspeed_10m_max"
+        ("wind_speed_10m_max"
          (:name . "Maximum Wind Speed (10 m)")
          (:type . checkbox))
-        ("windgusts_10m_max"
+        ("wind_gusts_10m_max"
          (:name . "Maximum Wind Gusts (10 m)")
          (:type . checkbox))
-        ("winddirection_10m_dominant"
+        ("wind_direction_10m_dominant"
          (:name . "Dominant Wind Direction (10 m)")
          (:type . checkbox))
         ("shortwave_radiation_sum"
@@ -4155,6 +5382,54 @@
          (:type . checkbox))
         ("et0_fao_evapotranspiration"
          (:name . "Reference Evapotranspiration (ET₀)")
+         (:type . checkbox))))
+      ((:param . "current")
+       (:name . "Current Weather")
+       (:fields
+        ("temperature_2m"
+         (:name . "Temperature (2 m)")
+         (:type . checkbox))
+        ("relative_humidity_2m"
+         (:name . "Relative Humidity (2 m)")
+         (:type . checkbox))
+        ("apparent_temperature"
+         (:name . "Apparent Temperature")
+         (:type . checkbox))
+        ("is_day"
+         (:name . "Is Day or Night")
+         (:type . checkbox))
+        ("precipitation"
+         (:name . "Precipitation")
+         (:type . checkbox))
+        ("rain"
+         (:name . "Rain")
+         (:type . checkbox))
+        ("showers"
+         (:name . "Showers")
+         (:type . checkbox))
+        ("snowfall"
+         (:name . "Snowfall")
+         (:type . checkbox))
+        ("weather_code"
+         (:name . "Weather code")
+         (:type . checkbox))
+        ("cloud_cover"
+         (:name . "Cloud cover Total")
+         (:type . checkbox))
+        ("pressure_msl"
+         (:name . "Sealevel Pressure")
+         (:type . checkbox))
+        ("surface_pressure"
+         (:name . "Surface Pressure")
+         (:type . checkbox))
+        ("wind_speed_10m"
+         (:name . "Wind Speed (10 m)")
+         (:type . checkbox))
+        ("wind_direction_10m"
+         (:name . "Wind Direction (10 m)")
+         (:type . checkbox))
+        ("wind_gusts_10m"
+         (:name . "Wind Gusts (10 m)")
          (:type . checkbox))))
       ((:name . "Settings")
        (:fields
@@ -4167,7 +5442,7 @@
          (:options
           ("celsius" . "Celsius °C")
           ("fahrenheit" . "Fahrenheit °F")))
-        ("windspeed_unit"
+        ("wind_speed_unit"
          (:name . "Wind Speed Unit")
          (:type . select)
          (:options
@@ -4186,83 +5461,119 @@
          (:type . select)
          (:options
           ("iso8601" . "ISO 8601 (e.g. 2022-12-31)")
-          ("unixtime" . "Unix timestamp")))
-        ("timezone"
-         (:name . "Timezone")
-         (:type . timezone))
+          ("unixtime" . "Unix timestamp")))))))
+    ("MET (Norway)"
+     (:name . "MET (Norway)")
+     (:url . "https://open-meteo.com/en/docs/metno-api")
+     (:description . "Forecasts exclusively for North Europe")
+     (:key . "wn")
+     (:sections
+      ((:name . "Select Coordinates and Time")
+       (:fields
+        ("end_date"
+         (:name . "End date")
+         (:type . date))
+        ("start_date"
+         (:name . "Start date")
+         (:type . date))
+        ("forecast_days"
+         (:name . "Forecast days")
+         (:type . number)
+         (:min . 0)
+         (:max . 16))
         ("past_days"
          (:name . "Past days")
          (:type . number)
          (:min . 0)
          (:max . 92))
-        ("start_date"
-         (:name . "Start date")
-         (:type . date))
-        ("end_date"
-         (:name . "End date")
-         (:type . date))))))
-    ("MET Norway"
-     (:name . "MET Norway")
-     (:url . "https://open-meteo.com/en/docs/metno-api")
-     (:description . "Forecasts exclusively for North Europe")
-     (:key . "wn")
-     (:sections
-      ((:name . "Select Coordinates or City")
-       (:fields
         ("latitude"
          (:name . "Latitude")
          (:type . float))
         ("longitude"
          (:name . "Longitude")
-         (:type . float))))
+         (:type . float))
+        ("timezone"
+         (:name . "Timezone")
+         (:type . timezone))))
       ((:param . "hourly")
        (:name . "Hourly Weather Variables")
        (:children
-        ((:name . "Additional Variables")
+        ((:name . "Additional Variables And Options")
          (:fields
           ("is_day"
            (:name . "Is Day or Night")
-           (:type . checkbox))))
+           (:type . checkbox))
+          ("sunshine_duration"
+           (:name . "Sunshine Duration")
+           (:type . checkbox))
+          ("forecast_hours"
+           (:name . "Forecast Hours")
+           (:type . select)
+           (:options
+            ("1" . "1 hour")
+            ("6" . "6 hours")
+            ("12" . "12 hours")
+            ("24" . "24 hours")))
+          ("past_hours"
+           (:name . "Past Hours")
+           (:type . select)
+           (:options
+            ("1" . "1 hour")
+            ("6" . "6 hours")
+            ("12" . "12 hours")
+            ("24" . "24 hours")))))
         ((:name . "Solar Radiation Variables")
          (:fields
           ("shortwave_radiation"
-           (:name . "Shortwave Solar Radiation")
+           (:name . "Shortwave Solar Radiation GHI")
            (:type . checkbox))
           ("direct_radiation"
            (:name . "Direct Solar Radiation")
            (:type . checkbox))
           ("diffuse_radiation"
-           (:name . "Diffuse Solar Radiation")
+           (:name . "Diffuse Solar Radiation DHI")
            (:type . checkbox))
           ("direct_normal_irradiance"
            (:name . "Direct Normal Irradiance DNI")
+           (:type . checkbox))
+          ("global_tilted_irradiance"
+           (:name . "Global Tilted Radiation GTI")
            (:type . checkbox))
           ("terrestrial_radiation"
            (:name . "Terrestrial Solar Radiation")
            (:type . checkbox))
           ("shortwave_radiation_instant"
-           (:name . "Shortwave Solar Radiation (Instant)")
+           (:name . "Shortwave Solar Radiation GHI (Instant)")
            (:type . checkbox))
           ("direct_radiation_instant"
            (:name . "Direct Solar Radiation (Instant)")
            (:type . checkbox))
           ("diffuse_radiation_instant"
-           (:name . "Diffuse Solar Radiation (Instant)")
+           (:name . "Diffuse Solar Radiation DHI (Instant)")
            (:type . checkbox))
           ("direct_normal_irradiance_instant"
            (:name . "Direct Normal Irradiance DNI (Instant)")
            (:type . checkbox))
+          ("global_tilted_irradiance_instant"
+           (:name . "Global Tilted Radiation GTI")
+           (:type . checkbox))
           ("terrestrial_radiation_instant"
            (:name . "Terrestrial Solar Radiation (Instant)")
-           (:type . checkbox)))))
+           (:type . checkbox))
+          ("tilt"
+           (:name . "Panel Tilt (0° horizontal)")
+           (:type . number))
+          ("azimuth"
+           (:name . "Panel Azimuth (0° S, -90° E, 90° W)")
+           (:type . number)))))
        (:fields
         ("temperature_2m"
          (:name . "Temperature (2 m)")
          (:type . checkbox))
-        ("relativehumidity_2m"
+        ("relative_humidity_2m"
          (:name . "Relative Humidity (2 m)")
          (:type . checkbox))
-        ("dewpoint_2m"
+        ("dew_point_2m"
          (:name . "Dewpoint (2 m)")
          (:type . checkbox))
         ("apparent_temperature"
@@ -4277,8 +5588,8 @@
         ("snowfall"
          (:name . "Snowfall")
          (:type . checkbox))
-        ("weathercode"
-         (:name . "Weathercode")
+        ("weather_code"
+         (:name . "Weather code")
          (:type . checkbox))
         ("pressure_msl"
          (:name . "Sealevel Pressure")
@@ -4286,22 +5597,70 @@
         ("surface_pressure"
          (:name . "Surface Pressure")
          (:type . checkbox))
-        ("cloudcover"
-         (:name . "Cloudcover Total")
+        ("cloud_cover"
+         (:name . "Cloud cover Total")
          (:type . checkbox))
         ("et0_fao_evapotranspiration"
          (:name . "Reference Evapotranspiration (ET₀)")
          (:type . checkbox))
-        ("vapor_pressure_deficit"
-         (:name . "Vapor Pressure Deficit")
+        ("vapour_pressure_deficit"
+         (:name . "Vapour Pressure Deficit")
          (:type . checkbox))
-        ("windspeed_10m"
+        ("wind_speed_10m"
          (:name . "Wind Speed (10 m)")
          (:type . checkbox))
-        ("winddirection_10m"
+        ("wind_direction_10m"
          (:name . "Wind Direction (10 m)")
          (:type . checkbox))
-        ("windgusts_10m"
+        ("wind_gusts_10m"
+         (:name . "Wind Gusts (10 m)")
+         (:type . checkbox))))
+      ((:param . "current")
+       (:name . "Current Weather")
+       (:fields
+        ("temperature_2m"
+         (:name . "Temperature (2 m)")
+         (:type . checkbox))
+        ("relative_humidity_2m"
+         (:name . "Relative Humidity (2 m)")
+         (:type . checkbox))
+        ("apparent_temperature"
+         (:name . "Apparent Temperature")
+         (:type . checkbox))
+        ("is_day"
+         (:name . "Is Day or Night")
+         (:type . checkbox))
+        ("precipitation"
+         (:name . "Precipitation")
+         (:type . checkbox))
+        ("rain"
+         (:name . "Rain")
+         (:type . checkbox))
+        ("showers"
+         (:name . "Showers")
+         (:type . checkbox))
+        ("snowfall"
+         (:name . "Snowfall")
+         (:type . checkbox))
+        ("weather_code"
+         (:name . "Weather code")
+         (:type . checkbox))
+        ("cloud_cover"
+         (:name . "Cloud cover Total")
+         (:type . checkbox))
+        ("pressure_msl"
+         (:name . "Sealevel Pressure")
+         (:type . checkbox))
+        ("surface_pressure"
+         (:name . "Surface Pressure")
+         (:type . checkbox))
+        ("wind_speed_10m"
+         (:name . "Wind Speed (10 m)")
+         (:type . checkbox))
+        ("wind_direction_10m"
+         (:name . "Wind Direction (10 m)")
+         (:type . checkbox))
+        ("wind_gusts_10m"
          (:name . "Wind Gusts (10 m)")
          (:type . checkbox))))
       ((:name . "Settings")
@@ -4315,7 +5674,7 @@
          (:options
           ("celsius" . "Celsius °C")
           ("fahrenheit" . "Fahrenheit °F")))
-        ("windspeed_unit"
+        ("wind_speed_unit"
          (:name . "Wind Speed Unit")
          (:type . select)
          (:options
@@ -4334,78 +5693,114 @@
          (:type . select)
          (:options
           ("iso8601" . "ISO 8601 (e.g. 2022-12-31)")
-          ("unixtime" . "Unix timestamp")))
-        ("timezone"
-         (:name . "Timezone")
-         (:type . timezone))
+          ("unixtime" . "Unix timestamp")))))))
+    ("GEM (Canada)"
+     (:name . "GEM (Canada)")
+     (:url . "https://open-meteo.com/en/docs/gem-api")
+     (:description . "Forecasts tailored for North America")
+     (:key . "wa")
+     (:sections
+      ((:name . "Select Coordinates and Time")
+       (:fields
+        ("end_date"
+         (:name . "End date")
+         (:type . date))
+        ("start_date"
+         (:name . "Start date")
+         (:type . date))
+        ("forecast_days"
+         (:name . "Forecast days")
+         (:type . number)
+         (:min . 0)
+         (:max . 16))
         ("past_days"
          (:name . "Past days")
          (:type . number)
          (:min . 0)
          (:max . 92))
-        ("start_date"
-         (:name . "Start date")
-         (:type . date))
-        ("end_date"
-         (:name . "End date")
-         (:type . date))))))
-    ("GEM"
-     (:name . "GEM")
-     (:url . "https://open-meteo.com/en/docs/gem-api")
-     (:description . "Forecasts tailored for North America")
-     (:key . "wa")
-     (:sections
-      ((:name . "Select Coordinates or City")
-       (:fields
         ("latitude"
          (:name . "Latitude")
          (:type . float))
         ("longitude"
          (:name . "Longitude")
-         (:type . float))))
+         (:type . float))
+        ("timezone"
+         (:name . "Timezone")
+         (:type . timezone))))
       ((:param . "hourly")
        (:name . "Hourly Weather Variables")
        (:children
-        ((:name . "Additional Variables")
+        ((:name . "Additional Variables And Options")
          (:fields
           ("is_day"
            (:name . "Is Day or Night")
            (:type . checkbox))
+          ("sunshine_duration"
+           (:name . "Sunshine Duration")
+           (:type . checkbox))
           ("cape"
            (:name . "CAPE")
-           (:type . checkbox))))
+           (:type . checkbox))
+          ("forecast_hours"
+           (:name . "Forecast Hours")
+           (:type . select)
+           (:options
+            ("1" . "1 hour")
+            ("6" . "6 hours")
+            ("12" . "12 hours")
+            ("24" . "24 hours")))
+          ("past_hours"
+           (:name . "Past Hours")
+           (:type . select)
+           (:options
+            ("1" . "1 hour")
+            ("6" . "6 hours")
+            ("12" . "12 hours")
+            ("24" . "24 hours")))))
         ((:name . "Solar Radiation Variables")
          (:fields
           ("shortwave_radiation"
-           (:name . "Shortwave Solar Radiation")
+           (:name . "Shortwave Solar Radiation GHI")
            (:type . checkbox))
           ("direct_radiation"
            (:name . "Direct Solar Radiation")
            (:type . checkbox))
           ("diffuse_radiation"
-           (:name . "Diffuse Solar Radiation")
+           (:name . "Diffuse Solar Radiation DHI")
            (:type . checkbox))
           ("direct_normal_irradiance"
            (:name . "Direct Normal Irradiance DNI")
+           (:type . checkbox))
+          ("global_tilted_irradiance"
+           (:name . "Global Tilted Radiation GTI")
            (:type . checkbox))
           ("terrestrial_radiation"
            (:name . "Terrestrial Solar Radiation")
            (:type . checkbox))
           ("shortwave_radiation_instant"
-           (:name . "Shortwave Solar Radiation (Instant)")
+           (:name . "Shortwave Solar Radiation GHI (Instant)")
            (:type . checkbox))
           ("direct_radiation_instant"
            (:name . "Direct Solar Radiation (Instant)")
            (:type . checkbox))
           ("diffuse_radiation_instant"
-           (:name . "Diffuse Solar Radiation (Instant)")
+           (:name . "Diffuse Solar Radiation DHI (Instant)")
            (:type . checkbox))
           ("direct_normal_irradiance_instant"
            (:name . "Direct Normal Irradiance DNI (Instant)")
            (:type . checkbox))
+          ("global_tilted_irradiance_instant"
+           (:name . "Global Tilted Radiation GTI")
+           (:type . checkbox))
           ("terrestrial_radiation_instant"
            (:name . "Terrestrial Solar Radiation (Instant)")
-           (:type . checkbox))))
+           (:type . checkbox))
+          ("tilt"
+           (:name . "Panel Tilt (0° horizontal)")
+           (:type . number))
+          ("azimuth"
+           (:name . "Panel Azimuth (0° S, -90° E, 90° W)")
+           (:type . number))))
         ((:name . "Pressure Level Variables")
          (:children
           ((:name . "Temperature")
@@ -4505,287 +5900,287 @@
              (:type . checkbox))))
           ((:name . "Dewpoint")
            (:fields
-            ("dewpoint_10hPa"
+            ("dew_point_10hPa"
              (:name . "10 hPa (26 km)")
              (:type . checkbox))
-            ("dewpoint_20hPa"
+            ("dew_point_20hPa"
              (:name . "20 hPa (23 km)")
              (:type . checkbox))
-            ("dewpoint_30hPa"
+            ("dew_point_30hPa"
              (:name . "30 hPa (22 km)")
              (:type . checkbox))
-            ("dewpoint_50hPa"
+            ("dew_point_50hPa"
              (:name . "50 hPa (19.3 km)")
              (:type . checkbox))
-            ("dewpoint_100hPa"
+            ("dew_point_100hPa"
              (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
-            ("dewpoint_150hPa"
+            ("dew_point_150hPa"
              (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
-            ("dewpoint_175hPa"
+            ("dew_point_175hPa"
              (:name . "175 hPa (12.6 km)")
              (:type . checkbox))
-            ("dewpoint_200hPa"
+            ("dew_point_200hPa"
              (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
-            ("dewpoint_225hPa"
+            ("dew_point_225hPa"
              (:name . "225 hPa (11 km)")
              (:type . checkbox))
-            ("dewpoint_250hPa"
+            ("dew_point_250hPa"
              (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
-            ("dewpoint_275hPa"
+            ("dew_point_275hPa"
              (:name . "275 hPa (9.7 km)")
              (:type . checkbox))
-            ("dewpoint_300hPa"
+            ("dew_point_300hPa"
              (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
-            ("dewpoint_350hPa"
+            ("dew_point_350hPa"
              (:name . "350 hPa (8.1 km)")
              (:type . checkbox))
-            ("dewpoint_400hPa"
+            ("dew_point_400hPa"
              (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
-            ("dewpoint_450hPa"
+            ("dew_point_450hPa"
              (:name . "450 hPa (6.3 km)")
              (:type . checkbox))
-            ("dewpoint_500hPa"
+            ("dew_point_500hPa"
              (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
-            ("dewpoint_550hPa"
+            ("dew_point_550hPa"
              (:name . "550 hPa (4.9 km)")
              (:type . checkbox))
-            ("dewpoint_600hPa"
+            ("dew_point_600hPa"
              (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
-            ("dewpoint_650hPa"
+            ("dew_point_650hPa"
              (:name . "650 hPa (3.6 km)")
              (:type . checkbox))
-            ("dewpoint_700hPa"
+            ("dew_point_700hPa"
              (:name . "700 hPa (3 km)")
              (:type . checkbox))
-            ("dewpoint_750hPa"
+            ("dew_point_750hPa"
              (:name . "750 hPa (2.5 km)")
              (:type . checkbox))
-            ("dewpoint_800hPa"
+            ("dew_point_800hPa"
              (:name . "800 hPa (1900 m)")
              (:type . checkbox))
-            ("dewpoint_850hPa"
+            ("dew_point_850hPa"
              (:name . "850 hPa (1500 m)")
              (:type . checkbox))
-            ("dewpoint_875hPa"
+            ("dew_point_875hPa"
              (:name . "875 hPa (1200 m)")
              (:type . checkbox))
-            ("dewpoint_900hPa"
+            ("dew_point_900hPa"
              (:name . "900 hPa (1000 m)")
              (:type . checkbox))
-            ("dewpoint_925hPa"
+            ("dew_point_925hPa"
              (:name . "925 hPa (800 m)")
              (:type . checkbox))
-            ("dewpoint_950hPa"
+            ("dew_point_950hPa"
              (:name . "950 hPa (500 m)")
              (:type . checkbox))
-            ("dewpoint_970hPa"
+            ("dew_point_970hPa"
              (:name . "970 hPa (370 m)")
              (:type . checkbox))
-            ("dewpoint_985hPa"
+            ("dew_point_985hPa"
              (:name . "985 hPa (240 m)")
              (:type . checkbox))
-            ("dewpoint_1000hPa"
+            ("dew_point_1000hPa"
              (:name . "1000 hPa (110 m)")
              (:type . checkbox))
-            ("dewpoint_1015hPa"
+            ("dew_point_1015hPa"
              (:name . "1015 hPa (-10 m)")
              (:type . checkbox))))
           ((:name . "Relative Humidity")
            (:fields
-            ("relativehumidity_10hPa"
+            ("relative_humidity_10hPa"
              (:name . "10 hPa (26 km)")
              (:type . checkbox))
-            ("relativehumidity_20hPa"
+            ("relative_humidity_20hPa"
              (:name . "20 hPa (23 km)")
              (:type . checkbox))
-            ("relativehumidity_30hPa"
+            ("relative_humidity_30hPa"
              (:name . "30 hPa (22 km)")
              (:type . checkbox))
-            ("relativehumidity_50hPa"
+            ("relative_humidity_50hPa"
              (:name . "50 hPa (19.3 km)")
              (:type . checkbox))
-            ("relativehumidity_100hPa"
+            ("relative_humidity_100hPa"
              (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
-            ("relativehumidity_150hPa"
+            ("relative_humidity_150hPa"
              (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
-            ("relativehumidity_175hPa"
+            ("relative_humidity_175hPa"
              (:name . "175 hPa (12.6 km)")
              (:type . checkbox))
-            ("relativehumidity_200hPa"
+            ("relative_humidity_200hPa"
              (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
-            ("relativehumidity_225hPa"
+            ("relative_humidity_225hPa"
              (:name . "225 hPa (11 km)")
              (:type . checkbox))
-            ("relativehumidity_250hPa"
+            ("relative_humidity_250hPa"
              (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
-            ("relativehumidity_275hPa"
+            ("relative_humidity_275hPa"
              (:name . "275 hPa (9.7 km)")
              (:type . checkbox))
-            ("relativehumidity_300hPa"
+            ("relative_humidity_300hPa"
              (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
-            ("relativehumidity_350hPa"
+            ("relative_humidity_350hPa"
              (:name . "350 hPa (8.1 km)")
              (:type . checkbox))
-            ("relativehumidity_400hPa"
+            ("relative_humidity_400hPa"
              (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
-            ("relativehumidity_450hPa"
+            ("relative_humidity_450hPa"
              (:name . "450 hPa (6.3 km)")
              (:type . checkbox))
-            ("relativehumidity_500hPa"
+            ("relative_humidity_500hPa"
              (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
-            ("relativehumidity_550hPa"
+            ("relative_humidity_550hPa"
              (:name . "550 hPa (4.9 km)")
              (:type . checkbox))
-            ("relativehumidity_600hPa"
+            ("relative_humidity_600hPa"
              (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
-            ("relativehumidity_650hPa"
+            ("relative_humidity_650hPa"
              (:name . "650 hPa (3.6 km)")
              (:type . checkbox))
-            ("relativehumidity_700hPa"
+            ("relative_humidity_700hPa"
              (:name . "700 hPa (3 km)")
              (:type . checkbox))
-            ("relativehumidity_750hPa"
+            ("relative_humidity_750hPa"
              (:name . "750 hPa (2.5 km)")
              (:type . checkbox))
-            ("relativehumidity_800hPa"
+            ("relative_humidity_800hPa"
              (:name . "800 hPa (1900 m)")
              (:type . checkbox))
-            ("relativehumidity_850hPa"
+            ("relative_humidity_850hPa"
              (:name . "850 hPa (1500 m)")
              (:type . checkbox))
-            ("relativehumidity_875hPa"
+            ("relative_humidity_875hPa"
              (:name . "875 hPa (1200 m)")
              (:type . checkbox))
-            ("relativehumidity_900hPa"
+            ("relative_humidity_900hPa"
              (:name . "900 hPa (1000 m)")
              (:type . checkbox))
-            ("relativehumidity_925hPa"
+            ("relative_humidity_925hPa"
              (:name . "925 hPa (800 m)")
              (:type . checkbox))
-            ("relativehumidity_950hPa"
+            ("relative_humidity_950hPa"
              (:name . "950 hPa (500 m)")
              (:type . checkbox))
-            ("relativehumidity_970hPa"
+            ("relative_humidity_970hPa"
              (:name . "970 hPa (370 m)")
              (:type . checkbox))
-            ("relativehumidity_985hPa"
+            ("relative_humidity_985hPa"
              (:name . "985 hPa (240 m)")
              (:type . checkbox))
-            ("relativehumidity_1000hPa"
+            ("relative_humidity_1000hPa"
              (:name . "1000 hPa (110 m)")
              (:type . checkbox))
-            ("relativehumidity_1015hPa"
+            ("relative_humidity_1015hPa"
              (:name . "1015 hPa (-10 m)")
              (:type . checkbox))))
-          ((:name . "Cloudcover")
+          ((:name . "Cloud cover")
            (:fields
-            ("cloudcover_10hPa"
+            ("cloud_cover_10hPa"
              (:name . "10 hPa (26 km)")
              (:type . checkbox))
-            ("cloudcover_20hPa"
+            ("cloud_cover_20hPa"
              (:name . "20 hPa (23 km)")
              (:type . checkbox))
-            ("cloudcover_30hPa"
+            ("cloud_cover_30hPa"
              (:name . "30 hPa (22 km)")
              (:type . checkbox))
-            ("cloudcover_50hPa"
+            ("cloud_cover_50hPa"
              (:name . "50 hPa (19.3 km)")
              (:type . checkbox))
-            ("cloudcover_100hPa"
+            ("cloud_cover_100hPa"
              (:name . "100 hPa (15.8 km)")
              (:type . checkbox))
-            ("cloudcover_150hPa"
+            ("cloud_cover_150hPa"
              (:name . "150 hPa (13.5 km)")
              (:type . checkbox))
-            ("cloudcover_175hPa"
+            ("cloud_cover_175hPa"
              (:name . "175 hPa (12.6 km)")
              (:type . checkbox))
-            ("cloudcover_200hPa"
+            ("cloud_cover_200hPa"
              (:name . "200 hPa (11.8 km)")
              (:type . checkbox))
-            ("cloudcover_225hPa"
+            ("cloud_cover_225hPa"
              (:name . "225 hPa (11 km)")
              (:type . checkbox))
-            ("cloudcover_250hPa"
+            ("cloud_cover_250hPa"
              (:name . "250 hPa (10.4 km)")
              (:type . checkbox))
-            ("cloudcover_275hPa"
+            ("cloud_cover_275hPa"
              (:name . "275 hPa (9.7 km)")
              (:type . checkbox))
-            ("cloudcover_300hPa"
+            ("cloud_cover_300hPa"
              (:name . "300 hPa (9.2 km)")
              (:type . checkbox))
-            ("cloudcover_350hPa"
+            ("cloud_cover_350hPa"
              (:name . "350 hPa (8.1 km)")
              (:type . checkbox))
-            ("cloudcover_400hPa"
+            ("cloud_cover_400hPa"
              (:name . "400 hPa (7.2 km)")
              (:type . checkbox))
-            ("cloudcover_450hPa"
+            ("cloud_cover_450hPa"
              (:name . "450 hPa (6.3 km)")
              (:type . checkbox))
-            ("cloudcover_500hPa"
+            ("cloud_cover_500hPa"
              (:name . "500 hPa (5.6 km)")
              (:type . checkbox))
-            ("cloudcover_550hPa"
+            ("cloud_cover_550hPa"
              (:name . "550 hPa (4.9 km)")
              (:type . checkbox))
-            ("cloudcover_600hPa"
+            ("cloud_cover_600hPa"
              (:name . "600 hPa (4.2 km)")
              (:type . checkbox))
-            ("cloudcover_650hPa"
+            ("cloud_cover_650hPa"
              (:name . "650 hPa (3.6 km)")
              (:type . checkbox))
-            ("cloudcover_700hPa"
+            ("cloud_cover_700hPa"
              (:name . "700 hPa (3 km)")
              (:type . checkbox))
-            ("cloudcover_750hPa"
+            ("cloud_cover_750hPa"
              (:name . "750 hPa (2.5 km)")
              (:type . checkbox))
-            ("cloudcover_800hPa"
+            ("cloud_cover_800hPa"
              (:name . "800 hPa (1900 m)")
              (:type . checkbox))
-            ("cloudcover_850hPa"
+            ("cloud_cover_850hPa"
              (:name . "850 hPa (1500 m)")
              (:type . checkbox))
-            ("cloudcover_875hPa"
+            ("cloud_cover_875hPa"
              (:name . "875 hPa (1200 m)")
              (:type . checkbox))
-            ("cloudcover_900hPa"
+            ("cloud_cover_900hPa"
              (:name . "900 hPa (1000 m)")
              (:type . checkbox))
-            ("cloudcover_925hPa"
+            ("cloud_cover_925hPa"
              (:name . "925 hPa (800 m)")
              (:type . checkbox))
-            ("cloudcover_950hPa"
+            ("cloud_cover_950hPa"
              (:name . "950 hPa (500 m)")
              (:type . checkbox))
-            ("cloudcover_970hPa"
+            ("cloud_cover_970hPa"
              (:name . "970 hPa (370 m)")
              (:type . checkbox))
-            ("cloudcover_985hPa"
+            ("cloud_cover_985hPa"
              (:name . "985 hPa (240 m)")
              (:type . checkbox))
-            ("cloudcover_1000hPa"
+            ("cloud_cover_1000hPa"
              (:name . "1000 hPa (110 m)")
              (:type . checkbox))
-            ("cloudcover_1015hPa"
+            ("cloud_cover_1015hPa"
              (:name . "1015 hPa (-10 m)")
              (:type . checkbox))))
           ((:name . "Wind Speed")
@@ -5077,10 +6472,10 @@
         ("temperature_2m"
          (:name . "Temperature (2 m)")
          (:type . checkbox))
-        ("relativehumidity_2m"
+        ("relative_humidity_2m"
          (:name . "Relative Humidity (2 m)")
          (:type . checkbox))
-        ("dewpoint_2m"
+        ("dew_point_2m"
          (:name . "Dewpoint (2 m)")
          (:type . checkbox))
         ("apparent_temperature"
@@ -5098,8 +6493,8 @@
         ("snowfall"
          (:name . "Snowfall")
          (:type . checkbox))
-        ("weathercode"
-         (:name . "Weathercode")
+        ("weather_code"
+         (:name . "Weather code")
          (:type . checkbox))
         ("pressure_msl"
          (:name . "Sealevel Pressure")
@@ -5107,49 +6502,49 @@
         ("surface_pressure"
          (:name . "Surface Pressure")
          (:type . checkbox))
-        ("cloudcover"
-         (:name . "Cloudcover Total")
+        ("cloud_cover"
+         (:name . "Cloud cover Total")
          (:type . checkbox))
-        ("cloudcover_low"
-         (:name . "Cloudcover Low")
+        ("cloud_cover_low"
+         (:name . "Cloud cover Low")
          (:type . checkbox))
-        ("cloudcover_mid"
-         (:name . "Cloudcover Mid")
+        ("cloud_cover_mid"
+         (:name . "Cloud cover Mid")
          (:type . checkbox))
-        ("cloudcover_high"
-         (:name . "Cloudcover High")
+        ("cloud_cover_high"
+         (:name . "Cloud cover High")
          (:type . checkbox))
         ("et0_fao_evapotranspiration"
          (:name . "Reference Evapotranspiration (ET₀)")
          (:type . checkbox))
-        ("vapor_pressure_deficit"
-         (:name . "Vapor Pressure Deficit")
+        ("vapour_pressure_deficit"
+         (:name . "Vapour Pressure Deficit")
          (:type . checkbox))
-        ("windspeed_10m"
+        ("wind_speed_10m"
          (:name . "Wind Speed (10 m)")
          (:type . checkbox))
-        ("windspeed_40m"
+        ("wind_speed_40m"
          (:name . "Wind Speed (40 m)")
          (:type . checkbox))
-        ("windspeed_80m"
+        ("wind_speed_80m"
          (:name . "Wind Speed (80 m)")
          (:type . checkbox))
-        ("windspeed_120m"
-         (:name . "Wind Speed (1200 m)")
+        ("wind_speed_120m"
+         (:name . "Wind Speed (120 m)")
          (:type . checkbox))
-        ("winddirection_10m"
+        ("wind_direction_10m"
          (:name . "Wind Direction (10 m)")
          (:type . checkbox))
-        ("winddirection_40m"
+        ("wind_direction_40m"
          (:name . "Wind Direction (40 m)")
          (:type . checkbox))
-        ("winddirection_80m"
+        ("wind_direction_80m"
          (:name . "Wind Direction (80 m)")
          (:type . checkbox))
-        ("winddirection_120m"
+        ("wind_direction_120m"
          (:name . "Wind Direction (120 m)")
          (:type . checkbox))
-        ("windgusts_10m"
+        ("wind_gusts_10m"
          (:name . "Wind Gusts (10 m)")
          (:type . checkbox))
         ("temperature_40m"
@@ -5170,8 +6565,8 @@
       ((:param . "daily")
        (:name . "Daily Weather Variables")
        (:fields
-        ("weathercode"
-         (:name . "Weathercode")
+        ("weather_code"
+         (:name . "Weather code")
          (:type . checkbox))
         ("temperature_2m_max"
          (:name . "Maximum Temperature (2 m)")
@@ -5191,6 +6586,12 @@
         ("sunset"
          (:name . "Sunset")
          (:type . checkbox))
+        ("daylight_duration"
+         (:name . "Daylight Duration")
+         (:type . checkbox))
+        ("sunshine_duration"
+         (:name . "Sunshine Duration")
+         (:type . checkbox))
         ("precipitation_sum"
          (:name . "Precipitation Sum")
          (:type . checkbox))
@@ -5206,13 +6607,374 @@
         ("precipitation_hours"
          (:name . "Precipitation Hours")
          (:type . checkbox))
-        ("windspeed_10m_max"
+        ("wind_speed_10m_max"
          (:name . "Maximum Wind Speed (10 m)")
          (:type . checkbox))
-        ("windgusts_10m_max"
+        ("wind_gusts_10m_max"
          (:name . "Maximum Wind Gusts (10 m)")
          (:type . checkbox))
-        ("winddirection_10m_dominant"
+        ("wind_direction_10m_dominant"
+         (:name . "Dominant Wind Direction (10 m)")
+         (:type . checkbox))
+        ("shortwave_radiation_sum"
+         (:name . "Shortwave Radiation Sum")
+         (:type . checkbox))
+        ("et0_fao_evapotranspiration"
+         (:name . "Reference Evapotranspiration (ET₀)")
+         (:type . checkbox))))
+      ((:param . "current")
+       (:name . "Current Weather")
+       (:fields
+        ("temperature_2m"
+         (:name . "Temperature (2 m)")
+         (:type . checkbox))
+        ("relative_humidity_2m"
+         (:name . "Relative Humidity (2 m)")
+         (:type . checkbox))
+        ("apparent_temperature"
+         (:name . "Apparent Temperature")
+         (:type . checkbox))
+        ("is_day"
+         (:name . "Is Day or Night")
+         (:type . checkbox))
+        ("precipitation"
+         (:name . "Precipitation")
+         (:type . checkbox))
+        ("rain"
+         (:name . "Rain")
+         (:type . checkbox))
+        ("showers"
+         (:name . "Showers")
+         (:type . checkbox))
+        ("snowfall"
+         (:name . "Snowfall")
+         (:type . checkbox))
+        ("weather_code"
+         (:name . "Weather code")
+         (:type . checkbox))
+        ("cloud_cover"
+         (:name . "Cloud cover Total")
+         (:type . checkbox))
+        ("pressure_msl"
+         (:name . "Sealevel Pressure")
+         (:type . checkbox))
+        ("surface_pressure"
+         (:name . "Surface Pressure")
+         (:type . checkbox))
+        ("wind_speed_10m"
+         (:name . "Wind Speed (10 m)")
+         (:type . checkbox))
+        ("wind_direction_10m"
+         (:name . "Wind Direction (10 m)")
+         (:type . checkbox))
+        ("wind_gusts_10m"
+         (:name . "Wind Gusts (10 m)")
+         (:type . checkbox))))
+      ((:name . "Settings")
+       (:fields
+        ("elevation"
+         (:name . "Elevation")
+         (:type . float))
+        ("temperature_unit"
+         (:name . "Temperature Unit")
+         (:type . select)
+         (:options
+          ("celsius" . "Celsius °C")
+          ("fahrenheit" . "Fahrenheit °F")))
+        ("wind_speed_unit"
+         (:name . "Wind Speed Unit")
+         (:type . select)
+         (:options
+          ("kmh" . "Km/h")
+          ("ms" . "m/s")
+          ("mph" . "Mph")
+          ("kn" . "Knots")))
+        ("precipitation_unit"
+         (:name . "Precipitation Unit")
+         (:type . select)
+         (:options
+          ("mm" . "Millimeter")
+          ("inch" . "Inch")))
+        ("timeformat"
+         (:name . "Timeformat")
+         (:type . select)
+         (:options
+          ("iso8601" . "ISO 8601 (e.g. 2022-12-31)")
+          ("unixtime" . "Unix timestamp")))))))
+    ("BOM (Australia)"
+     (:name . "BOM (Australia)")
+     (:url . "https://open-meteo.com/en/docs/bom-api/")
+     (:description . "Weather forecasts from the Australian Bureau of Meteorology")
+     (:key . "wb")
+     (:sections
+      ((:name . "Select Coordinates and Time")
+       (:fields
+        ("end_date"
+         (:name . "End date")
+         (:type . date))
+        ("start_date"
+         (:name . "Start date")
+         (:type . date))
+        ("forecast_days"
+         (:name . "Forecast days")
+         (:type . number)
+         (:min . 0)
+         (:max . 16))
+        ("past_days"
+         (:name . "Past days")
+         (:type . number)
+         (:min . 0)
+         (:max . 92))
+        ("latitude"
+         (:name . "Latitude")
+         (:type . float))
+        ("longitude"
+         (:name . "Longitude")
+         (:type . float))
+        ("timezone"
+         (:name . "Timezone")
+         (:type . timezone))))
+      ((:param . "hourly")
+       (:name . "Hourly Weather Variables")
+       (:children
+        ((:name . "Additional Variables And Options")
+         (:fields
+          ("is_day"
+           (:name . "Is Day or Night")
+           (:type . checkbox))
+          ("sunshine_duration"
+           (:name . "Sunshine Duration")
+           (:type . checkbox))
+          ("forecast_hours"
+           (:name . "Forecast Hours")
+           (:type . select)
+           (:options
+            ("1" . "1 hour")
+            ("6" . "6 hours")
+            ("12" . "12 hours")
+            ("24" . "24 hours")))
+          ("past_hours"
+           (:name . "Past Hours")
+           (:type . select)
+           (:options
+            ("1" . "1 hour")
+            ("6" . "6 hours")
+            ("12" . "12 hours")
+            ("24" . "24 hours")))))
+        ((:name . "Solar Radiation Variables")
+         (:fields
+          ("shortwave_radiation"
+           (:name . "Shortwave Solar Radiation GHI")
+           (:type . checkbox))
+          ("direct_radiation"
+           (:name . "Direct Solar Radiation")
+           (:type . checkbox))
+          ("diffuse_radiation"
+           (:name . "Diffuse Solar Radiation DHI")
+           (:type . checkbox))
+          ("direct_normal_irradiance"
+           (:name . "Direct Normal Irradiance DNI")
+           (:type . checkbox))
+          ("global_tilted_irradiance"
+           (:name . "Global Tilted Radiation GTI")
+           (:type . checkbox))
+          ("terrestrial_radiation"
+           (:name . "Terrestrial Solar Radiation")
+           (:type . checkbox))
+          ("shortwave_radiation_instant"
+           (:name . "Shortwave Solar Radiation GHI (Instant)")
+           (:type . checkbox))
+          ("direct_radiation_instant"
+           (:name . "Direct Solar Radiation (Instant)")
+           (:type . checkbox))
+          ("diffuse_radiation_instant"
+           (:name . "Diffuse Solar Radiation DHI (Instant)")
+           (:type . checkbox))
+          ("direct_normal_irradiance_instant"
+           (:name . "Direct Normal Irradiance DNI (Instant)")
+           (:type . checkbox))
+          ("global_tilted_irradiance_instant"
+           (:name . "Global Tilted Radiation GTI")
+           (:type . checkbox))
+          ("terrestrial_radiation_instant"
+           (:name . "Terrestrial Solar Radiation (Instant)")
+           (:type . checkbox))
+          ("tilt"
+           (:name . "Panel Tilt (0° horizontal)")
+           (:type . number))
+          ("azimuth"
+           (:name . "Panel Azimuth (0° S, -90° E, 90° W)")
+           (:type . number)))))
+       (:fields
+        ("temperature_2m"
+         (:name . "Temperature (2 m)")
+         (:type . checkbox))
+        ("relative_humidity_2m"
+         (:name . "Relative Humidity (2 m)")
+         (:type . checkbox))
+        ("dew_point_2m"
+         (:name . "Dewpoint (2 m)")
+         (:type . checkbox))
+        ("apparent_temperature"
+         (:name . "Apparent Temperature")
+         (:type . checkbox))
+        ("precipitation"
+         (:name . "Precipitation (rain + showers + snow)")
+         (:type . checkbox))
+        ("rain"
+         (:name . "Rain")
+         (:type . checkbox))
+        ("showers"
+         (:name . "Showers")
+         (:type . checkbox))
+        ("snowfall"
+         (:name . "Snowfall")
+         (:type . checkbox))
+        ("snow_depth"
+         (:name . "Snow Depth")
+         (:type . checkbox))
+        ("weather_code"
+         (:name . "Weather code")
+         (:type . checkbox))
+        ("pressure_msl"
+         (:name . "Sealevel Pressure")
+         (:type . checkbox))
+        ("surface_pressure"
+         (:name . "Surface Pressure")
+         (:type . checkbox))
+        ("cloud_cover"
+         (:name . "Cloud cover Total")
+         (:type . checkbox))
+        ("cloud_cover_low"
+         (:name . "Cloud cover Low")
+         (:type . checkbox))
+        ("cloud_cover_mid"
+         (:name . "Cloud cover Mid")
+         (:type . checkbox))
+        ("cloud_cover_high"
+         (:name . "Cloud cover High")
+         (:type . checkbox))
+        ("visibility"
+         (:name . "Visibility")
+         (:type . checkbox))
+        ("et0_fao_evapotranspiration"
+         (:name . "Reference Evapotranspiration (ET₀)")
+         (:type . checkbox))
+        ("vapour_pressure_deficit"
+         (:name . "Vapour Pressure Deficit")
+         (:type . checkbox))
+        ("wind_speed_10m"
+         (:name . "Wind Speed (10 m)")
+         (:type . checkbox))
+        ("wind_speed_40m"
+         (:name . "Wind Speed (40 m)")
+         (:type . checkbox))
+        ("wind_speed_80m"
+         (:name . "Wind Speed (80 m)")
+         (:type . checkbox))
+        ("wind_speed_120m"
+         (:name . "Wind Speed (120 m)")
+         (:type . checkbox))
+        ("wind_direction_10m"
+         (:name . "Wind Direction (10 m)")
+         (:type . checkbox))
+        ("wind_direction_40m"
+         (:name . "Wind Direction (40 m)")
+         (:type . checkbox))
+        ("wind_direction_80m"
+         (:name . "Wind Direction (80 m)")
+         (:type . checkbox))
+        ("wind_direction_120m"
+         (:name . "Wind Direction (120 m)")
+         (:type . checkbox))
+        ("wind_gusts_10m"
+         (:name . "Wind Gusts (10 m)")
+         (:type . checkbox))
+        ("surface_temperature"
+         (:name . "Surface Temperature")
+         (:type . checkbox))
+        ("soil_temperature_0_to_10cm"
+         (:name . "Soil Temperature (0-10 cm)")
+         (:type . checkbox))
+        ("soil_temperature_10_to_35cm"
+         (:name . "Soil Temperature (10-35 cm)")
+         (:type . checkbox))
+        ("soil_temperature_35_to_100cm"
+         (:name . "Soil Temperature (35-100 cm)")
+         (:type . checkbox))
+        ("soil_temperature_100_to_300cm"
+         (:name . "Soil Temperature (100-300 cm)")
+         (:type . checkbox))
+        ("soil_moisture_0_to_10cm"
+         (:name . "Soil Moisture (0-10 cm)")
+         (:type . checkbox))
+        ("soil_moisture_10_to_35cm"
+         (:name . "Soil Moisture (10-35 cm)")
+         (:type . checkbox))
+        ("soil_moisture_35_to_100cm"
+         (:name . "Soil Moisture (35-100 cm)")
+         (:type . checkbox))
+        ("soil_moisture_100_to_300cm"
+         (:name . "Soil Moisture (100-300 cm)")
+         (:type . checkbox))))
+      ((:param . "daily")
+       (:name . "Daily Weather Variables")
+       (:fields
+        ("weather_code"
+         (:name . "Weather code")
+         (:type . checkbox))
+        ("temperature_2m_max"
+         (:name . "Maximum Temperature (2 m)")
+         (:type . checkbox))
+        ("temperature_2m_min"
+         (:name . "Minimum Temperature (2 m)")
+         (:type . checkbox))
+        ("apparent_temperature_max"
+         (:name . "Maximum Apparent Temperature (2 m)")
+         (:type . checkbox))
+        ("apparent_temperature_min"
+         (:name . "Minimum Apparent Temperature (2 m)")
+         (:type . checkbox))
+        ("sunrise"
+         (:name . "Sunrise")
+         (:type . checkbox))
+        ("sunset"
+         (:name . "Sunset")
+         (:type . checkbox))
+        ("daylight_duration"
+         (:name . "Daylight Duration")
+         (:type . checkbox))
+        ("sunshine_duration"
+         (:name . "Sunshine Duration")
+         (:type . checkbox))
+        ("uv_index_max"
+         (:name . "UV Index")
+         (:type . checkbox))
+        ("uv_index_clear_sky_max"
+         (:name . "UV Index Clear Sky")
+         (:type . checkbox))
+        ("precipitation_sum"
+         (:name . "Precipitation Sum")
+         (:type . checkbox))
+        ("rain_sum"
+         (:name . "Rain Sum")
+         (:type . checkbox))
+        ("showers_sum"
+         (:name . "Showers Sum")
+         (:type . checkbox))
+        ("snowfall_sum"
+         (:name . "Snowfall Sum")
+         (:type . checkbox))
+        ("precipitation_hours"
+         (:name . "Precipitation Hours")
+         (:type . checkbox))
+        ("wind_speed_10m_max"
+         (:name . "Maximum Wind Speed (10 m)")
+         (:type . checkbox))
+        ("wind_gusts_10m_max"
+         (:name . "Maximum Wind Gusts (10 m)")
+         (:type . checkbox))
+        ("wind_direction_10m_dominant"
          (:name . "Dominant Wind Direction (10 m)")
          (:type . checkbox))
         ("shortwave_radiation_sum"
@@ -5232,7 +6994,7 @@
          (:options
           ("celsius" . "Celsius °C")
           ("fahrenheit" . "Fahrenheit °F")))
-        ("windspeed_unit"
+        ("wind_speed_unit"
          (:name . "Wind Speed Unit")
          (:type . select)
          (:options
@@ -5251,35 +7013,1037 @@
          (:type . select)
          (:options
           ("iso8601" . "ISO 8601 (e.g. 2022-12-31)")
-          ("unixtime" . "Unix timestamp")))
-        ("timezone"
-         (:name . "Timezone")
-         (:type . timezone))
+          ("unixtime" . "Unix timestamp")))))))
+    ("CMA (China)"
+     (:name . "CMA (China)")
+     (:url . "https://open-meteo.com/en/docs/gem-api")
+     (:description . "Weather forecasts from the Chinese Meteorological Administration")
+     (:key . "wc")
+     (:sections
+      ((:name . "Select Coordinates and Time")
+       (:fields
+        ("end_date"
+         (:name . "End date")
+         (:type . date))
+        ("start_date"
+         (:name . "Start date")
+         (:type . date))
+        ("forecast_days"
+         (:name . "Forecast days")
+         (:type . number)
+         (:min . 0)
+         (:max . 16))
         ("past_days"
          (:name . "Past days")
          (:type . number)
          (:min . 0)
          (:max . 92))
-        ("start_date"
-         (:name . "Start date")
-         (:type . date))
-        ("end_date"
-         (:name . "End date")
-         (:type . date))))))
+        ("latitude"
+         (:name . "Latitude")
+         (:type . float))
+        ("longitude"
+         (:name . "Longitude")
+         (:type . float))
+        ("timezone"
+         (:name . "Timezone")
+         (:type . timezone))))
+      ((:param . "hourly")
+       (:name . "Hourly Weather Variables")
+       (:children
+        ((:name . "Additional Variables And Options")
+         (:fields
+          ("is_day"
+           (:name . "Is Day or Night")
+           (:type . checkbox))
+          ("sunshine_duration"
+           (:name . "Sunshine Duration")
+           (:type . checkbox))
+          ("cape"
+           (:name . "CAPE")
+           (:type . checkbox))
+          ("forecast_hours"
+           (:name . "Forecast Hours")
+           (:type . select)
+           (:options
+            ("1" . "1 hour")
+            ("6" . "6 hours")
+            ("12" . "12 hours")
+            ("24" . "24 hours")))
+          ("past_hours"
+           (:name . "Past Hours")
+           (:type . select)
+           (:options
+            ("1" . "1 hour")
+            ("6" . "6 hours")
+            ("12" . "12 hours")
+            ("24" . "24 hours")))))
+        ((:name . "Solar Radiation Variables")
+         (:fields
+          ("shortwave_radiation"
+           (:name . "Shortwave Solar Radiation GHI")
+           (:type . checkbox))
+          ("direct_radiation"
+           (:name . "Direct Solar Radiation")
+           (:type . checkbox))
+          ("diffuse_radiation"
+           (:name . "Diffuse Solar Radiation DHI")
+           (:type . checkbox))
+          ("direct_normal_irradiance"
+           (:name . "Direct Normal Irradiance DNI")
+           (:type . checkbox))
+          ("global_tilted_irradiance"
+           (:name . "Global Tilted Radiation GTI")
+           (:type . checkbox))
+          ("terrestrial_radiation"
+           (:name . "Terrestrial Solar Radiation")
+           (:type . checkbox))
+          ("shortwave_radiation_instant"
+           (:name . "Shortwave Solar Radiation GHI (Instant)")
+           (:type . checkbox))
+          ("direct_radiation_instant"
+           (:name . "Direct Solar Radiation (Instant)")
+           (:type . checkbox))
+          ("diffuse_radiation_instant"
+           (:name . "Diffuse Solar Radiation DHI (Instant)")
+           (:type . checkbox))
+          ("direct_normal_irradiance_instant"
+           (:name . "Direct Normal Irradiance DNI (Instant)")
+           (:type . checkbox))
+          ("global_tilted_irradiance_instant"
+           (:name . "Global Tilted Radiation GTI")
+           (:type . checkbox))
+          ("terrestrial_radiation_instant"
+           (:name . "Terrestrial Solar Radiation (Instant)")
+           (:type . checkbox))
+          ("tilt"
+           (:name . "Panel Tilt (0° horizontal)")
+           (:type . number))
+          ("azimuth"
+           (:name . "Panel Azimuth (0° S, -90° E, 90° W)")
+           (:type . number))))
+        ((:name . "Pressure Level Variables")
+         (:children
+          ((:name . "Temperature")
+           (:fields
+            ("temperature_10hPa"
+             (:name . "10 hPa (26 km)")
+             (:type . checkbox))
+            ("temperature_20hPa"
+             (:name . "20 hPa (23 km)")
+             (:type . checkbox))
+            ("temperature_30hPa"
+             (:name . "30 hPa (22 km)")
+             (:type . checkbox))
+            ("temperature_50hPa"
+             (:name . "50 hPa (19.3 km)")
+             (:type . checkbox))
+            ("temperature_100hPa"
+             (:name . "100 hPa (15.8 km)")
+             (:type . checkbox))
+            ("temperature_150hPa"
+             (:name . "150 hPa (13.5 km)")
+             (:type . checkbox))
+            ("temperature_175hPa"
+             (:name . "175 hPa (12.6 km)")
+             (:type . checkbox))
+            ("temperature_200hPa"
+             (:name . "200 hPa (11.8 km)")
+             (:type . checkbox))
+            ("temperature_225hPa"
+             (:name . "225 hPa (11 km)")
+             (:type . checkbox))
+            ("temperature_250hPa"
+             (:name . "250 hPa (10.4 km)")
+             (:type . checkbox))
+            ("temperature_275hPa"
+             (:name . "275 hPa (9.7 km)")
+             (:type . checkbox))
+            ("temperature_300hPa"
+             (:name . "300 hPa (9.2 km)")
+             (:type . checkbox))
+            ("temperature_350hPa"
+             (:name . "350 hPa (8.1 km)")
+             (:type . checkbox))
+            ("temperature_400hPa"
+             (:name . "400 hPa (7.2 km)")
+             (:type . checkbox))
+            ("temperature_450hPa"
+             (:name . "450 hPa (6.3 km)")
+             (:type . checkbox))
+            ("temperature_500hPa"
+             (:name . "500 hPa (5.6 km)")
+             (:type . checkbox))
+            ("temperature_550hPa"
+             (:name . "550 hPa (4.9 km)")
+             (:type . checkbox))
+            ("temperature_600hPa"
+             (:name . "600 hPa (4.2 km)")
+             (:type . checkbox))
+            ("temperature_650hPa"
+             (:name . "650 hPa (3.6 km)")
+             (:type . checkbox))
+            ("temperature_700hPa"
+             (:name . "700 hPa (3 km)")
+             (:type . checkbox))
+            ("temperature_750hPa"
+             (:name . "750 hPa (2.5 km)")
+             (:type . checkbox))
+            ("temperature_800hPa"
+             (:name . "800 hPa (1900 m)")
+             (:type . checkbox))
+            ("temperature_850hPa"
+             (:name . "850 hPa (1500 m)")
+             (:type . checkbox))
+            ("temperature_875hPa"
+             (:name . "875 hPa (1200 m)")
+             (:type . checkbox))
+            ("temperature_900hPa"
+             (:name . "900 hPa (1000 m)")
+             (:type . checkbox))
+            ("temperature_925hPa"
+             (:name . "925 hPa (800 m)")
+             (:type . checkbox))
+            ("temperature_950hPa"
+             (:name . "950 hPa (500 m)")
+             (:type . checkbox))
+            ("temperature_970hPa"
+             (:name . "970 hPa (370 m)")
+             (:type . checkbox))
+            ("temperature_985hPa"
+             (:name . "985 hPa (240 m)")
+             (:type . checkbox))
+            ("temperature_1000hPa"
+             (:name . "1000 hPa (110 m)")
+             (:type . checkbox))
+            ("temperature_1015hPa"
+             (:name . "1015 hPa (-10 m)")
+             (:type . checkbox))))
+          ((:name . "Dewpoint")
+           (:fields
+            ("dew_point_10hPa"
+             (:name . "10 hPa (26 km)")
+             (:type . checkbox))
+            ("dew_point_20hPa"
+             (:name . "20 hPa (23 km)")
+             (:type . checkbox))
+            ("dew_point_30hPa"
+             (:name . "30 hPa (22 km)")
+             (:type . checkbox))
+            ("dew_point_50hPa"
+             (:name . "50 hPa (19.3 km)")
+             (:type . checkbox))
+            ("dew_point_100hPa"
+             (:name . "100 hPa (15.8 km)")
+             (:type . checkbox))
+            ("dew_point_150hPa"
+             (:name . "150 hPa (13.5 km)")
+             (:type . checkbox))
+            ("dew_point_175hPa"
+             (:name . "175 hPa (12.6 km)")
+             (:type . checkbox))
+            ("dew_point_200hPa"
+             (:name . "200 hPa (11.8 km)")
+             (:type . checkbox))
+            ("dew_point_225hPa"
+             (:name . "225 hPa (11 km)")
+             (:type . checkbox))
+            ("dew_point_250hPa"
+             (:name . "250 hPa (10.4 km)")
+             (:type . checkbox))
+            ("dew_point_275hPa"
+             (:name . "275 hPa (9.7 km)")
+             (:type . checkbox))
+            ("dew_point_300hPa"
+             (:name . "300 hPa (9.2 km)")
+             (:type . checkbox))
+            ("dew_point_350hPa"
+             (:name . "350 hPa (8.1 km)")
+             (:type . checkbox))
+            ("dew_point_400hPa"
+             (:name . "400 hPa (7.2 km)")
+             (:type . checkbox))
+            ("dew_point_450hPa"
+             (:name . "450 hPa (6.3 km)")
+             (:type . checkbox))
+            ("dew_point_500hPa"
+             (:name . "500 hPa (5.6 km)")
+             (:type . checkbox))
+            ("dew_point_550hPa"
+             (:name . "550 hPa (4.9 km)")
+             (:type . checkbox))
+            ("dew_point_600hPa"
+             (:name . "600 hPa (4.2 km)")
+             (:type . checkbox))
+            ("dew_point_650hPa"
+             (:name . "650 hPa (3.6 km)")
+             (:type . checkbox))
+            ("dew_point_700hPa"
+             (:name . "700 hPa (3 km)")
+             (:type . checkbox))
+            ("dew_point_750hPa"
+             (:name . "750 hPa (2.5 km)")
+             (:type . checkbox))
+            ("dew_point_800hPa"
+             (:name . "800 hPa (1900 m)")
+             (:type . checkbox))
+            ("dew_point_850hPa"
+             (:name . "850 hPa (1500 m)")
+             (:type . checkbox))
+            ("dew_point_875hPa"
+             (:name . "875 hPa (1200 m)")
+             (:type . checkbox))
+            ("dew_point_900hPa"
+             (:name . "900 hPa (1000 m)")
+             (:type . checkbox))
+            ("dew_point_925hPa"
+             (:name . "925 hPa (800 m)")
+             (:type . checkbox))
+            ("dew_point_950hPa"
+             (:name . "950 hPa (500 m)")
+             (:type . checkbox))
+            ("dew_point_970hPa"
+             (:name . "970 hPa (370 m)")
+             (:type . checkbox))
+            ("dew_point_985hPa"
+             (:name . "985 hPa (240 m)")
+             (:type . checkbox))
+            ("dew_point_1000hPa"
+             (:name . "1000 hPa (110 m)")
+             (:type . checkbox))
+            ("dew_point_1015hPa"
+             (:name . "1015 hPa (-10 m)")
+             (:type . checkbox))))
+          ((:name . "Relative Humidity")
+           (:fields
+            ("relative_humidity_10hPa"
+             (:name . "10 hPa (26 km)")
+             (:type . checkbox))
+            ("relative_humidity_20hPa"
+             (:name . "20 hPa (23 km)")
+             (:type . checkbox))
+            ("relative_humidity_30hPa"
+             (:name . "30 hPa (22 km)")
+             (:type . checkbox))
+            ("relative_humidity_50hPa"
+             (:name . "50 hPa (19.3 km)")
+             (:type . checkbox))
+            ("relative_humidity_100hPa"
+             (:name . "100 hPa (15.8 km)")
+             (:type . checkbox))
+            ("relative_humidity_150hPa"
+             (:name . "150 hPa (13.5 km)")
+             (:type . checkbox))
+            ("relative_humidity_175hPa"
+             (:name . "175 hPa (12.6 km)")
+             (:type . checkbox))
+            ("relative_humidity_200hPa"
+             (:name . "200 hPa (11.8 km)")
+             (:type . checkbox))
+            ("relative_humidity_225hPa"
+             (:name . "225 hPa (11 km)")
+             (:type . checkbox))
+            ("relative_humidity_250hPa"
+             (:name . "250 hPa (10.4 km)")
+             (:type . checkbox))
+            ("relative_humidity_275hPa"
+             (:name . "275 hPa (9.7 km)")
+             (:type . checkbox))
+            ("relative_humidity_300hPa"
+             (:name . "300 hPa (9.2 km)")
+             (:type . checkbox))
+            ("relative_humidity_350hPa"
+             (:name . "350 hPa (8.1 km)")
+             (:type . checkbox))
+            ("relative_humidity_400hPa"
+             (:name . "400 hPa (7.2 km)")
+             (:type . checkbox))
+            ("relative_humidity_450hPa"
+             (:name . "450 hPa (6.3 km)")
+             (:type . checkbox))
+            ("relative_humidity_500hPa"
+             (:name . "500 hPa (5.6 km)")
+             (:type . checkbox))
+            ("relative_humidity_550hPa"
+             (:name . "550 hPa (4.9 km)")
+             (:type . checkbox))
+            ("relative_humidity_600hPa"
+             (:name . "600 hPa (4.2 km)")
+             (:type . checkbox))
+            ("relative_humidity_650hPa"
+             (:name . "650 hPa (3.6 km)")
+             (:type . checkbox))
+            ("relative_humidity_700hPa"
+             (:name . "700 hPa (3 km)")
+             (:type . checkbox))
+            ("relative_humidity_750hPa"
+             (:name . "750 hPa (2.5 km)")
+             (:type . checkbox))
+            ("relative_humidity_800hPa"
+             (:name . "800 hPa (1900 m)")
+             (:type . checkbox))
+            ("relative_humidity_850hPa"
+             (:name . "850 hPa (1500 m)")
+             (:type . checkbox))
+            ("relative_humidity_875hPa"
+             (:name . "875 hPa (1200 m)")
+             (:type . checkbox))
+            ("relative_humidity_900hPa"
+             (:name . "900 hPa (1000 m)")
+             (:type . checkbox))
+            ("relative_humidity_925hPa"
+             (:name . "925 hPa (800 m)")
+             (:type . checkbox))
+            ("relative_humidity_950hPa"
+             (:name . "950 hPa (500 m)")
+             (:type . checkbox))
+            ("relative_humidity_970hPa"
+             (:name . "970 hPa (370 m)")
+             (:type . checkbox))
+            ("relative_humidity_985hPa"
+             (:name . "985 hPa (240 m)")
+             (:type . checkbox))
+            ("relative_humidity_1000hPa"
+             (:name . "1000 hPa (110 m)")
+             (:type . checkbox))
+            ("relative_humidity_1015hPa"
+             (:name . "1015 hPa (-10 m)")
+             (:type . checkbox))))
+          ((:name . "Cloud cover")
+           (:fields
+            ("cloud_cover_10hPa"
+             (:name . "10 hPa (26 km)")
+             (:type . checkbox))
+            ("cloud_cover_20hPa"
+             (:name . "20 hPa (23 km)")
+             (:type . checkbox))
+            ("cloud_cover_30hPa"
+             (:name . "30 hPa (22 km)")
+             (:type . checkbox))
+            ("cloud_cover_50hPa"
+             (:name . "50 hPa (19.3 km)")
+             (:type . checkbox))
+            ("cloud_cover_100hPa"
+             (:name . "100 hPa (15.8 km)")
+             (:type . checkbox))
+            ("cloud_cover_150hPa"
+             (:name . "150 hPa (13.5 km)")
+             (:type . checkbox))
+            ("cloud_cover_175hPa"
+             (:name . "175 hPa (12.6 km)")
+             (:type . checkbox))
+            ("cloud_cover_200hPa"
+             (:name . "200 hPa (11.8 km)")
+             (:type . checkbox))
+            ("cloud_cover_225hPa"
+             (:name . "225 hPa (11 km)")
+             (:type . checkbox))
+            ("cloud_cover_250hPa"
+             (:name . "250 hPa (10.4 km)")
+             (:type . checkbox))
+            ("cloud_cover_275hPa"
+             (:name . "275 hPa (9.7 km)")
+             (:type . checkbox))
+            ("cloud_cover_300hPa"
+             (:name . "300 hPa (9.2 km)")
+             (:type . checkbox))
+            ("cloud_cover_350hPa"
+             (:name . "350 hPa (8.1 km)")
+             (:type . checkbox))
+            ("cloud_cover_400hPa"
+             (:name . "400 hPa (7.2 km)")
+             (:type . checkbox))
+            ("cloud_cover_450hPa"
+             (:name . "450 hPa (6.3 km)")
+             (:type . checkbox))
+            ("cloud_cover_500hPa"
+             (:name . "500 hPa (5.6 km)")
+             (:type . checkbox))
+            ("cloud_cover_550hPa"
+             (:name . "550 hPa (4.9 km)")
+             (:type . checkbox))
+            ("cloud_cover_600hPa"
+             (:name . "600 hPa (4.2 km)")
+             (:type . checkbox))
+            ("cloud_cover_650hPa"
+             (:name . "650 hPa (3.6 km)")
+             (:type . checkbox))
+            ("cloud_cover_700hPa"
+             (:name . "700 hPa (3 km)")
+             (:type . checkbox))
+            ("cloud_cover_750hPa"
+             (:name . "750 hPa (2.5 km)")
+             (:type . checkbox))
+            ("cloud_cover_800hPa"
+             (:name . "800 hPa (1900 m)")
+             (:type . checkbox))
+            ("cloud_cover_850hPa"
+             (:name . "850 hPa (1500 m)")
+             (:type . checkbox))
+            ("cloud_cover_875hPa"
+             (:name . "875 hPa (1200 m)")
+             (:type . checkbox))
+            ("cloud_cover_900hPa"
+             (:name . "900 hPa (1000 m)")
+             (:type . checkbox))
+            ("cloud_cover_925hPa"
+             (:name . "925 hPa (800 m)")
+             (:type . checkbox))
+            ("cloud_cover_950hPa"
+             (:name . "950 hPa (500 m)")
+             (:type . checkbox))
+            ("cloud_cover_970hPa"
+             (:name . "970 hPa (370 m)")
+             (:type . checkbox))
+            ("cloud_cover_985hPa"
+             (:name . "985 hPa (240 m)")
+             (:type . checkbox))
+            ("cloud_cover_1000hPa"
+             (:name . "1000 hPa (110 m)")
+             (:type . checkbox))
+            ("cloud_cover_1015hPa"
+             (:name . "1015 hPa (-10 m)")
+             (:type . checkbox))))
+          ((:name . "Wind Speed")
+           (:fields
+            ("windspeed_10hPa"
+             (:name . "10 hPa (26 km)")
+             (:type . checkbox))
+            ("windspeed_20hPa"
+             (:name . "20 hPa (23 km)")
+             (:type . checkbox))
+            ("windspeed_30hPa"
+             (:name . "30 hPa (22 km)")
+             (:type . checkbox))
+            ("windspeed_50hPa"
+             (:name . "50 hPa (19.3 km)")
+             (:type . checkbox))
+            ("windspeed_100hPa"
+             (:name . "100 hPa (15.8 km)")
+             (:type . checkbox))
+            ("windspeed_150hPa"
+             (:name . "150 hPa (13.5 km)")
+             (:type . checkbox))
+            ("windspeed_175hPa"
+             (:name . "175 hPa (12.6 km)")
+             (:type . checkbox))
+            ("windspeed_200hPa"
+             (:name . "200 hPa (11.8 km)")
+             (:type . checkbox))
+            ("windspeed_225hPa"
+             (:name . "225 hPa (11 km)")
+             (:type . checkbox))
+            ("windspeed_250hPa"
+             (:name . "250 hPa (10.4 km)")
+             (:type . checkbox))
+            ("windspeed_275hPa"
+             (:name . "275 hPa (9.7 km)")
+             (:type . checkbox))
+            ("windspeed_300hPa"
+             (:name . "300 hPa (9.2 km)")
+             (:type . checkbox))
+            ("windspeed_350hPa"
+             (:name . "350 hPa (8.1 km)")
+             (:type . checkbox))
+            ("windspeed_400hPa"
+             (:name . "400 hPa (7.2 km)")
+             (:type . checkbox))
+            ("windspeed_450hPa"
+             (:name . "450 hPa (6.3 km)")
+             (:type . checkbox))
+            ("windspeed_500hPa"
+             (:name . "500 hPa (5.6 km)")
+             (:type . checkbox))
+            ("windspeed_550hPa"
+             (:name . "550 hPa (4.9 km)")
+             (:type . checkbox))
+            ("windspeed_600hPa"
+             (:name . "600 hPa (4.2 km)")
+             (:type . checkbox))
+            ("windspeed_650hPa"
+             (:name . "650 hPa (3.6 km)")
+             (:type . checkbox))
+            ("windspeed_700hPa"
+             (:name . "700 hPa (3 km)")
+             (:type . checkbox))
+            ("windspeed_750hPa"
+             (:name . "750 hPa (2.5 km)")
+             (:type . checkbox))
+            ("windspeed_800hPa"
+             (:name . "800 hPa (1900 m)")
+             (:type . checkbox))
+            ("windspeed_850hPa"
+             (:name . "850 hPa (1500 m)")
+             (:type . checkbox))
+            ("windspeed_875hPa"
+             (:name . "875 hPa (1200 m)")
+             (:type . checkbox))
+            ("windspeed_900hPa"
+             (:name . "900 hPa (1000 m)")
+             (:type . checkbox))
+            ("windspeed_925hPa"
+             (:name . "925 hPa (800 m)")
+             (:type . checkbox))
+            ("windspeed_950hPa"
+             (:name . "950 hPa (500 m)")
+             (:type . checkbox))
+            ("windspeed_970hPa"
+             (:name . "970 hPa (370 m)")
+             (:type . checkbox))
+            ("windspeed_985hPa"
+             (:name . "985 hPa (240 m)")
+             (:type . checkbox))
+            ("windspeed_1000hPa"
+             (:name . "1000 hPa (110 m)")
+             (:type . checkbox))
+            ("windspeed_1015hPa"
+             (:name . "1015 hPa (-10 m)")
+             (:type . checkbox))))
+          ((:name . "Wind Direction")
+           (:fields
+            ("winddirection_10hPa"
+             (:name . "10 hPa (26 km)")
+             (:type . checkbox))
+            ("winddirection_20hPa"
+             (:name . "20 hPa (23 km)")
+             (:type . checkbox))
+            ("winddirection_30hPa"
+             (:name . "30 hPa (22 km)")
+             (:type . checkbox))
+            ("winddirection_50hPa"
+             (:name . "50 hPa (19.3 km)")
+             (:type . checkbox))
+            ("winddirection_100hPa"
+             (:name . "100 hPa (15.8 km)")
+             (:type . checkbox))
+            ("winddirection_150hPa"
+             (:name . "150 hPa (13.5 km)")
+             (:type . checkbox))
+            ("winddirection_175hPa"
+             (:name . "175 hPa (12.6 km)")
+             (:type . checkbox))
+            ("winddirection_200hPa"
+             (:name . "200 hPa (11.8 km)")
+             (:type . checkbox))
+            ("winddirection_225hPa"
+             (:name . "225 hPa (11 km)")
+             (:type . checkbox))
+            ("winddirection_250hPa"
+             (:name . "250 hPa (10.4 km)")
+             (:type . checkbox))
+            ("winddirection_275hPa"
+             (:name . "275 hPa (9.7 km)")
+             (:type . checkbox))
+            ("winddirection_300hPa"
+             (:name . "300 hPa (9.2 km)")
+             (:type . checkbox))
+            ("winddirection_350hPa"
+             (:name . "350 hPa (8.1 km)")
+             (:type . checkbox))
+            ("winddirection_400hPa"
+             (:name . "400 hPa (7.2 km)")
+             (:type . checkbox))
+            ("winddirection_450hPa"
+             (:name . "450 hPa (6.3 km)")
+             (:type . checkbox))
+            ("winddirection_500hPa"
+             (:name . "500 hPa (5.6 km)")
+             (:type . checkbox))
+            ("winddirection_550hPa"
+             (:name . "550 hPa (4.9 km)")
+             (:type . checkbox))
+            ("winddirection_600hPa"
+             (:name . "600 hPa (4.2 km)")
+             (:type . checkbox))
+            ("winddirection_650hPa"
+             (:name . "650 hPa (3.6 km)")
+             (:type . checkbox))
+            ("winddirection_700hPa"
+             (:name . "700 hPa (3 km)")
+             (:type . checkbox))
+            ("winddirection_750hPa"
+             (:name . "750 hPa (2.5 km)")
+             (:type . checkbox))
+            ("winddirection_800hPa"
+             (:name . "800 hPa (1900 m)")
+             (:type . checkbox))
+            ("winddirection_850hPa"
+             (:name . "850 hPa (1500 m)")
+             (:type . checkbox))
+            ("winddirection_875hPa"
+             (:name . "875 hPa (1200 m)")
+             (:type . checkbox))
+            ("winddirection_900hPa"
+             (:name . "900 hPa (1000 m)")
+             (:type . checkbox))
+            ("winddirection_925hPa"
+             (:name . "925 hPa (800 m)")
+             (:type . checkbox))
+            ("winddirection_950hPa"
+             (:name . "950 hPa (500 m)")
+             (:type . checkbox))
+            ("winddirection_970hPa"
+             (:name . "970 hPa (370 m)")
+             (:type . checkbox))
+            ("winddirection_985hPa"
+             (:name . "985 hPa (240 m)")
+             (:type . checkbox))
+            ("winddirection_1000hPa"
+             (:name . "1000 hPa (110 m)")
+             (:type . checkbox))
+            ("winddirection_1015hPa"
+             (:name . "1015 hPa (-10 m)")
+             (:type . checkbox))))
+          ((:name . "Geopotential Height")
+           (:fields
+            ("geopotential_height_10hPa"
+             (:name . "10 hPa (26 km)")
+             (:type . checkbox))
+            ("geopotential_height_20hPa"
+             (:name . "20 hPa (23 km)")
+             (:type . checkbox))
+            ("geopotential_height_30hPa"
+             (:name . "30 hPa (22 km)")
+             (:type . checkbox))
+            ("geopotential_height_50hPa"
+             (:name . "50 hPa (19.3 km)")
+             (:type . checkbox))
+            ("geopotential_height_100hPa"
+             (:name . "100 hPa (15.8 km)")
+             (:type . checkbox))
+            ("geopotential_height_150hPa"
+             (:name . "150 hPa (13.5 km)")
+             (:type . checkbox))
+            ("geopotential_height_175hPa"
+             (:name . "175 hPa (12.6 km)")
+             (:type . checkbox))
+            ("geopotential_height_200hPa"
+             (:name . "200 hPa (11.8 km)")
+             (:type . checkbox))
+            ("geopotential_height_225hPa"
+             (:name . "225 hPa (11 km)")
+             (:type . checkbox))
+            ("geopotential_height_250hPa"
+             (:name . "250 hPa (10.4 km)")
+             (:type . checkbox))
+            ("geopotential_height_275hPa"
+             (:name . "275 hPa (9.7 km)")
+             (:type . checkbox))
+            ("geopotential_height_300hPa"
+             (:name . "300 hPa (9.2 km)")
+             (:type . checkbox))
+            ("geopotential_height_350hPa"
+             (:name . "350 hPa (8.1 km)")
+             (:type . checkbox))
+            ("geopotential_height_400hPa"
+             (:name . "400 hPa (7.2 km)")
+             (:type . checkbox))
+            ("geopotential_height_450hPa"
+             (:name . "450 hPa (6.3 km)")
+             (:type . checkbox))
+            ("geopotential_height_500hPa"
+             (:name . "500 hPa (5.6 km)")
+             (:type . checkbox))
+            ("geopotential_height_550hPa"
+             (:name . "550 hPa (4.9 km)")
+             (:type . checkbox))
+            ("geopotential_height_600hPa"
+             (:name . "600 hPa (4.2 km)")
+             (:type . checkbox))
+            ("geopotential_height_650hPa"
+             (:name . "650 hPa (3.6 km)")
+             (:type . checkbox))
+            ("geopotential_height_700hPa"
+             (:name . "700 hPa (3 km)")
+             (:type . checkbox))
+            ("geopotential_height_750hPa"
+             (:name . "750 hPa (2.5 km)")
+             (:type . checkbox))
+            ("geopotential_height_800hPa"
+             (:name . "800 hPa (1900 m)")
+             (:type . checkbox))
+            ("geopotential_height_850hPa"
+             (:name . "850 hPa (1500 m)")
+             (:type . checkbox))
+            ("geopotential_height_875hPa"
+             (:name . "875 hPa (1200 m)")
+             (:type . checkbox))
+            ("geopotential_height_900hPa"
+             (:name . "900 hPa (1000 m)")
+             (:type . checkbox))
+            ("geopotential_height_925hPa"
+             (:name . "925 hPa (800 m)")
+             (:type . checkbox))
+            ("geopotential_height_950hPa"
+             (:name . "950 hPa (500 m)")
+             (:type . checkbox))
+            ("geopotential_height_970hPa"
+             (:name . "970 hPa (370 m)")
+             (:type . checkbox))
+            ("geopotential_height_985hPa"
+             (:name . "985 hPa (240 m)")
+             (:type . checkbox))
+            ("geopotential_height_1000hPa"
+             (:name . "1000 hPa (110 m)")
+             (:type . checkbox))
+            ("geopotential_height_1015hPa"
+             (:name . "1015 hPa (-10 m)")
+             (:type . checkbox)))))))
+       (:fields
+        ("temperature_2m"
+         (:name . "Temperature (2 m)")
+         (:type . checkbox))
+        ("relative_humidity_2m"
+         (:name . "Relative Humidity (2 m)")
+         (:type . checkbox))
+        ("dew_point_2m"
+         (:name . "Dewpoint (2 m)")
+         (:type . checkbox))
+        ("apparent_temperature"
+         (:name . "Apparent Temperature")
+         (:type . checkbox))
+        ("precipitation"
+         (:name . "Precipitation (rain + showers + snow)")
+         (:type . checkbox))
+        ("rain"
+         (:name . "Rain")
+         (:type . checkbox))
+        ("showers"
+         (:name . "Showers")
+         (:type . checkbox))
+        ("snowfall"
+         (:name . "Snowfall")
+         (:type . checkbox))
+        ("weather_code"
+         (:name . "Weather code")
+         (:type . checkbox))
+        ("pressure_msl"
+         (:name . "Sealevel Pressure")
+         (:type . checkbox))
+        ("surface_pressure"
+         (:name . "Surface Pressure")
+         (:type . checkbox))
+        ("cloud_cover"
+         (:name . "Cloud cover Total")
+         (:type . checkbox))
+        ("cloud_cover_low"
+         (:name . "Cloud cover Low")
+         (:type . checkbox))
+        ("cloud_cover_mid"
+         (:name . "Cloud cover Mid")
+         (:type . checkbox))
+        ("cloud_cover_high"
+         (:name . "Cloud cover High")
+         (:type . checkbox))
+        ("et0_fao_evapotranspiration"
+         (:name . "Reference Evapotranspiration (ET₀)")
+         (:type . checkbox))
+        ("vapour_pressure_deficit"
+         (:name . "Vapour Pressure Deficit")
+         (:type . checkbox))
+        ("wind_speed_10m"
+         (:name . "Wind Speed (10 m)")
+         (:type . checkbox))
+        ("wind_speed_40m"
+         (:name . "Wind Speed (40 m)")
+         (:type . checkbox))
+        ("wind_speed_80m"
+         (:name . "Wind Speed (80 m)")
+         (:type . checkbox))
+        ("wind_speed_120m"
+         (:name . "Wind Speed (120 m)")
+         (:type . checkbox))
+        ("wind_direction_10m"
+         (:name . "Wind Direction (10 m)")
+         (:type . checkbox))
+        ("wind_direction_40m"
+         (:name . "Wind Direction (40 m)")
+         (:type . checkbox))
+        ("wind_direction_80m"
+         (:name . "Wind Direction (80 m)")
+         (:type . checkbox))
+        ("wind_direction_120m"
+         (:name . "Wind Direction (120 m)")
+         (:type . checkbox))
+        ("wind_gusts_10m"
+         (:name . "Wind Gusts (10 m)")
+         (:type . checkbox))
+        ("temperature_40m"
+         (:name . "Temperature (40 m)")
+         (:type . checkbox))
+        ("temperature_80m"
+         (:name . "Temperature (80 m)")
+         (:type . checkbox))
+        ("temperature_120m"
+         (:name . "Temperature (120 m)")
+         (:type . checkbox))
+        ("soil_temperature_0_to_10cm"
+         (:name . "Soil Temperature (0-10 cm)")
+         (:type . checkbox))
+        ("soil_moisture_0_to_10cm"
+         (:name . "Soil Moisture (0-10 cm)")
+         (:type . checkbox))))
+      ((:param . "daily")
+       (:name . "Daily Weather Variables")
+       (:fields
+        ("weather_code"
+         (:name . "Weather code")
+         (:type . checkbox))
+        ("temperature_2m_max"
+         (:name . "Maximum Temperature (2 m)")
+         (:type . checkbox))
+        ("temperature_2m_min"
+         (:name . "Minimum Temperature (2 m)")
+         (:type . checkbox))
+        ("apparent_temperature_max"
+         (:name . "Maximum Apparent Temperature (2 m)")
+         (:type . checkbox))
+        ("apparent_temperature_min"
+         (:name . "Minimum Apparent Temperature (2 m)")
+         (:type . checkbox))
+        ("sunrise"
+         (:name . "Sunrise")
+         (:type . checkbox))
+        ("sunset"
+         (:name . "Sunset")
+         (:type . checkbox))
+        ("daylight_duration"
+         (:name . "Daylight Duration")
+         (:type . checkbox))
+        ("sunshine_duration"
+         (:name . "Sunshine Duration")
+         (:type . checkbox))
+        ("precipitation_sum"
+         (:name . "Precipitation Sum")
+         (:type . checkbox))
+        ("rain_sum"
+         (:name . "Rain Sum")
+         (:type . checkbox))
+        ("showers_sum"
+         (:name . "Showers Sum")
+         (:type . checkbox))
+        ("snowfall_sum"
+         (:name . "Snowfall Sum")
+         (:type . checkbox))
+        ("precipitation_hours"
+         (:name . "Precipitation Hours")
+         (:type . checkbox))
+        ("wind_speed_10m_max"
+         (:name . "Maximum Wind Speed (10 m)")
+         (:type . checkbox))
+        ("wind_gusts_10m_max"
+         (:name . "Maximum Wind Gusts (10 m)")
+         (:type . checkbox))
+        ("wind_direction_10m_dominant"
+         (:name . "Dominant Wind Direction (10 m)")
+         (:type . checkbox))
+        ("shortwave_radiation_sum"
+         (:name . "Shortwave Radiation Sum")
+         (:type . checkbox))
+        ("et0_fao_evapotranspiration"
+         (:name . "Reference Evapotranspiration (ET₀)")
+         (:type . checkbox))))
+      ((:param . "current")
+       (:name . "Current Weather")
+       (:fields
+        ("temperature_2m"
+         (:name . "Temperature (2 m)")
+         (:type . checkbox))
+        ("relative_humidity_2m"
+         (:name . "Relative Humidity (2 m)")
+         (:type . checkbox))
+        ("apparent_temperature"
+         (:name . "Apparent Temperature")
+         (:type . checkbox))
+        ("is_day"
+         (:name . "Is Day or Night")
+         (:type . checkbox))
+        ("precipitation"
+         (:name . "Precipitation")
+         (:type . checkbox))
+        ("rain"
+         (:name . "Rain")
+         (:type . checkbox))
+        ("showers"
+         (:name . "Showers")
+         (:type . checkbox))
+        ("snowfall"
+         (:name . "Snowfall")
+         (:type . checkbox))
+        ("weather_code"
+         (:name . "Weather code")
+         (:type . checkbox))
+        ("cloud_cover"
+         (:name . "Cloud cover Total")
+         (:type . checkbox))
+        ("pressure_msl"
+         (:name . "Sealevel Pressure")
+         (:type . checkbox))
+        ("surface_pressure"
+         (:name . "Surface Pressure")
+         (:type . checkbox))
+        ("wind_speed_10m"
+         (:name . "Wind Speed (10 m)")
+         (:type . checkbox))
+        ("wind_direction_10m"
+         (:name . "Wind Direction (10 m)")
+         (:type . checkbox))
+        ("wind_gusts_10m"
+         (:name . "Wind Gusts (10 m)")
+         (:type . checkbox))))
+      ((:name . "Settings")
+       (:fields
+        ("elevation"
+         (:name . "Elevation")
+         (:type . float))
+        ("temperature_unit"
+         (:name . "Temperature Unit")
+         (:type . select)
+         (:options
+          ("celsius" . "Celsius °C")
+          ("fahrenheit" . "Fahrenheit °F")))
+        ("wind_speed_unit"
+         (:name . "Wind Speed Unit")
+         (:type . select)
+         (:options
+          ("kmh" . "Km/h")
+          ("ms" . "m/s")
+          ("mph" . "Mph")
+          ("kn" . "Knots")))
+        ("precipitation_unit"
+         (:name . "Precipitation Unit")
+         (:type . select)
+         (:options
+          ("mm" . "Millimeter")
+          ("inch" . "Inch")))
+        ("timeformat"
+         (:name . "Timeformat")
+         (:type . select)
+         (:options
+          ("iso8601" . "ISO 8601 (e.g. 2022-12-31)")
+          ("unixtime" . "Unix timestamp")))))))
     ("Historical Weather"
      (:name . "Historical Weather")
      (:url . "https://open-meteo.com/en/docs/historical-weather-api")
      (:description . "Weather information since 1940")
      (:key . "h")
      (:sections
-      ((:name . "Select Coordinates or City")
+      ((:name . "Select Coordinates and Time")
        (:fields
+        ("start_date"
+         (:name . "Start date")
+         (:type . date))
+        ("end_date"
+         (:name . "End date")
+         (:type . date))
         ("latitude"
          (:name . "Latitude")
          (:type . float))
         ("longitude"
          (:name . "Longitude")
-         (:type . float))))
+         (:type . float))
+        ("timezone"
+         (:name . "Timezone")
+         (:type . timezone))))
       ((:param . "hourly")
        (:name . "Hourly Weather Variables")
        (:children
@@ -5287,29 +8051,62 @@
          (:fields
           ("is_day"
            (:name . "Is Day or Night")
+           (:type . checkbox))
+          ("sunshine_duration"
+           (:name . "Sunshine Duration")
            (:type . checkbox))))
         ((:name . "Solar Radiation Variables")
          (:fields
           ("shortwave_radiation"
-           (:name . "Shortwave Solar Radiation")
+           (:name . "Shortwave Solar Radiation GHI")
            (:type . checkbox))
           ("direct_radiation"
            (:name . "Direct Solar Radiation")
            (:type . checkbox))
           ("diffuse_radiation"
-           (:name . "Diffuse Solar Radiation")
+           (:name . "Diffuse Solar Radiation DHI")
            (:type . checkbox))
           ("direct_normal_irradiance"
            (:name . "Direct Normal Irradiance DNI")
-           (:type . checkbox)))))
+           (:type . checkbox))
+          ("global_tilted_irradiance"
+           (:name . "Global Tilted Radiation GTI")
+           (:type . checkbox))
+          ("terrestrial_radiation"
+           (:name . "Terrestrial Solar Radiation")
+           (:type . checkbox))
+          ("shortwave_radiation_instant"
+           (:name . "Shortwave Solar Radiation GHI (Instant)")
+           (:type . checkbox))
+          ("direct_radiation_instant"
+           (:name . "Direct Solar Radiation (Instant)")
+           (:type . checkbox))
+          ("diffuse_radiation_instant"
+           (:name . "Diffuse Solar Radiation DHI (Instant)")
+           (:type . checkbox))
+          ("direct_normal_irradiance_instant"
+           (:name . "Direct Normal Irradiance DNI (Instant)")
+           (:type . checkbox))
+          ("global_tilted_irradiance_instant"
+           (:name . "Global Tilted Radiation GTI")
+           (:type . checkbox))
+          ("terrestrial_radiation_instant"
+           (:name . "Terrestrial Solar Radiation (Instant)")
+           (:type . checkbox))
+          ("tilt"
+           (:name . "Panel Tilt (0° horizontal)")
+           (:type . number))
+          ("azimuth"
+           (:name . "Panel Azimuth (0° S, -90° E, 90° W)")
+           (:type . number)))))
        (:fields
         ("temperature_2m"
          (:name . "Temperature (2 m)")
          (:type . checkbox))
-        ("relativehumidity_2m"
+        ("relative_humidity_2m"
          (:name . "Relative Humidity (2 m)")
          (:type . checkbox))
-        ("dewpoint_2m"
+        ("dew_point_2m"
          (:name . "Dewpoint (2 m)")
          (:type . checkbox))
         ("apparent_temperature"
@@ -5321,14 +8118,14 @@
         ("rain"
          (:name . "Rain")
          (:type . checkbox))
-        ("showers"
-         (:name . "Showers")
-         (:type . checkbox))
         ("snowfall"
          (:name . "Snowfall")
          (:type . checkbox))
-        ("weathercode"
-         (:name . "Weathercode")
+        ("snow_depth"
+         (:name . "Snow depth")
+         (:type . checkbox))
+        ("weather_code"
+         (:name . "Weather code")
          (:type . checkbox))
         ("pressure_msl"
          (:name . "Sealevel Pressure")
@@ -5336,37 +8133,37 @@
         ("surface_pressure"
          (:name . "Surface Pressure")
          (:type . checkbox))
-        ("cloudcover"
-         (:name . "Cloudcover Total")
+        ("cloud_cover"
+         (:name . "Cloud cover Total")
          (:type . checkbox))
-        ("cloudcover_low"
-         (:name . "Cloudcover Low")
+        ("cloud_cover_low"
+         (:name . "Cloud cover Low")
          (:type . checkbox))
-        ("cloudcover_mid"
-         (:name . "Cloudcover Mid")
+        ("cloud_cover_mid"
+         (:name . "Cloud cover Mid")
          (:type . checkbox))
-        ("cloudcover_high"
-         (:name . "Cloudcover High")
+        ("cloud_cover_high"
+         (:name . "Cloud cover High")
          (:type . checkbox))
         ("et0_fao_evapotranspiration"
          (:name . "Reference Evapotranspiration (ET₀)")
          (:type . checkbox))
-        ("vapor_pressure_deficit"
-         (:name . "Vapor Pressure Deficit")
+        ("vapour_pressure_deficit"
+         (:name . "Vapour Pressure Deficit")
          (:type . checkbox))
-        ("windspeed_10m"
+        ("wind_speed_10m"
          (:name . "Wind Speed (10 m)")
          (:type . checkbox))
-        ("windspeed_100m"
+        ("wind_speed_100m"
          (:name . "Wind Speed (100 m)")
          (:type . checkbox))
-        ("winddirection_10m"
+        ("wind_direction_10m"
          (:name . "Wind Direction (10 m)")
          (:type . checkbox))
-        ("winddirection_100m"
+        ("wind_direction_100m"
          (:name . "Wind Direction (100 m)")
          (:type . checkbox))
-        ("windgusts_10m"
+        ("wind_gusts_10m"
          (:name . "Wind Gusts (10 m)")
          (:type . checkbox))
         ("soil_temperature_0_to_7cm"
@@ -5396,8 +8193,8 @@
       ((:param . "daily")
        (:name . "Daily Weather Variables")
        (:fields
-        ("weathercode"
-         (:name . "Weathercode")
+        ("weather_code"
+         (:name . "Weather code")
          (:type . checkbox))
         ("temperature_2m_max"
          (:name . "Maximum Temperature (2 m)")
@@ -5423,14 +8220,17 @@
         ("sunset"
          (:name . "Sunset")
          (:type . checkbox))
+        ("daylight_duration"
+         (:name . "Daylight Duration")
+         (:type . checkbox))
+        ("sunshine_duration"
+         (:name . "Sunshine Duration")
+         (:type . checkbox))
         ("precipitation_sum"
          (:name . "Precipitation Sum")
          (:type . checkbox))
         ("rain_sum"
          (:name . "Rain Sum")
-         (:type . checkbox))
-        ("showers_sum"
-         (:name . "Showers Sum")
          (:type . checkbox))
         ("snowfall_sum"
          (:name . "Snowfall Sum")
@@ -5438,13 +8238,13 @@
         ("precipitation_hours"
          (:name . "Precipitation Hours")
          (:type . checkbox))
-        ("windspeed_10m_max"
+        ("wind_speed_10m_max"
          (:name . "Maximum Wind Speed (10 m)")
          (:type . checkbox))
-        ("windgusts_10m_max"
+        ("wind_gusts_10m_max"
          (:name . "Maximum Wind Gusts (10 m)")
          (:type . checkbox))
-        ("winddirection_10m_dominant"
+        ("wind_direction_10m_dominant"
          (:name . "Dominant Wind Direction (10 m)")
          (:type . checkbox))
         ("shortwave_radiation_sum"
@@ -5453,14 +8253,6 @@
         ("et0_fao_evapotranspiration"
          (:name . "Reference Evapotranspiration (ET₀)")
          (:type . checkbox))))
-      ((:name . "Specify Time Interval")
-       (:fields
-        ("start_date"
-         (:name . "Start date")
-         (:type . date))
-        ("end_date"
-         (:name . "End date")
-         (:type . date))))
       ((:name . "Settings")
        (:fields
         ("elevation"
@@ -5472,7 +8264,7 @@
          (:options
           ("celsius" . "Celsius °C")
           ("fahrenheit" . "Fahrenheit °F")))
-        ("windspeed_unit"
+        ("wind_speed_unit"
          (:name . "Wind Speed Unit")
          (:type . select)
          (:options
@@ -5491,15 +8283,18 @@
          (:type . select)
          (:options
           ("iso8601" . "ISO 8601 (e.g. 2022-12-31)")
-          ("unixtime" . "Unix timestamp")))
-        ("timezone"
-         (:name . "Timezone")
-         (:type . timezone))))
+          ("unixtime" . "Unix timestamp")))))
       ((:param . "models")
        (:name . "Reanalysis models")
        (:fields
         ("best_match"
-         (:name . "Best match (ERA5 & ERA5-Land combined)")
+         (:name . "Best match (ECMWF IFS & ERA5)")
+         (:type . checkbox))
+        ("ecmwf_ifs"
+         (:name . "ECMWF IFS (9 km, Global, 2017 onwards)")
+         (:type . checkbox))
+        ("era5_seamless"
+         (:name . "ERA5-Seamless (ERA5 & ERA5-Land combined)")
          (:type . checkbox))
         ("era5"
          (:name . "ERA5 (25 km, Global)")
@@ -5516,18 +8311,37 @@
      (:description . "Weather information since 1940")
      (:key . "e")
      (:sections
-      ((:name . "Select Coordinates or City")
+      ((:name . "Select Coordinates and Time")
        (:fields
+        ("end_date"
+         (:name . "End date")
+         (:type . date))
+        ("start_date"
+         (:name . "Start date")
+         (:type . date))
+        ("forecast_days"
+         (:name . "Forecast days")
+         (:type . number)
+         (:min . 0)
+         (:max . 16))
+        ("past_days"
+         (:name . "Past days")
+         (:type . number)
+         (:min . 0)
+         (:max . 92))
         ("latitude"
          (:name . "Latitude")
          (:type . float))
         ("longitude"
          (:name . "Longitude")
-         (:type . float))))
+         (:type . float))
+        ("timezone"
+         (:name . "Timezone")
+         (:type . timezone))))
       ((:param . "hourly")
        (:name . "Hourly Weather Variables")
        (:children
-        ((:name . "Additional Variables")
+        ((:name . "Additional Variables And Options")
          (:fields
           ("uv_index"
            (:name . "UV Index")
@@ -5535,46 +8349,89 @@
           ("uv_index_clear_sky"
            (:name . "UV Index Clear Sky")
            (:type . checkbox))
+          ("temperature_500hPa"
+           (:name . "Temperature (500 hPa)")
+           (:type . checkbox))
+          ("temperature_850hPa"
+           (:name . "Temperature (850 hPa)")
+           (:type . checkbox))
+          ("geopotential_height_500hPa"
+           (:name . "Geopotential Height (500 hPa)")
+           (:type . checkbox))
+          ("geopotential_height_850hPa"
+           (:name . "Geopotential Height (850 hPa)")
+           (:type . checkbox))
           ("cape"
            (:name . "CAPE")
            (:type . checkbox))
-          ("freezinglevel_height"
-           (:name . "Freezinglevel Height")
-           (:type . checkbox))))
+          ("freezing_level_height"
+           (:name . "Freezing Level Height")
+           (:type . checkbox))
+          ("sunshine_duration"
+           (:name . "Sunshine Duration")
+           (:type . checkbox))
+          ("forecast_hours"
+           (:name . "Forecast Hours")
+           (:type . select)
+           (:options
+            ("1" . "1 hour")
+            ("6" . "6 hours")
+            ("12" . "12 hours")
+            ("24" . "24 hours")))
+          ("past_hours"
+           (:name . "Past Hours")
+           (:type . select)
+           (:options
+            ("1" . "1 hour")
+            ("6" . "6 hours")
+            ("12" . "12 hours")
+            ("24" . "24 hours")))))
         ((:name . "Solar Radiation Variables")
          (:fields
           ("shortwave_radiation"
-           (:name . "Shortwave Solar Radiation")
+           (:name . "Shortwave Solar Radiation GHI")
            (:type . checkbox))
           ("direct_radiation"
            (:name . "Direct Solar Radiation")
            (:type . checkbox))
           ("diffuse_radiation"
-           (:name . "Diffuse Solar Radiation")
+           (:name . "Diffuse Solar Radiation DHI")
            (:type . checkbox))
           ("direct_normal_irradiance"
            (:name . "Direct Normal Irradiance DNI")
            (:type . checkbox))
+          ("global_tilted_irradiance"
+           (:name . "Global Tilted Radiation GTI")
+           (:type . checkbox))
           ("shortwave_radiation_instant"
-           (:name . "Shortwave Solar Radiation (Instant)")
+           (:name . "Shortwave Solar Radiation GHI (Instant)")
            (:type . checkbox))
           ("direct_radiation_instant"
            (:name . "Direct Solar Radiation (Instant)")
            (:type . checkbox))
           ("diffuse_radiation_instant"
-           (:name . "Diffuse Solar Radiation (Instant)")
+           (:name . "Diffuse Solar Radiation DHI (Instant)")
            (:type . checkbox))
           ("direct_normal_irradiance_instant"
            (:name . "Direct Normal Irradiance DNI (Instant)")
-           (:type . checkbox)))))
+           (:type . checkbox))
+          ("global_tilted_irradiance_instant"
+           (:name . "Global Tilted Radiation GTI")
+           (:type . checkbox))
+          ("tilt"
+           (:name . "Panel Tilt (0° horizontal)")
+           (:type . number))
+          ("azimuth"
+           (:name . "Panel Azimuth (0° S, -90° E, 90° W)")
+           (:type . number)))))
        (:fields
         ("temperature_2m"
          (:name . "Temperature (2 m)")
          (:type . checkbox))
-        ("relativehumidity_2m"
+        ("relative_humidity_2m"
          (:name . "Relative Humidity (2 m)")
          (:type . checkbox))
-        ("dewpoint_2m"
+        ("dew_point_2m"
          (:name . "Dewpoint (2 m)")
          (:type . checkbox))
         ("apparent_temperature"
@@ -5592,8 +8449,8 @@
         ("snow_depth"
          (:name . "Snow Depth")
          (:type . checkbox))
-        ("weathercode"
-         (:name . "Weathercode")
+        ("weather_code"
+         (:name . "Weather code")
          (:type . checkbox))
         ("pressure_msl"
          (:name . "Sealevel Pressure")
@@ -5601,8 +8458,8 @@
         ("surface_pressure"
          (:name . "Surface Pressure")
          (:type . checkbox))
-        ("cloudcover"
-         (:name . "Cloudcover Total")
+        ("cloud_cover"
+         (:name . "Cloud cover Total")
          (:type . checkbox))
         ("visibility"
          (:name . "Visibility")
@@ -5610,28 +8467,28 @@
         ("et0_fao_evapotranspiration"
          (:name . "Reference Evapotranspiration (ET₀)")
          (:type . checkbox))
-        ("vapor_pressure_deficit"
-         (:name . "Vapor Pressure Deficit")
+        ("vapour_pressure_deficit"
+         (:name . "Vapour Pressure Deficit")
          (:type . checkbox))
-        ("windspeed_10m"
+        ("wind_speed_10m"
          (:name . "Wind Speed (10 m)")
          (:type . checkbox))
-        ("windspeed_80m"
+        ("wind_speed_80m"
          (:name . "Wind Speed (80 m)")
          (:type . checkbox))
-        ("windspeed_120m"
+        ("wind_speed_120m"
          (:name . "Wind Speed (120 m)")
          (:type . checkbox))
-        ("winddirection_10m"
+        ("wind_direction_10m"
          (:name . "Wind Direction (10 m)")
          (:type . checkbox))
-        ("winddirection_80m"
+        ("wind_direction_80m"
          (:name . "Wind Direction (80 m)")
          (:type . checkbox))
-        ("winddirection_120m"
+        ("wind_direction_120m"
          (:name . "Wind Direction (120 m)")
          (:type . checkbox))
-        ("windgusts_10m"
+        ("wind_gusts_10m"
          (:name . "Wind Gusts (10 m)")
          (:type . checkbox))
         ("temperature_80m"
@@ -5678,7 +8535,7 @@
          (:options
           ("celsius" . "Celsius °C")
           ("fahrenheit" . "Fahrenheit °F")))
-        ("windspeed_unit"
+        ("wind_speed_unit"
          (:name . "Wind Speed Unit")
          (:type . select)
          (:options
@@ -5697,40 +8554,21 @@
          (:type . select)
          (:options
           ("iso8601" . "ISO 8601 (e.g. 2022-12-31)")
-          ("unixtime" . "Unix timestamp")))
-        ("past_days"
-         (:name . "Past days")
-         (:type . number)
-         (:min . 0)
-         (:max . 92))
-        ("forecast_days"
-         (:name . "Forecast days")
-         (:type . number)
-         (:min . 0)
-         (:max . 16))
-        ("start_date"
-         (:name . "Start date")
-         (:type . date))
-        ("end_date"
-         (:name . "End date")
-         (:type . date))
-        ("timezone"
-         (:name . "Timezone")
-         (:type . timezone))))
+          ("unixtime" . "Unix timestamp")))))
       ((:param . "models")
        (:name . "Ensemble Models")
        (:fields
         ("icon_seamless"
-         (:name . "DWD Icon EPS Seamless")
+         (:name . "DWD ICON EPS Seamless")
          (:type . checkbox))
         ("icon_global"
-         (:name . "DWD Icon EPS Global")
+         (:name . "DWD ICON EPS Global")
          (:type . checkbox))
         ("icon_eu"
-         (:name . "DWD Icon EPS EU")
+         (:name . "DWD ICON EPS EU")
          (:type . checkbox))
         ("icon_d2"
-         (:name . "DWD Icon EPS D2")
+         (:name . "DWD ICON EPS D2")
          (:type . checkbox))
         ("gfs_seamless"
          (:name . "GFS Ensemble Seamless")
@@ -5742,10 +8580,986 @@
          (:name . "GFS Ensemble 0.5")
          (:type . checkbox))
         ("ecmwf_ifs04"
-         (:name . "ECMWF IFS Ensemble")
+         (:name . "ECMWF IFS 0.4° Ensemble")
+         (:type . checkbox))
+        ("ecmwf_ifs025"
+         (:name . "ECMWF IFS 0.25° Ensemble")
          (:type . checkbox))
         ("gem_global"
          (:name . "GEM Global Ensemble")
+         (:type . checkbox))
+        ("bom_access_global_ensemble"
+         (:name . "BOM ACCESS Global")
+         (:type . checkbox))))))
+    ("Previous Runs API"
+     (:name . "Previous Runs API")
+     (:url . "https://open-meteo.com/en/docs/previous-runs-api")
+     (:description . "Weather Forecasts from Previous Days to Compare Run-To-Run Performance")
+     (:key . "v")
+     (:sections
+      ((:name . "Select Coordinates and Time")
+       (:fields
+        ("end_date"
+         (:name . "End date")
+         (:type . date))
+        ("start_date"
+         (:name . "Start date")
+         (:type . date))
+        ("forecast_days"
+         (:name . "Forecast days")
+         (:type . number)
+         (:min . 0)
+         (:max . 16))
+        ("past_days"
+         (:name . "Past days")
+         (:type . number)
+         (:min . 0)
+         (:max . 92))
+        ("latitude"
+         (:name . "Latitude")
+         (:type . float))
+        ("longitude"
+         (:name . "Longitude")
+         (:type . float))
+        ("timezone"
+         (:name . "Timezone")
+         (:type . timezone))))
+      ((:param . "hourly")
+       (:name . "Hourly Weather Variables")
+       (:children
+        ((:name . "Solar Radiation Variables")
+         (:children
+          ((:name . "Shortwave Solar Radiation GHI")
+           (:fields
+            ("shortwave_radiation"
+             (:name . "Day 0")
+             (:type . checkbox))
+            ("shortwave_radiation_previous_day1"
+             (:name . "Day 1")
+             (:type . checkbox))
+            ("shortwave_radiation_previous_day2"
+             (:name . "Day 2")
+             (:type . checkbox))
+            ("shortwave_radiation_previous_day3"
+             (:name . "Day 3")
+             (:type . checkbox))
+            ("shortwave_radiation_previous_day4"
+             (:name . "Day 4")
+             (:type . checkbox))
+            ("shortwave_radiation_previous_day5"
+             (:name . "Day 5")
+             (:type . checkbox))
+            ("shortwave_radiation_previous_day6"
+             (:name . "Day 6")
+             (:type . checkbox))
+            ("shortwave_radiation_previous_day7"
+             (:name . "Day 7")
+             (:type . checkbox))))
+          ((:name . "Direct Solar Radiation")
+           (:fields
+            ("direct_radiation"
+             (:name . "Day 0")
+             (:type . checkbox))
+            ("direct_radiation_previous_day1"
+             (:name . "Day 1")
+             (:type . checkbox))
+            ("direct_radiation_previous_day2"
+             (:name . "Day 2")
+             (:type . checkbox))
+            ("direct_radiation_previous_day3"
+             (:name . "Day 3")
+             (:type . checkbox))
+            ("direct_radiation_previous_day4"
+             (:name . "Day 4")
+             (:type . checkbox))
+            ("direct_radiation_previous_day5"
+             (:name . "Day 5")
+             (:type . checkbox))
+            ("direct_radiation_previous_day6"
+             (:name . "Day 6")
+             (:type . checkbox))
+            ("direct_radiation_previous_day7"
+             (:name . "Day 7")
+             (:type . checkbox))))
+          ((:name . "Diffuse Solar Radiation DHI")
+           (:fields
+            ("diffuse_radiation"
+             (:name . "Day 0")
+             (:type . checkbox))
+            ("diffuse_radiation_previous_day1"
+             (:name . "Day 1")
+             (:type . checkbox))
+            ("diffuse_radiation_previous_day2"
+             (:name . "Day 2")
+             (:type . checkbox))
+            ("diffuse_radiation_previous_day3"
+             (:name . "Day 3")
+             (:type . checkbox))
+            ("diffuse_radiation_previous_day4"
+             (:name . "Day 4")
+             (:type . checkbox))
+            ("diffuse_radiation_previous_day5"
+             (:name . "Day 5")
+             (:type . checkbox))
+            ("diffuse_radiation_previous_day6"
+             (:name . "Day 6")
+             (:type . checkbox))
+            ("diffuse_radiation_previous_day7"
+             (:name . "Day 7")
+             (:type . checkbox))))
+          ((:name . "Direct Normal Irradiance DNI")
+           (:fields
+            ("direct_normal_irradiance"
+             (:name . "Day 0")
+             (:type . checkbox))
+            ("direct_normal_irradiance_previous_day1"
+             (:name . "Day 1")
+             (:type . checkbox))
+            ("direct_normal_irradiance_previous_day2"
+             (:name . "Day 2")
+             (:type . checkbox))
+            ("direct_normal_irradiance_previous_day3"
+             (:name . "Day 3")
+             (:type . checkbox))
+            ("direct_normal_irradiance_previous_day4"
+             (:name . "Day 4")
+             (:type . checkbox))
+            ("direct_normal_irradiance_previous_day5"
+             (:name . "Day 5")
+             (:type . checkbox))
+            ("direct_normal_irradiance_previous_day6"
+             (:name . "Day 6")
+             (:type . checkbox))
+            ("direct_normal_irradiance_previous_day7"
+             (:name . "Day 7")
+             (:type . checkbox))))
+          ((:name . "Global Tilted Radiation GTI")
+           (:fields
+            ("global_tilted_irradiance"
+             (:name . "Day 0")
+             (:type . checkbox))
+            ("global_tilted_irradiance_previous_day1"
+             (:name . "Day 1")
+             (:type . checkbox))
+            ("global_tilted_irradiance_previous_day2"
+             (:name . "Day 2")
+             (:type . checkbox))
+            ("global_tilted_irradiance_previous_day3"
+             (:name . "Day 3")
+             (:type . checkbox))
+            ("global_tilted_irradiance_previous_day4"
+             (:name . "Day 4")
+             (:type . checkbox))
+            ("global_tilted_irradiance_previous_day5"
+             (:name . "Day 5")
+             (:type . checkbox))
+            ("global_tilted_irradiance_previous_day6"
+             (:name . "Day 6")
+             (:type . checkbox))
+            ("global_tilted_irradiance_previous_day7"
+             (:name . "Day 7")
+             (:type . checkbox))))
+          ((:name . "Shortwave Solar Radiation GHI (Instant)")
+           (:fields
+            ("shortwave_radiation_instant"
+             (:name . "Day 0")
+             (:type . checkbox))
+            ("shortwave_radiation_instant_previous_day1"
+             (:name . "Day 1")
+             (:type . checkbox))
+            ("shortwave_radiation_instant_previous_day2"
+             (:name . "Day 2")
+             (:type . checkbox))
+            ("shortwave_radiation_instant_previous_day3"
+             (:name . "Day 3")
+             (:type . checkbox))
+            ("shortwave_radiation_instant_previous_day4"
+             (:name . "Day 4")
+             (:type . checkbox))
+            ("shortwave_radiation_instant_previous_day5"
+             (:name . "Day 5")
+             (:type . checkbox))
+            ("shortwave_radiation_instant_previous_day6"
+             (:name . "Day 6")
+             (:type . checkbox))
+            ("shortwave_radiation_instant_previous_day7"
+             (:name . "Day 7")
+             (:type . checkbox))))
+          ((:name . "Direct Solar Radiation (Instant)")
+           (:fields
+            ("direct_radiation_instant"
+             (:name . "Day 0")
+             (:type . checkbox))
+            ("direct_radiation_instant_previous_day1"
+             (:name . "Day 1")
+             (:type . checkbox))
+            ("direct_radiation_instant_previous_day2"
+             (:name . "Day 2")
+             (:type . checkbox))
+            ("direct_radiation_instant_previous_day3"
+             (:name . "Day 3")
+             (:type . checkbox))
+            ("direct_radiation_instant_previous_day4"
+             (:name . "Day 4")
+             (:type . checkbox))
+            ("direct_radiation_instant_previous_day5"
+             (:name . "Day 5")
+             (:type . checkbox))
+            ("direct_radiation_instant_previous_day6"
+             (:name . "Day 6")
+             (:type . checkbox))
+            ("direct_radiation_instant_previous_day7"
+             (:name . "Day 7")
+             (:type . checkbox))))
+          ((:name . "Diffuse Solar Radiation DHI (Instant)")
+           (:fields
+            ("diffuse_radiation_instant"
+             (:name . "Day 0")
+             (:type . checkbox))
+            ("diffuse_radiation_instant_previous_day1"
+             (:name . "Day 1")
+             (:type . checkbox))
+            ("diffuse_radiation_instant_previous_day2"
+             (:name . "Day 2")
+             (:type . checkbox))
+            ("diffuse_radiation_instant_previous_day3"
+             (:name . "Day 3")
+             (:type . checkbox))
+            ("diffuse_radiation_instant_previous_day4"
+             (:name . "Day 4")
+             (:type . checkbox))
+            ("diffuse_radiation_instant_previous_day5"
+             (:name . "Day 5")
+             (:type . checkbox))
+            ("diffuse_radiation_instant_previous_day6"
+             (:name . "Day 6")
+             (:type . checkbox))
+            ("diffuse_radiation_instant_previous_day7"
+             (:name . "Day 7")
+             (:type . checkbox))))
+          ((:name . "Direct Normal Irradiance DNI (Instant)")
+           (:fields
+            ("direct_normal_irradiance_instant"
+             (:name . "Day 0")
+             (:type . checkbox))
+            ("direct_normal_irradiance_instant_previous_day1"
+             (:name . "Day 1")
+             (:type . checkbox))
+            ("direct_normal_irradiance_instant_previous_day2"
+             (:name . "Day 2")
+             (:type . checkbox))
+            ("direct_normal_irradiance_instant_previous_day3"
+             (:name . "Day 3")
+             (:type . checkbox))
+            ("direct_normal_irradiance_instant_previous_day4"
+             (:name . "Day 4")
+             (:type . checkbox))
+            ("direct_normal_irradiance_instant_previous_day5"
+             (:name . "Day 5")
+             (:type . checkbox))
+            ("direct_normal_irradiance_instant_previous_day6"
+             (:name . "Day 6")
+             (:type . checkbox))
+            ("direct_normal_irradiance_instant_previous_day7"
+             (:name . "Day 7")
+             (:type . checkbox))))
+          ((:name . "Global Tilted Radiation GTI")
+           (:fields
+            ("global_tilted_irradiance_instant"
+             (:name . "Day 0")
+             (:type . checkbox))
+            ("global_tilted_irradiance_instant_previous_day1"
+             (:name . "Day 1")
+             (:type . checkbox))
+            ("global_tilted_irradiance_instant_previous_day2"
+             (:name . "Day 2")
+             (:type . checkbox))
+            ("global_tilted_irradiance_instant_previous_day3"
+             (:name . "Day 3")
+             (:type . checkbox))
+            ("global_tilted_irradiance_instant_previous_day4"
+             (:name . "Day 4")
+             (:type . checkbox))
+            ("global_tilted_irradiance_instant_previous_day5"
+             (:name . "Day 5")
+             (:type . checkbox))
+            ("global_tilted_irradiance_instant_previous_day6"
+             (:name . "Day 6")
+             (:type . checkbox))
+            ("global_tilted_irradiance_instant_previous_day7"
+             (:name . "Day 7")
+             (:type . checkbox))))
+          ((:name . "Terrestrial Solar Radiation (Instant)")
+           (:fields
+            ("terrestrial_radiation_instant"
+             (:name . "Day 0")
+             (:type . checkbox))
+            ("terrestrial_radiation_instant_previous_day1"
+             (:name . "Day 1")
+             (:type . checkbox))
+            ("terrestrial_radiation_instant_previous_day2"
+             (:name . "Day 2")
+             (:type . checkbox))
+            ("terrestrial_radiation_instant_previous_day3"
+             (:name . "Day 3")
+             (:type . checkbox))
+            ("terrestrial_radiation_instant_previous_day4"
+             (:name . "Day 4")
+             (:type . checkbox))
+            ("terrestrial_radiation_instant_previous_day5"
+             (:name . "Day 5")
+             (:type . checkbox))
+            ("terrestrial_radiation_instant_previous_day6"
+             (:name . "Day 6")
+             (:type . checkbox))
+            ("terrestrial_radiation_instant_previous_day7"
+             (:name . "Day 7")
+             (:type . checkbox))))))
+        ((:name . "Wind on 80, 120 and 180 metre")
+         (:children
+          ((:name . "Wind Speed (80 m)")
+           (:fields
+            ("wind_speed_80m"
+             (:name . "Day 0")
+             (:type . checkbox))
+            ("wind_speed_80m_previous_day1"
+             (:name . "Day 1")
+             (:type . checkbox))
+            ("wind_speed_80m_previous_day2"
+             (:name . "Day 2")
+             (:type . checkbox))
+            ("wind_speed_80m_previous_day3"
+             (:name . "Day 3")
+             (:type . checkbox))
+            ("wind_speed_80m_previous_day4"
+             (:name . "Day 4")
+             (:type . checkbox))
+            ("wind_speed_80m_previous_day5"
+             (:name . "Day 5")
+             (:type . checkbox))
+            ("wind_speed_80m_previous_day6"
+             (:name . "Day 6")
+             (:type . checkbox))
+            ("wind_speed_80m_previous_day7"
+             (:name . "Day 7")
+             (:type . checkbox))))
+          ((:name . "Wind Speed (120 m)")
+           (:fields
+            ("wind_speed_120m"
+             (:name . "Day 0")
+             (:type . checkbox))
+            ("wind_speed_120m_previous_day1"
+             (:name . "Day 1")
+             (:type . checkbox))
+            ("wind_speed_120m_previous_day2"
+             (:name . "Day 2")
+             (:type . checkbox))
+            ("wind_speed_120m_previous_day3"
+             (:name . "Day 3")
+             (:type . checkbox))
+            ("wind_speed_120m_previous_day4"
+             (:name . "Day 4")
+             (:type . checkbox))
+            ("wind_speed_120m_previous_day5"
+             (:name . "Day 5")
+             (:type . checkbox))
+            ("wind_speed_120m_previous_day6"
+             (:name . "Day 6")
+             (:type . checkbox))
+            ("wind_speed_120m_previous_day7"
+             (:name . "Day 7")
+             (:type . checkbox))))
+          ((:name . "Wind Speed (180 m)")
+           (:fields
+            ("wind_speed_180m"
+             (:name . "Day 0")
+             (:type . checkbox))
+            ("wind_speed_180m_previous_day1"
+             (:name . "Day 1")
+             (:type . checkbox))
+            ("wind_speed_180m_previous_day2"
+             (:name . "Day 2")
+             (:type . checkbox))
+            ("wind_speed_180m_previous_day3"
+             (:name . "Day 3")
+             (:type . checkbox))
+            ("wind_speed_180m_previous_day4"
+             (:name . "Day 4")
+             (:type . checkbox))
+            ("wind_speed_180m_previous_day5"
+             (:name . "Day 5")
+             (:type . checkbox))
+            ("wind_speed_180m_previous_day6"
+             (:name . "Day 6")
+             (:type . checkbox))
+            ("wind_speed_180m_previous_day7"
+             (:name . "Day 7")
+             (:type . checkbox))))
+          ((:name . "Wind Direction (80 m)")
+           (:fields
+            ("wind_direction_80m"
+             (:name . "Day 0")
+             (:type . checkbox))
+            ("wind_direction_80m_previous_day1"
+             (:name . "Day 1")
+             (:type . checkbox))
+            ("wind_direction_80m_previous_day2"
+             (:name . "Day 2")
+             (:type . checkbox))
+            ("wind_direction_80m_previous_day3"
+             (:name . "Day 3")
+             (:type . checkbox))
+            ("wind_direction_80m_previous_day4"
+             (:name . "Day 4")
+             (:type . checkbox))
+            ("wind_direction_80m_previous_day5"
+             (:name . "Day 5")
+             (:type . checkbox))
+            ("wind_direction_80m_previous_day6"
+             (:name . "Day 6")
+             (:type . checkbox))
+            ("wind_direction_80m_previous_day7"
+             (:name . "Day 7")
+             (:type . checkbox))))
+          ((:name . "Wind Direction (120 m)")
+           (:fields
+            ("wind_direction_120m"
+             (:name . "Day 0")
+             (:type . checkbox))
+            ("wind_direction_120m_previous_day1"
+             (:name . "Day 1")
+             (:type . checkbox))
+            ("wind_direction_120m_previous_day2"
+             (:name . "Day 2")
+             (:type . checkbox))
+            ("wind_direction_120m_previous_day3"
+             (:name . "Day 3")
+             (:type . checkbox))
+            ("wind_direction_120m_previous_day4"
+             (:name . "Day 4")
+             (:type . checkbox))
+            ("wind_direction_120m_previous_day5"
+             (:name . "Day 5")
+             (:type . checkbox))
+            ("wind_direction_120m_previous_day6"
+             (:name . "Day 6")
+             (:type . checkbox))
+            ("wind_direction_120m_previous_day7"
+             (:name . "Day 7")
+             (:type . checkbox))))
+          ((:name . "Wind Direction (180 m)")
+           (:fields
+            ("wind_direction_180m"
+             (:name . "Day 0")
+             (:type . checkbox))
+            ("wind_direction_180m_previous_day1"
+             (:name . "Day 1")
+             (:type . checkbox))
+            ("wind_direction_180m_previous_day2"
+             (:name . "Day 2")
+             (:type . checkbox))
+            ("wind_direction_180m_previous_day3"
+             (:name . "Day 3")
+             (:type . checkbox))
+            ("wind_direction_180m_previous_day4"
+             (:name . "Day 4")
+             (:type . checkbox))
+            ("wind_direction_180m_previous_day5"
+             (:name . "Day 5")
+             (:type . checkbox))
+            ("wind_direction_180m_previous_day6"
+             (:name . "Day 6")
+             (:type . checkbox))
+            ("wind_direction_180m_previous_day7"
+             (:name . "Day 7")
+             (:type . checkbox))))))
+        ((:name . "Temperature (2 m)")
+         (:fields
+          ("temperature_2m"
+           (:name . "Day 0")
+           (:type . checkbox))
+          ("temperature_2m_previous_day1"
+           (:name . "Day 1")
+           (:type . checkbox))
+          ("temperature_2m_previous_day2"
+           (:name . "Day 2")
+           (:type . checkbox))
+          ("temperature_2m_previous_day3"
+           (:name . "Day 3")
+           (:type . checkbox))
+          ("temperature_2m_previous_day4"
+           (:name . "Day 4")
+           (:type . checkbox))
+          ("temperature_2m_previous_day5"
+           (:name . "Day 5")
+           (:type . checkbox))
+          ("temperature_2m_previous_day6"
+           (:name . "Day 6")
+           (:type . checkbox))
+          ("temperature_2m_previous_day7"
+           (:name . "Day 7")
+           (:type . checkbox))))
+        ((:name . "Relative Humidity (2 m)")
+         (:fields
+          ("relative_humidity_2m"
+           (:name . "Day 0")
+           (:type . checkbox))
+          ("relative_humidity_2m_previous_day1"
+           (:name . "Day 1")
+           (:type . checkbox))
+          ("relative_humidity_2m_previous_day2"
+           (:name . "Day 2")
+           (:type . checkbox))
+          ("relative_humidity_2m_previous_day3"
+           (:name . "Day 3")
+           (:type . checkbox))
+          ("relative_humidity_2m_previous_day4"
+           (:name . "Day 4")
+           (:type . checkbox))
+          ("relative_humidity_2m_previous_day5"
+           (:name . "Day 5")
+           (:type . checkbox))
+          ("relative_humidity_2m_previous_day6"
+           (:name . "Day 6")
+           (:type . checkbox))
+          ("relative_humidity_2m_previous_day7"
+           (:name . "Day 7")
+           (:type . checkbox))))
+        ((:name . "Dewpoint (2 m)")
+         (:fields
+          ("dew_point_2m"
+           (:name . "Day 0")
+           (:type . checkbox))
+          ("dew_point_2m_previous_day1"
+           (:name . "Day 1")
+           (:type . checkbox))
+          ("dew_point_2m_previous_day2"
+           (:name . "Day 2")
+           (:type . checkbox))
+          ("dew_point_2m_previous_day3"
+           (:name . "Day 3")
+           (:type . checkbox))
+          ("dew_point_2m_previous_day4"
+           (:name . "Day 4")
+           (:type . checkbox))
+          ("dew_point_2m_previous_day5"
+           (:name . "Day 5")
+           (:type . checkbox))
+          ("dew_point_2m_previous_day6"
+           (:name . "Day 6")
+           (:type . checkbox))
+          ("dew_point_2m_previous_day7"
+           (:name . "Day 7")
+           (:type . checkbox))))
+        ((:name . "Apparent Temperature")
+         (:fields
+          ("apparent_temperature"
+           (:name . "Day 0")
+           (:type . checkbox))
+          ("apparent_temperature_previous_day1"
+           (:name . "Day 1")
+           (:type . checkbox))
+          ("apparent_temperature_previous_day2"
+           (:name . "Day 2")
+           (:type . checkbox))
+          ("apparent_temperature_previous_day3"
+           (:name . "Day 3")
+           (:type . checkbox))
+          ("apparent_temperature_previous_day4"
+           (:name . "Day 4")
+           (:type . checkbox))
+          ("apparent_temperature_previous_day5"
+           (:name . "Day 5")
+           (:type . checkbox))
+          ("apparent_temperature_previous_day6"
+           (:name . "Day 6")
+           (:type . checkbox))
+          ("apparent_temperature_previous_day7"
+           (:name . "Day 7")
+           (:type . checkbox))))
+        ((:name . "Precipitation (rain + showers + snow)")
+         (:fields
+          ("precipitation"
+           (:name . "Day 0")
+           (:type . checkbox))
+          ("precipitation_previous_day1"
+           (:name . "Day 1")
+           (:type . checkbox))
+          ("precipitation_previous_day2"
+           (:name . "Day 2")
+           (:type . checkbox))
+          ("precipitation_previous_day3"
+           (:name . "Day 3")
+           (:type . checkbox))
+          ("precipitation_previous_day4"
+           (:name . "Day 4")
+           (:type . checkbox))
+          ("precipitation_previous_day5"
+           (:name . "Day 5")
+           (:type . checkbox))
+          ("precipitation_previous_day6"
+           (:name . "Day 6")
+           (:type . checkbox))
+          ("precipitation_previous_day7"
+           (:name . "Day 7")
+           (:type . checkbox))))
+        ((:name . "Rain")
+         (:fields
+          ("rain"
+           (:name . "Day 0")
+           (:type . checkbox))
+          ("rain_previous_day1"
+           (:name . "Day 1")
+           (:type . checkbox))
+          ("rain_previous_day2"
+           (:name . "Day 2")
+           (:type . checkbox))
+          ("rain_previous_day3"
+           (:name . "Day 3")
+           (:type . checkbox))
+          ("rain_previous_day4"
+           (:name . "Day 4")
+           (:type . checkbox))
+          ("rain_previous_day5"
+           (:name . "Day 5")
+           (:type . checkbox))
+          ("rain_previous_day6"
+           (:name . "Day 6")
+           (:type . checkbox))
+          ("rain_previous_day7"
+           (:name . "Day 7")
+           (:type . checkbox))))
+        ((:name . "Showers")
+         (:fields
+          ("showers"
+           (:name . "Day 0")
+           (:type . checkbox))
+          ("showers_previous_day1"
+           (:name . "Day 1")
+           (:type . checkbox))
+          ("showers_previous_day2"
+           (:name . "Day 2")
+           (:type . checkbox))
+          ("showers_previous_day3"
+           (:name . "Day 3")
+           (:type . checkbox))
+          ("showers_previous_day4"
+           (:name . "Day 4")
+           (:type . checkbox))
+          ("showers_previous_day5"
+           (:name . "Day 5")
+           (:type . checkbox))
+          ("showers_previous_day6"
+           (:name . "Day 6")
+           (:type . checkbox))
+          ("showers_previous_day7"
+           (:name . "Day 7")
+           (:type . checkbox))))
+        ((:name . "Snowfall")
+         (:fields
+          ("snowfall"
+           (:name . "Day 0")
+           (:type . checkbox))
+          ("snowfall_previous_day1"
+           (:name . "Day 1")
+           (:type . checkbox))
+          ("snowfall_previous_day2"
+           (:name . "Day 2")
+           (:type . checkbox))
+          ("snowfall_previous_day3"
+           (:name . "Day 3")
+           (:type . checkbox))
+          ("snowfall_previous_day4"
+           (:name . "Day 4")
+           (:type . checkbox))
+          ("snowfall_previous_day5"
+           (:name . "Day 5")
+           (:type . checkbox))
+          ("snowfall_previous_day6"
+           (:name . "Day 6")
+           (:type . checkbox))
+          ("snowfall_previous_day7"
+           (:name . "Day 7")
+           (:type . checkbox))))
+        ((:name . "Weather code")
+         (:fields
+          ("weather_code"
+           (:name . "Day 0")
+           (:type . checkbox))
+          ("weather_code_previous_day1"
+           (:name . "Day 1")
+           (:type . checkbox))
+          ("weather_code_previous_day2"
+           (:name . "Day 2")
+           (:type . checkbox))
+          ("weather_code_previous_day3"
+           (:name . "Day 3")
+           (:type . checkbox))
+          ("weather_code_previous_day4"
+           (:name . "Day 4")
+           (:type . checkbox))
+          ("weather_code_previous_day5"
+           (:name . "Day 5")
+           (:type . checkbox))
+          ("weather_code_previous_day6"
+           (:name . "Day 6")
+           (:type . checkbox))
+          ("weather_code_previous_day7"
+           (:name . "Day 7")
+           (:type . checkbox))))
+        ((:name . "Sealevel Pressure")
+         (:fields
+          ("pressure_msl"
+           (:name . "Day 0")
+           (:type . checkbox))
+          ("pressure_msl_previous_day1"
+           (:name . "Day 1")
+           (:type . checkbox))
+          ("pressure_msl_previous_day2"
+           (:name . "Day 2")
+           (:type . checkbox))
+          ("pressure_msl_previous_day3"
+           (:name . "Day 3")
+           (:type . checkbox))
+          ("pressure_msl_previous_day4"
+           (:name . "Day 4")
+           (:type . checkbox))
+          ("pressure_msl_previous_day5"
+           (:name . "Day 5")
+           (:type . checkbox))
+          ("pressure_msl_previous_day6"
+           (:name . "Day 6")
+           (:type . checkbox))
+          ("pressure_msl_previous_day7"
+           (:name . "Day 7")
+           (:type . checkbox))))
+        ((:name . "Surface Pressure")
+         (:fields
+          ("surface_pressure"
+           (:name . "Day 0")
+           (:type . checkbox))
+          ("surface_pressure_previous_day1"
+           (:name . "Day 1")
+           (:type . checkbox))
+          ("surface_pressure_previous_day2"
+           (:name . "Day 2")
+           (:type . checkbox))
+          ("surface_pressure_previous_day3"
+           (:name . "Day 3")
+           (:type . checkbox))
+          ("surface_pressure_previous_day4"
+           (:name . "Day 4")
+           (:type . checkbox))
+          ("surface_pressure_previous_day5"
+           (:name . "Day 5")
+           (:type . checkbox))
+          ("surface_pressure_previous_day6"
+           (:name . "Day 6")
+           (:type . checkbox))
+          ("surface_pressure_previous_day7"
+           (:name . "Day 7")
+           (:type . checkbox))))
+        ((:name . "Cloud cover Total")
+         (:fields
+          ("cloud_cover"
+           (:name . "Day 0")
+           (:type . checkbox))
+          ("cloud_cover_previous_day1"
+           (:name . "Day 1")
+           (:type . checkbox))
+          ("cloud_cover_previous_day2"
+           (:name . "Day 2")
+           (:type . checkbox))
+          ("cloud_cover_previous_day3"
+           (:name . "Day 3")
+           (:type . checkbox))
+          ("cloud_cover_previous_day4"
+           (:name . "Day 4")
+           (:type . checkbox))
+          ("cloud_cover_previous_day5"
+           (:name . "Day 5")
+           (:type . checkbox))
+          ("cloud_cover_previous_day6"
+           (:name . "Day 6")
+           (:type . checkbox))
+          ("cloud_cover_previous_day7"
+           (:name . "Day 7")
+           (:type . checkbox))))
+        ((:name . "Wind Speed (10 m)")
+         (:fields
+          ("wind_speed_10m"
+           (:name . "Day 0")
+           (:type . checkbox))
+          ("wind_speed_10m_previous_day1"
+           (:name . "Day 1")
+           (:type . checkbox))
+          ("wind_speed_10m_previous_day2"
+           (:name . "Day 2")
+           (:type . checkbox))
+          ("wind_speed_10m_previous_day3"
+           (:name . "Day 3")
+           (:type . checkbox))
+          ("wind_speed_10m_previous_day4"
+           (:name . "Day 4")
+           (:type . checkbox))
+          ("wind_speed_10m_previous_day5"
+           (:name . "Day 5")
+           (:type . checkbox))
+          ("wind_speed_10m_previous_day6"
+           (:name . "Day 6")
+           (:type . checkbox))
+          ("wind_speed_10m_previous_day7"
+           (:name . "Day 7")
+           (:type . checkbox))))
+        ((:name . "Wind Direction (10 m)")
+         (:fields
+          ("wind_direction_10m"
+           (:name . "Day 0")
+           (:type . checkbox))
+          ("wind_direction_10m_previous_day1"
+           (:name . "Day 1")
+           (:type . checkbox))
+          ("wind_direction_10m_previous_day2"
+           (:name . "Day 2")
+           (:type . checkbox))
+          ("wind_direction_10m_previous_day3"
+           (:name . "Day 3")
+           (:type . checkbox))
+          ("wind_direction_10m_previous_day4"
+           (:name . "Day 4")
+           (:type . checkbox))
+          ("wind_direction_10m_previous_day5"
+           (:name . "Day 5")
+           (:type . checkbox))
+          ("wind_direction_10m_previous_day6"
+           (:name . "Day 6")
+           (:type . checkbox))
+          ("wind_direction_10m_previous_day7"
+           (:name . "Day 7")
+           (:type . checkbox))))))
+      ((:name . "Settings")
+       (:fields
+        ("temperature_unit"
+         (:name . "Temperature Unit")
+         (:type . select)
+         (:options
+          ("celsius" . "Celsius °C")
+          ("fahrenheit" . "Fahrenheit °F")))
+        ("wind_speed_unit"
+         (:name . "Wind Speed Unit")
+         (:type . select)
+         (:options
+          ("kmh" . "Km/h")
+          ("ms" . "m/s")
+          ("mph" . "Mph")
+          ("kn" . "Knots")))
+        ("precipitation_unit"
+         (:name . "Precipitation Unit")
+         (:type . select)
+         (:options
+          ("mm" . "Millimeter")
+          ("inch" . "Inch")))
+        ("timeformat"
+         (:name . "Timeformat")
+         (:type . select)
+         (:options
+          ("iso8601" . "ISO 8601 (e.g. 2022-12-31)")
+          ("unixtime" . "Unix timestamp")))))
+      ((:param . "models")
+       (:name . "Weather models")
+       (:fields
+        ("best_match"
+         (:name . "Best match")
+         (:type . checkbox))
+        ("ecmwf_ifs04"
+         (:name . "ECMWF IFS 0.4°")
+         (:type . checkbox))
+        ("ecmwf_ifs025"
+         (:name . "ECMWF IFS 0.25°")
+         (:type . checkbox))
+        ("ecmwf_aifs025"
+         (:name . "ECMWF AIFS 0.25°")
+         (:type . checkbox))
+        ("cma_grapes_global"
+         (:name . "CMA GRAPES Global")
+         (:type . checkbox))
+        ("bom_access_global"
+         (:name . "BOM ACCESS Global")
+         (:type . checkbox))
+        ("metno_nordic"
+         (:name . "MET Norway Nordic")
+         (:type . checkbox))
+        ("gfs_seamless"
+         (:name . "GFS Seamless")
+         (:type . checkbox))
+        ("gfs_global"
+         (:name . "GFS Global")
+         (:type . checkbox))
+        ("gfs_hrrr"
+         (:name . "GFS HRRR")
+         (:type . checkbox))
+        ("gfs_graphcast025"
+         (:name . "GFS GraphCast")
+         (:type . checkbox))
+        ("jma_seamless"
+         (:name . "JMA Seamless")
+         (:type . checkbox))
+        ("jma_msm"
+         (:name . "JMA MSM")
+         (:type . checkbox))
+        ("jma_gsm"
+         (:name . "JMA GSM")
+         (:type . checkbox))
+        ("icon_seamless"
+         (:name . "DWD ICON Seamless")
+         (:type . checkbox))
+        ("icon_global"
+         (:name . "DWD ICON Global")
+         (:type . checkbox))
+        ("icon_eu"
+         (:name . "DWD ICON EU")
+         (:type . checkbox))
+        ("icon_d2"
+         (:name . "DWD ICON D2")
+         (:type . checkbox))
+        ("gem_seamless"
+         (:name . "GEM Seamless")
+         (:type . checkbox))
+        ("gem_global"
+         (:name . "GEM Global")
+         (:type . checkbox))
+        ("gem_regional"
+         (:name . "GEM Regional")
+         (:type . checkbox))
+        ("gem_hrdps_continental"
+         (:name . "GEM HRDPS Continental")
+         (:type . checkbox))
+        ("meteofrance_seamless"
+         (:name . "Météo-France Seamless")
+         (:type . checkbox))
+        ("meteofrance_arpege_world"
+         (:name . "Météo-France ARPEGE World")
+         (:type . checkbox))
+        ("meteofrance_arpege_europe"
+         (:name . "Météo-France ARPEGE Europe")
+         (:type . checkbox))
+        ("meteofrance_arome_france"
+         (:name . "Météo-France AROME France")
+         (:type . checkbox))
+        ("meteofrance_arome_france_hd"
+         (:name . "Météo-France AROME France HD")
+         (:type . checkbox))
+        ("arpae_cosmo_seamless"
+         (:name . "ARPAE Seamless")
+         (:type . checkbox))
+        ("arpae_cosmo_2i"
+         (:name . "ARPAE COSMO 2I")
+         (:type . checkbox))
+        ("arpae_cosmo_2i_ruc"
+         (:name . "ARPAE COSMO 2I RUC")
+         (:type . checkbox))
+        ("arpae_cosmo_5m"
+         (:name . "ARPAE COSMO 5M")
          (:type . checkbox))))))
     ("Climate Change"
      (:name . "Climate Change")
@@ -5753,14 +9567,23 @@
      (:description . "Climate change projections")
      (:key . "c")
      (:sections
-      ((:name . "Select Coordinates or City")
+      ((:name . "Select Coordinates and Time")
        (:fields
+        ("start_date"
+         (:name . "Start date")
+         (:type . date))
+        ("end_date"
+         (:name . "End date")
+         (:type . date))
         ("latitude"
          (:name . "Latitude")
          (:type . float))
         ("longitude"
          (:name . "Longitude")
-         (:type . float))))
+         (:type . float))
+        ("timezone"
+         (:name . "Timezone")
+         (:type . timezone))))
       ((:param . "daily")
        (:name . "Daily Weather Variables")
        (:children)
@@ -5774,13 +9597,13 @@
         ("temperature_2m_min"
          (:name . "Minimum Temperature (2 m)")
          (:type . checkbox))
-        ("windspeed_10m_mean"
+        ("wind_speed_10m_mean"
          (:name . "Mean Wind Speed (10 m)")
          (:type . checkbox))
-        ("windspeed_10m_max"
+        ("wind_speed_10m_max"
          (:name . "Max Wind Speed (10 m)")
          (:type . checkbox))
-        ("cloudcover_mean"
+        ("cloud_cover_mean"
          (:name . "Mean Cloud Cover")
          (:type . checkbox))
         ("shortwave_radiation_sum"
@@ -5795,13 +9618,13 @@
         ("relative_humidity_2m_min"
          (:name . "Minimum Relative Humidity (2 m)")
          (:type . checkbox))
-        ("dewpoint_2m_mean"
+        ("dew_point_2m_mean"
          (:name . "Mean Dewpoint (2 m)")
          (:type . checkbox))
-        ("dewpoint_2m_min"
+        ("dew_point_2m_min"
          (:name . "Minimum Dewpoint (2 m)")
          (:type . checkbox))
-        ("dewpoint_2m_max"
+        ("dew_point_2m_max"
          (:name . "Maximum Dewpoint (2 m)")
          (:type . checkbox))
         ("precipitation_sum"
@@ -5822,14 +9645,6 @@
         ("et0_fao_evapotranspiration_sum"
          (:name . "Reference Evapotranspiration (ET₀)")
          (:type . checkbox))))
-      ((:name . "Specify Time Interval")
-       (:fields
-        ("start_date"
-         (:name . "Start date")
-         (:type . date))
-        ("end_date"
-         (:name . "End date")
-         (:type . date))))
       ((:name . "Settings")
        (:fields
         ("disable_bias_correction"
@@ -5841,7 +9656,7 @@
          (:options
           ("celsius" . "Celsius °C")
           ("fahrenheit" . "Fahrenheit °F")))
-        ("windspeed_unit"
+        ("wind_speed_unit"
          (:name . "Wind Speed Unit")
          (:type . select)
          (:options
@@ -5891,16 +9706,54 @@
      (:description . "Wave forecasts")
      (:key . "m")
      (:sections
-      ((:name . "Select Coordinates or City")
+      ((:name . "Select Coordinates and Time")
        (:fields
+        ("end_date"
+         (:name . "End date")
+         (:type . date))
+        ("start_date"
+         (:name . "Start date")
+         (:type . date))
+        ("forecast_days"
+         (:name . "Forecast days")
+         (:type . number)
+         (:min . 0)
+         (:max . 16))
+        ("past_days"
+         (:name . "Past days")
+         (:type . number)
+         (:min . 0)
+         (:max . 92))
         ("latitude"
          (:name . "Latitude")
          (:type . float))
         ("longitude"
          (:name . "Longitude")
-         (:type . float))))
+         (:type . float))
+        ("timezone"
+         (:name . "Timezone")
+         (:type . timezone))))
       ((:param . "hourly")
        (:name . "Hourly Marine Variables")
+       (:children
+        ((:name . "Additional Options")
+         (:fields
+          ("forecast_hours"
+           (:name . "Forecast Hours")
+           (:type . select)
+           (:options
+            ("1" . "1 hour")
+            ("6" . "6 hours")
+            ("12" . "12 hours")
+            ("24" . "24 hours")))
+          ("past_hours"
+           (:name . "Past Hours")
+           (:type . select)
+           (:options
+            ("1" . "1 hour")
+            ("6" . "6 hours")
+            ("12" . "12 hours")
+            ("24" . "24 hours"))))))
        (:fields
         ("wave_height"
          (:name . "Wave Height")
@@ -5971,11 +9824,43 @@
         ("swell_wave_peak_period_max"
          (:name . "Swell Wave Peak Period Max")
          (:type . checkbox))))
+      ((:name . "Current Conditions")
+       (:fields
+        ("wave_height"
+         (:name . "Wave Height")
+         (:type . checkbox))
+        ("wave_direction"
+         (:name . "Wave Direction")
+         (:type . checkbox))
+        ("wave_period"
+         (:name . "Wave Period")
+         (:type . checkbox))
+        ("wind_wave_height"
+         (:name . "Wind Wave Height")
+         (:type . checkbox))
+        ("wind_wave_direction"
+         (:name . "Wind Wave Direction")
+         (:type . checkbox))
+        ("wind_wave_period"
+         (:name . "Wind Wave Period")
+         (:type . checkbox))
+        ("wind_wave_peak_period"
+         (:name . "Wind Wave Peak Period")
+         (:type . checkbox))
+        ("swell_wave_height"
+         (:name . "Swell Wave Height")
+         (:type . checkbox))
+        ("swell_wave_direction"
+         (:name . "Swell Wave Direction")
+         (:type . checkbox))
+        ("swell_wave_period"
+         (:name . "Swell Wave Period")
+         (:type . checkbox))
+        ("swell_wave_peak_period"
+         (:name . "Swell Wave Peak Period")
+         (:type . checkbox))))
       ((:name . "Settings")
        (:fields
-        ("timezone"
-         (:name . "Timezone")
-         (:type . timezone))
         ("length_unit"
          (:name . "Length Unit")
          (:type . select)
@@ -5987,79 +9872,117 @@
          (:type . select)
          (:options
           ("iso8601" . "ISO 8601 (e.g. 2022-12-31)")
-          ("unixtime" . "Unix timestamp")))
-        ("past_days"
-         (:name . "Past days")
-         (:type . number)
-         (:min . 0)
-         (:max . 92))
-        ("start_date"
-         (:name . "Start date")
-         (:type . date))
-        ("end_date"
-         (:name . "End date")
-         (:type . date))))))
+          ("unixtime" . "Unix timestamp")))))
+      ((:name . "Wave Models")
+       (:fields
+        ("best_match"
+         (:name . "Best match (EWAM & GWAM)")
+         (:type . checkbox))
+        ("ewam"
+         (:name . "DWD EWAM (0.05° only Europe)")
+         (:type . checkbox))
+        ("gwam"
+         (:name . "DWD GWAM (0.25°)")
+         (:type . checkbox))
+        ("era5_ocean"
+         (:name . "ERA5-Ocean (0.5°, data from 1940 onwards)")
+         (:type . checkbox))))))
     ("Air Quality"
      (:name . "Air Quality")
      (:url . "https://open-meteo.com/en/docs/air-quality-api")
      (:description . "Pollutants and pollen forcast")
      (:key . "a")
      (:sections
-      ((:name . "Select Coordinates or City")
+      ((:name . "Select Coordinates and Time")
        (:fields
+        ("forecast_days"
+         (:name . "Forecast days")
+         (:type . number)
+         (:min . 0)
+         (:max . 16))
+        ("past_days"
+         (:name . "Past days")
+         (:type . number)
+         (:min . 0)
+         (:max . 92))
         ("latitude"
          (:name . "Latitude")
          (:type . float))
         ("longitude"
          (:name . "Longitude")
-         (:type . float))))
+         (:type . float))
+        ("timezone"
+         (:name . "Timezone")
+         (:type . timezone))))
       ((:param . "hourly")
        (:name . "Hourly Air Quality Variables")
        (:children
         ((:name . "European Air Quality Index")
-         (:fields
-          ("european_aqi"
-           (:name . "European AQI")
-           (:type . checkbox))
-          ("european_aqi_pm2_5"
-           (:name . "European AQI PM 2.5")
-           (:type . checkbox))
-          ("european_aqi_pm10"
-           (:name . "European AQI PM 10")
-           (:type . checkbox))
-          ("european_aqi_no2"
-           (:name . "European AQI NO 2")
-           (:type . checkbox))
-          ("european_aqi_o3"
-           (:name . "European AQI O 3")
-           (:type . checkbox))
-          ("european_aqi_so2"
-           (:name . "European AQI SO 2")
-           (:type . checkbox))))
+         (:fields))
         ((:name . "United States Air Quality Index")
-         (:fields
-          ("us_aqi"
-           (:name . "United States AQI")
-           (:type . checkbox))
-          ("us_aqi_pm2_5"
-           (:name . "United States AQI PM 2.5")
-           (:type . checkbox))
-          ("us_aqi_pm10"
-           (:name . "United States AQI PM 10")
-           (:type . checkbox))
-          ("us_aqi_no2"
-           (:name . "United States AQI NO 2")
-           (:type . checkbox))
-          ("us_aqi_co"
-           (:name . "United States AQI CO")
-           (:type . checkbox))
-          ("us_aqi_o3"
-           (:name . "United States AQI O 3")
-           (:type . checkbox))
-          ("us_aqi_so2"
-           (:name . "United States AQI SO 2")
-           (:type . checkbox)))))
+         (:fields))
+        ((:name . "Additional Options")
+         (:fields)))
        (:fields
+        ("pm10"
+         (:name . "Particulate Matter PM 10")
+         (:type . checkbox))
+        ("pm2_5"
+         (:name . "Particulate Matter PM 2.5")
+         (:type . checkbox))
+        ("carbon_monoxide"
+         (:name . "Carbon Monoxide CO")
+         (:type . checkbox))
+        ("nitrogen_dioxide"
+         (:name . "Nitrogen Dioxide NO 2")
+         (:type . checkbox))
+        ("sulphur_dioxide"
+         (:name . "Sulphur Dioxide SO 2")
+         (:type . checkbox))
+        ("ozone"
+         (:name . "Ozone O 3")
+         (:type . checkbox))
+        ("aerosol_optical_depth"
+         (:name . "Aerosol Optical Depth")
+         (:type . checkbox))
+        ("dust"
+         (:name . "Dust")
+         (:type . checkbox))
+        ("uv_index"
+         (:name . "UV Index")
+         (:type . checkbox))
+        ("uv_index_clear_sky"
+         (:name . "UV Index Clear Sky")
+         (:type . checkbox))
+        ("ammonia"
+         (:name . "Ammonia NH 3 (*)")
+         (:type . checkbox))
+        ("alder_pollen"
+         (:name . "Alder Pollen (*)")
+         (:type . checkbox))
+        ("birch_pollen"
+         (:name . "Birch Pollen (*)")
+         (:type . checkbox))
+        ("grass_pollen"
+         (:name . "Grass Pollen (*)")
+         (:type . checkbox))
+        ("mugwort_pollen"
+         (:name . "Mugwort Pollen (*)")
+         (:type . checkbox))
+        ("olive_pollen"
+         (:name . "Olive Pollen (*)")
+         (:type . checkbox))
+        ("ragweed_pollen"
+         (:name . "Ragweed Pollen (*)")
+         (:type . checkbox))))
+      ((:name . "Current Conditions")
+       (:fields
+        ("european_aqi"
+         (:name . "European AQI")
+         (:type . checkbox))
+        ("us_aqi"
+         (:name . "United States AQI")
+         (:type . checkbox))
         ("pm10"
          (:name . "Particulate Matter PM 10")
          (:type . checkbox))
@@ -6120,40 +10043,45 @@
           ("auto" . "Global + European")
           ("cams_global" . "Global (40 km)")
           ("cams_europe" . "European (11 km)")))
-        ("timezone"
-         (:name . "Timezone")
-         (:type . timezone))
         ("timeformat"
          (:name . "Timeformat")
          (:type . select)
          (:options
           ("iso8601" . "ISO 8601 (e.g. 2022-12-31)")
-          ("unixtime" . "Unix timestamp")))
-        ("past_days"
-         (:name . "Past days")
-         (:type . number)
-         (:min . 0)
-         (:max . 92))
-        ("start_date"
-         (:name . "Start date")
-         (:type . date))
-        ("end_date"
-         (:name . "End date")
-         (:type . date))))))
+          ("unixtime" . "Unix timestamp")))))))
     ("Flood"
      (:name . "Flood")
      (:url . "https://open-meteo.com/en/docs/flood-api")
      (:description . "River discharge forecast")
      (:key . "f")
      (:sections
-      ((:name . "Select Coordinates or City")
+      ((:name . "Select Coordinates and Time")
        (:fields
+        ("end_date"
+         (:name . "End date")
+         (:type . date))
+        ("start_date"
+         (:name . "Start date")
+         (:type . date))
+        ("forecast_days"
+         (:name . "Forecast days")
+         (:type . number)
+         (:min . 0)
+         (:max . 210))
+        ("past_days"
+         (:name . "Past days")
+         (:type . number)
+         (:min . 0)
+         (:max . 92))
         ("latitude"
          (:name . "Latitude")
          (:type . float))
         ("longitude"
          (:name . "Longitude")
-         (:type . float))))
+         (:type . float))
+        ("timezone"
+         (:name . "Timezone")
+         (:type . timezone))))
       ((:param . "daily")
        (:name . "Daily Weather Variables")
        (:children)
@@ -6184,22 +10112,6 @@
          (:type . checkbox))))
       ((:name . "Settings")
        (:fields
-        ("start_date"
-         (:name . "Start date")
-         (:type . date))
-        ("end_date"
-         (:name . "End date")
-         (:type . date))
-        ("past_days"
-         (:name . "Past days")
-         (:type . number)
-         (:min . 0)
-         (:max . 92))
-        ("forecast_days"
-         (:name . "Forecast days")
-         (:type . number)
-         (:min . 0)
-         (:max . 210))
         ("timeformat"
          (:name . "Timeformat")
          (:type . select)
@@ -6209,15 +10121,6 @@
       ((:param . "models")
        (:name . "Flood Models")
        (:fields
-        ("seamless_v3"
-         (:name . "GloFAS v3 Seamless")
-         (:type . checkbox))
-        ("forecast_v3"
-         (:name . "GloFAS v3 Forecast")
-         (:type . checkbox))
-        ("consolidated_v3"
-         (:name . "GloFAS v3 Consolidated")
-         (:type . checkbox))
         ("seamless_v4"
          (:name . "GloFAS v4 Seamless")
          (:type . checkbox))
@@ -6226,6 +10129,15 @@
          (:type . checkbox))
         ("consolidated_v4"
          (:name . "GloFAS v4 Consolidated")
+         (:type . checkbox))
+        ("seamless_v3"
+         (:name . "GloFAS v3 Seamless")
+         (:type . checkbox))
+        ("forecast_v3"
+         (:name . "GloFAS v3 Forecast")
+         (:type . checkbox))
+        ("consolidated_v3"
+         (:name . "GloFAS v3 Consolidated")
          (:type . checkbox)))))))
   "Open-meteo API docs data.")
 

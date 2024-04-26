@@ -4,7 +4,7 @@
 
 ;; Author: Korytov Pavel <thexcloud@gmail.com>
 ;; Maintainer: Korytov Pavel <thexcloud@gmail.com>
-;; Version: 0.1.0
+;; Version: 0.3.0
 ;; Package-Requires: ((emacs "27.1") (transient "0.3.7") (ct "0.2") (request "0.3.3") (compat "29.1.4.1"))
 ;; Homepage: https://github.com/SqrtMinusOne/biome
 ;; Published-At: 2023-07-22
@@ -105,6 +105,18 @@ preset definition\" in `biome' or `biome-multi'."
       (lambda (queries results)
         (let ((merged (biome-multi--merge queries results)))
           (funcall biome-frontend (nth 0 merged) (nth 1 merged))))))))
+
+(defun biome-multi-history ()
+  "Get historical weather data on a particular day."
+  (interactive)
+  (funcall-interactively
+   #'biome-multi--history-query
+   (lambda (queries)
+     (biome-api-get-multiple
+      queries
+      (lambda (queries results)
+        (let ((concat-results (biome-multi--concat-results queries results)))
+          (funcall biome-frontend (car queries) concat-results)))))))
 
 (defmacro biome-def-preset (name params)
   "Declare a query preset.
