@@ -4,7 +4,7 @@
 
 ;; Author: Korytov Pavel <thexcloud@gmail.com>
 ;; Maintainer: Korytov Pavel <thexcloud@gmail.com>
-;; Version: 0.1.0
+;; Version: 0.3.0
 ;; Package-Requires: ((emacs "27.1") (transient "0.3.7") (ct "0.2") (request "0.3.3") (compat "29.1.4.1"))
 ;; Homepage: https://github.com/SqrtMinusOne/biome
 ;; Published-At: 2023-07-22
