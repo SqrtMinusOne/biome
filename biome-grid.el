@@ -147,7 +147,7 @@ FORMAT is an expression as defined by `biome-grid-format'."
                           (50 . "#35a17f")
                           (75 . "#388fae")
                           (100 . "#384774")))
-     ("%%" "cloudcover" (gradient
+     ("%%" "cloud_cover" (gradient
                          (0 . "#7f7655")
                          (50 . "#8d9291")
                          (100 . "#d2d2cb")))
