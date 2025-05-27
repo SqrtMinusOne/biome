@@ -85,6 +85,12 @@ FORMAT is an expression as defined by `biome-grid-format'."
                                 . ,(mapcar (lambda (c)
                                              (cons (* 1.944 (car c)) (cdr c)))
                                            (cdr format-def))))
+                             acc)
+                       (push `("kn" ,(nth 1 def)
+                               (gradient
+                                . ,(mapcar (lambda (c)
+                                             (cons (* 1.944 (car c)) (cdr c)))
+                                           (cdr format-def))))
                              acc))
                       ("mm" (push `("inch" ,(nth 1 def)
                                     (gradient
