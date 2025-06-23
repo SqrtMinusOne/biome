@@ -956,7 +956,7 @@ SUFFIXES is a list of suffix definitions."
     suffixes
     (cl-mapcan (lambda (s) (transient--parse-child 'tsc-dynamic-layout s)))
     (mapcar #'eval)
-    (put name 'transient--layout)))
+    (transient--set-layout name)))
 
 (defun biome-query--section-groups (section)
   "Get list of groups for SECTION, e.g. hourly, daily, etc."
