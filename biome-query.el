@@ -512,7 +512,7 @@ number of options is more than
           (setq ok t)
         (if (oref obj integer)
             (setq ok (string-match-p (rx bos (+ digit) eos) res))
-          (setq ok (string-match-p (rx bos (+ (or digit ".")) eos) res))
+          (setq ok (string-match-p (rx bos (? "-") (+ (or digit ".")) eos) res))
           (when ok
             (setq value (string-to-number res))
             (when (and (oref obj min) (< value (oref obj min)))
