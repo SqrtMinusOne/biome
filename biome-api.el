@@ -66,6 +66,13 @@ the parsed response to the error callback there."
           :options ,(mapcar #'car biome-api--default-urls))
   :group 'biome)
 
+(defcustom biome-api-proxy nil
+  "If non-nil, pass this to curl's --proxy parameter."
+  :type '(choice
+          (const :tag "No proxy" nil)
+          (string :tag "Value"))
+  :group 'biome)
+
 (defun biome-api--get-params (query)
   "Convert QUERY to a list of parameters for `request'.
 
@@ -134,7 +141,11 @@ QUERY is a form as defined by `biome-query-current'."
 QUERY is a form as defined by `biome-query-current'.  CALLBACK is
 called with QUERY and the data returned by the API as arguments."
   (let ((url (alist-get (alist-get :name query)
-                        biome-api-urls nil nil #'equal)))
+                        biome-api-urls nil nil #'equal))
+        (request-curl-options
+         (append request-curl-options
+                 (when biome-api-proxy
+                   `("--proxy" ,biome-api-proxy)))))
     (request url
       :type "GET"
       :params (biome-api--get-params query)
@@ -155,7 +166,11 @@ called with QUERY and the data returned by the API as arguments."
 
 QUERIES is a list of forms as defined by `biome-query-current'.  CALLBACK is
 called with QUERIES and the data returned by the API as arguments."
-  (let (requests)
+  (let (requests
+        (request-curl-options
+         (append request-curl-options
+                 (when biome-api-proxy
+                   `("--proxy" ,biome-api-proxy)))) )
     (seq-map-indexed
      (lambda (query idx)
        (push

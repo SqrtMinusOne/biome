@@ -96,6 +96,11 @@ Turn off highlighting of the current hour or day as follows:
 (setq biome-grid-highlight-current nil)
 #+end_src
 
+If you need a proxy (e.g. socks5), set =biome-api-proxy=:
+#+begin_src emacs-lisp
+(setq biome-api-proxy "socks5h://192.168.122.51:1080"
+#+end_src
+
 * Composite queries
 The package also allows executing multiple queries at once to join their results. This can be useful for comparing weather in different locations or for viewing different reports about the same location.
 
